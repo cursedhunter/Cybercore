@@ -1,0 +1,191 @@
+---
+l3leaf: # dynamic_key: node_type
+  defaults:
+    mgmt_ip: "{{ mgmt_ip }}"
+    bgp_as: 65107.1-38
+    loopback_ipv4_pool: 10.107.0.0/24
+    mlag_peer_ipv4_pool: 10.107.2.0/24
+    mlag_peer_l3_ipv4_pool: 10.107.3.0/24
+    platform: vEOS-lab
+    spanning_tree_mode: mstp
+    spanning_tree_priority: 16384
+    uplink_ipv4_pool: 10.6.7.0/23
+    uplink_switches:
+      - p07s01
+      - p07s02
+      - p07s03
+      - p07s04
+    virtual_router_mac_address: 00:1c:73:00:dc:01
+    vtep_loopback_ipv4_pool: 10.107.1.0/24
+  node_groups:
+    - filter:
+        tags:
+          - POD7_RACK1
+      group: RACK1
+      nodes:
+        - id: 1
+          name: p07l01
+        - id: 2
+          name: p07l02
+    - filter:
+        tags:
+          - POD7_RACK2
+      group: RACK2
+      nodes:
+        - id: 3
+          name: p07l03
+        - id: 4
+          name: p07l04
+    - filter:
+        tags:
+          - POD7_RACK3
+      group: RACK3
+      nodes:
+        - id: 5
+          name: p07l05
+        - id: 6
+          name: p07l06
+    - filter:
+        tags:
+          - POD7_RACK4
+      group: RACK4
+      nodes:
+        - id: 7
+          name: p07l07
+        - id: 8
+          name: p07l08
+    - filter:
+        tags:
+          - POD7_RACK5
+      group: RACK5
+      nodes:
+        - id: 9
+          name: p07l09
+        - id: 10
+          name: p07l10
+    - filter:
+        tags:
+          - POD7_RACK6
+      group: RACK6
+      nodes:
+        - id: 11
+          name: p07l11
+        - id: 12
+          name: p07l12
+    - filter:
+        tags:
+          - POD7_RACK7
+      group: RACK7
+      nodes:
+        - id: 13
+          name: p07l13
+        - id: 14
+          name: p07l14
+    - filter:
+        tags:
+          - POD7_RACK8
+      group: RACK8
+      nodes:
+        - id: 15
+          name: p07l15
+        - id: 16
+          name: p07l16
+    - filter:
+        tags:
+          - POD7_RACK9
+      group: RACK9
+      nodes:
+        - id: 17
+          name: p07l17
+        - id: 18
+          name: p07l18
+    - filter:
+        tags:
+          - POD7_RACK10
+      group: RACK10
+      nodes:
+        - id: 19
+          name: p07l19
+        - id: 20
+          name: p07l20
+    - filter:
+        tags:
+          - POD7_RACK11
+      group: RACK11
+      nodes:
+        - id: 21
+          name: p07l21
+        - id: 22
+          name: p07l22
+    - filter:
+        tags:
+          - POD7_RACK12
+      group: RACK12
+      nodes:
+        - id: 23
+          name: p07l23
+        - id: 24
+          name: p07l24
+    - filter:
+        tags:
+          - POD7_RACK13
+      group: RACK13
+      nodes:
+        - id: 25
+          name: p07l25
+        - id: 26
+          name: p07l26
+    - filter:
+        tags:
+          - POD7_RACK14
+      group: RACK14
+      nodes:
+        - id: 27
+          name: p07l27
+        - id: 28
+          name: p07l28
+    - filter:
+        tags:
+          - POD7_RACK15
+      group: RACK15
+      nodes:
+        - id: 29
+          name: p07l29
+        - id: 30
+          name: p07l30
+    - filter:
+        tags:
+          - POD7_RACK16
+      group: RACK16
+      nodes:
+        - id: 31
+          name: p07l31
+        - id: 32
+          name: p07l32
+    - filter:
+        tags:
+          - POD7_RACK17
+      group: RACK17
+      nodes:
+        - id: 33
+          name: p07l33
+        - id: 34
+          name: p07l34
+    - filter:
+        tags:
+          - POD7_RACK18
+      group: RACK18
+      nodes:
+        - id: 35
+          name: p07l35
+        - id: 36
+          name: p07l36
+    - filter:
+        tags:
+          - POD7_RACK19
+      group: RACK19
+      nodes:
+        - id: 37
+          name: p07l37
+        - id: 38
+          name: p07l38

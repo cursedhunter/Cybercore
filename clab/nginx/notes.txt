@@ -1,0 +1,2 @@
+Create selfsigned wildcard certificate
+openssl req  -subj "/C=US/CN=*.digital-twin.arista.com"  -x509 -nodes -days 365  -newkey rsa:2048 -keyout nginx-selfsigned.key -out nginx-selfsigned.crt

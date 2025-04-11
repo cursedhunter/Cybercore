@@ -1,0 +1,191 @@
+---
+l3leaf: # dynamic_key: node_type
+  defaults:
+    mgmt_ip: "{{ mgmt_ip }}"
+    bgp_as: 65108.1-38
+    loopback_ipv4_pool: 10.108.0.0/24
+    mlag_peer_ipv4_pool: 10.108.2.0/24
+    mlag_peer_l3_ipv4_pool: 10.108.3.0/24
+    platform: vEOS-lab
+    spanning_tree_mode: mstp
+    spanning_tree_priority: 16384
+    uplink_ipv4_pool: 10.6.8.0/23
+    uplink_switches:
+      - p08s01
+      - p08s02
+      - p08s03
+      - p08s04
+    virtual_router_mac_address: 00:1c:73:00:dc:01
+    vtep_loopback_ipv4_pool: 10.108.1.0/24
+  node_groups:
+    - filter:
+        tags:
+          - POD8_RACK1
+      group: RACK1
+      nodes:
+        - id: 1
+          name: p08l01
+        - id: 2
+          name: p08l02
+    - filter:
+        tags:
+          - POD8_RACK2
+      group: RACK2
+      nodes:
+        - id: 3
+          name: p08l03
+        - id: 4
+          name: p08l04
+    - filter:
+        tags:
+          - POD8_RACK3
+      group: RACK3
+      nodes:
+        - id: 5
+          name: p08l05
+        - id: 6
+          name: p08l06
+    - filter:
+        tags:
+          - POD8_RACK4
+      group: RACK4
+      nodes:
+        - id: 7
+          name: p08l07
+        - id: 8
+          name: p08l08
+    - filter:
+        tags:
+          - POD8_RACK5
+      group: RACK5
+      nodes:
+        - id: 9
+          name: p08l09
+        - id: 10
+          name: p08l10
+    - filter:
+        tags:
+          - POD8_RACK6
+      group: RACK6
+      nodes:
+        - id: 11
+          name: p08l11
+        - id: 12
+          name: p08l12
+    - filter:
+        tags:
+          - POD8_RACK7
+      group: RACK7
+      nodes:
+        - id: 13
+          name: p08l13
+        - id: 14
+          name: p08l14
+    - filter:
+        tags:
+          - POD8_RACK8
+      group: RACK8
+      nodes:
+        - id: 15
+          name: p08l15
+        - id: 16
+          name: p08l16
+    - filter:
+        tags:
+          - POD8_RACK9
+      group: RACK9
+      nodes:
+        - id: 17
+          name: p08l17
+        - id: 18
+          name: p08l18
+    - filter:
+        tags:
+          - POD8_RACK10
+      group: RACK10
+      nodes:
+        - id: 19
+          name: p08l19
+        - id: 20
+          name: p08l20
+    - filter:
+        tags:
+          - POD8_RACK11
+      group: RACK11
+      nodes:
+        - id: 21
+          name: p08l21
+        - id: 22
+          name: p08l22
+    - filter:
+        tags:
+          - POD8_RACK12
+      group: RACK12
+      nodes:
+        - id: 23
+          name: p08l23
+        - id: 24
+          name: p08l24
+    - filter:
+        tags:
+          - POD8_RACK13
+      group: RACK13
+      nodes:
+        - id: 25
+          name: p08l25
+        - id: 26
+          name: p08l26
+    - filter:
+        tags:
+          - POD8_RACK14
+      group: RACK14
+      nodes:
+        - id: 27
+          name: p08l27
+        - id: 28
+          name: p08l28
+    - filter:
+        tags:
+          - POD8_RACK15
+      group: RACK15
+      nodes:
+        - id: 29
+          name: p08l29
+        - id: 30
+          name: p08l30
+    - filter:
+        tags:
+          - POD8_RACK16
+      group: RACK16
+      nodes:
+        - id: 31
+          name: p08l31
+        - id: 32
+          name: p08l32
+    - filter:
+        tags:
+          - POD8_RACK17
+      group: RACK17
+      nodes:
+        - id: 33
+          name: p08l33
+        - id: 34
+          name: p08l34
+    - filter:
+        tags:
+          - POD8_RACK18
+      group: RACK18
+      nodes:
+        - id: 35
+          name: p08l35
+        - id: 36
+          name: p08l36
+    - filter:
+        tags:
+          - POD8_RACK19
+      group: RACK19
+      nodes:
+        - id: 37
+          name: p08l37
+        - id: 38
+          name: p08l38

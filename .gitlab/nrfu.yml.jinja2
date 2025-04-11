@@ -1,0 +1,80 @@
+### NRFU JOBS ###
+{% for slice in anta_inventory.hosts | slice(NRFU_N_RUNNERS|int) if slice %}
+nrfu-check-connectivity-{{ loop.index }}:
+  needs: # needs refer to jobs in digital-twin-nrfu-ci.yml
+    - wait-readiness
+    - wait-for-generate-anta-inventory
+    - wait-for-generate-anta-test-catalogs
+    - wait-for-generate-clab-topology
+    - pipeline: $PARENT_PIPELINE_ID
+      job: generate-anta-inventory
+    - pipeline: $PARENT_PIPELINE_ID
+      job: generate-clab-topology
+  variables:
+    NODE_NAMES: "{% set comma = joiner(",") %}{% for node in slice %}{{ comma() }}{{ node.name }}{% endfor %}"
+  before_script:
+    - |
+      yq '.[] | key + " " + join(" ")' host_mapping.yml >> /etc/hosts
+  script:
+    - |
+      parallel -d ',' --tag 'anta debug run-cmd -i anta/inventory.yml -d {} --ofmt text --command "show version"' ::: $NODE_NAMES
+
+nrfu-fast-{{ loop.index }}:
+  needs: # needs refer to jobs in digital-twin-nrfu-ci.yml
+    - nrfu-check-connectivity-{{ loop.index }}
+    - pipeline: $PARENT_PIPELINE_ID
+      job: generate-anta-inventory
+    - pipeline: $PARENT_PIPELINE_ID
+      job: generate-anta-test-catalogs
+    - pipeline: $PARENT_PIPELINE_ID
+      job: generate-clab-topology
+  variables:
+    NODE_NAMES: "{% set comma = joiner(",") %}{% for node in slice %}{{ comma() }}{{ node.name }}{% endfor %}"
+  before_script:
+    - |
+      yq '.[] | key + " " + join(" ")' host_mapping.yml >> /etc/hosts
+  script:
+    - lscpu
+    - lsmem
+    - mkdir -p nrfu_reports
+    - |
+      parallel -d ',' --tag 'scripts/nrfu.sh anta/inventory.yml inventory/intended/test_catalogs_fast {} nrfu_reports' ::: $NODE_NAMES || NRFU_STATUS=$?
+    - python scripts/anta_json_report_to_junit.py -i nrfu_reports -o "nrfu.fast.{{ loop.index }}.xml"
+    - exit $NRFU_STATUS
+  artifacts:
+    when: always
+    paths:
+      - nrfu_reports
+      - nrfu.fast.{{ loop.index }}.xml
+    reports:
+      junit: nrfu.fast.{{ loop.index }}.xml
+
+nrfu-slow-{{ loop.index }}:
+  needs: # needs refer to jobs in digital-twin-nrfu-ci.yml
+    - nrfu-fast-{{ loop.index }}
+    - pipeline: $PARENT_PIPELINE_ID
+      job: generate-anta-inventory
+    - pipeline: $PARENT_PIPELINE_ID
+      job: generate-anta-test-catalogs
+    - pipeline: $PARENT_PIPELINE_ID
+      job: generate-clab-topology
+  variables:
+    NODE_NAMES: "{% set comma = joiner(",") %}{% for node in slice %}{{ comma() }}{{ node.name }}{% endfor %}"
+  before_script:
+    - |
+      yq '.[] | key + " " + join(" ")' host_mapping.yml >> /etc/hosts
+  script:
+    - mkdir -p nrfu_reports
+    - |
+      parallel -d ',' --tag 'scripts/nrfu.sh anta/inventory.yml inventory/intended/test_catalogs_slow {} nrfu_reports' ::: $NODE_NAMES || NRFU_STATUS=$?
+    - python scripts/anta_json_report_to_junit.py -i nrfu_reports -o "nrfu.slow.{{ loop.index }}.xml"
+    - exit $NRFU_STATUS
+  artifacts:
+    when: always
+    paths:
+      - nrfu_reports
+      - nrfu.slow.{{ loop.index }}.xml
+    reports:
+      junit: nrfu.slow.{{ loop.index }}.xml
+{% endfor %}
+### NRFU JOBS ###

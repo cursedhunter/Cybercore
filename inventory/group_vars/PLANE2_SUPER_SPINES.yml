@@ -1,0 +1,20 @@
+---
+super_spine: # dynamic_key: node_type
+  defaults:
+    mgmt_ip: "{{ mgmt_ip }}"
+    platform: vEOS-lab
+    loopback_ipv4_pool: 172.16.2.0/24
+    bgp_as: 65000.1
+  nodes:
+    - id: 1
+      name: x02u01
+    - id: 2
+      name: x02u02
+    - id: 3
+      name: x02u03
+    - id: 4
+      name: x02u04
+    - id: 5
+      name: x02u05
+    - id: 6
+      name: x02u06

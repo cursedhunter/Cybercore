@@ -1,0 +1,29 @@
+---
+default_interfaces:
+  # DCS-7050CX3-32S-F
+  - types:
+      - super-spine
+    platforms:
+      - vEOS-lab
+    downlink_interfaces:
+      - Ethernet1-32/1
+
+  # DCS-7280SR3-48YC8-F
+  - types:
+      - spine
+    platforms:
+      - vEOS-lab
+    uplink_interfaces:
+      - Ethernet49-56/1
+    downlink_interfaces:
+      - Ethernet1-48/1
+
+  # DCS-7010TX-48C-F
+  - types:
+      - l3leaf
+    platforms:
+      - vEOS-lab
+    uplink_interfaces:
+      - Ethernet49-52/1
+    downlink_interfaces:
+      - Ethernet1-48/1

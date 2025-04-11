@@ -1,0 +1,23 @@
+### DEPLOY JOBS ###
+{% for host in host_mapping %}
+destroy-and-deploy-{{ host }}:
+  extends: .remote_ssh_job
+  script:
+    - if [[ -z ${SKIP_DOCKER_LOGIN+x} ]]; then scripts/docker_login.sh $SSH_USER {{ host }} $CI_JOB_TOKEN $CI_REGISTRY $CI_REGISTRY_USER; fi
+    - scripts/destroy.sh $SSH_USER {{ host }} 2>&1 | tr -d '\r'
+    - scripts/deploy.sh $SSH_USER {{ host }} mclab-$CI_COMMIT_SHA/{{ host }}.clab.yml $DIGITAL_TWIN_MAX_SUPPORTED_FRAME_SIZE 2> deploy.{{ host }}.log
+  artifacts:
+    when: always
+    paths:
+      - deploy.{{ host }}.log
+{% endfor %}
+
+wait-readiness:
+  needs:
+    {% for host in host_mapping -%}
+    - job: destroy-and-deploy-{{ host }}
+      artifacts: false
+    {% endfor %}
+  script:
+    - sleep 6m
+### DEPLOY JOBS ###

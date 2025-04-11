@@ -1,0 +1,35 @@
+containerlab_base_topology:
+  name: clever_jones
+
+  mgmt:
+    ipv4-subnet: 100.64.0.0/21
+    ipv4-gw: 100.64.0.6
+
+  topology:
+    kinds:
+      ceos:
+        image: ${CEOS_IMAGE}
+        env:
+          MAX_SUPPORTED_FRAME_SIZE: ${MAX_SUPPORTED_FRAME_SIZE}
+        binds:
+          - cvp-token:/mnt/flash/token:ro
+          - ceos/EthIntf.py:/usr/lib/python3.9/site-packages/EthIntf.py:ro
+        healthcheck:
+          test:
+            - CMD-SHELL
+            - ip netns exec ns-MGMT bash -c "echo > /dev/tcp/127.0.0.1/443"
+        stages:
+          healthy:
+            exec:
+              - command: echo "Healthy"
+    nodes:
+      reverse-proxy:
+        image: ${NGINX_IMAGE}
+        kind: linux
+        binds:
+          - nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+          - nginx/ssl:/etc/nginx/ssl:ro
+        ports:
+          - 443:443
+        mgmt-ipv4: 100.64.0.7
+    links: []

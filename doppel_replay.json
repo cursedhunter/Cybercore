@@ -1,0 +1,9 @@
+{
+  "cookiecutter": {
+    "project_name": "clever_jones",
+    "project_slug": "clever_jones",
+    "author_name": "Arista Networks",
+    "author_email": "eosplus-dev@arista.com",
+    "avd_version": "5.2.2"
+  }
+}

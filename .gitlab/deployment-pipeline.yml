@@ -1,0 +1,65 @@
+include: '.gitlab/common-ci.yml'
+
+workflow:
+  name: 'deployment'
+
+pre-commit:
+  stage: lint
+  extends: .deployment_job
+  script:
+    - pre-commit run --all-files --show-diff-on-failure
+
+build-fabric:
+  stage: build
+  extends: [.build-fabric, .deployment_job]
+  variables:
+    TELEMETRY_SERVERS: $TELEMETRY_PRODUCTION_SERVERS
+
+generate-anta-inventory:
+  stage: build
+  extends: .deployment_job
+  needs:
+    - job: set-runtime-env-image-tag
+      optional: true
+    - build-fabric
+  script:
+    - generate-anta-inventory -i $INVENTORY_PATH/inventory.yml -v
+  artifacts:
+    paths:
+      - anta
+
+generate-anta-test-catalogs:
+  stage: build
+  extends: .deployment_job
+  needs:
+    - job: set-runtime-env-image-tag
+      optional: true
+    - build-fabric
+  script:
+    - ansible-playbook playbooks/validate_state.yml -f $(nproc) --check -i $INVENTORY_PATH/inventory.yml
+  artifacts:
+    paths:
+      - $INVENTORY_PATH/intended/test_catalogs
+
+cvp-deploy:
+  stage: deploy
+  extends: .deployment_job
+  needs:
+    - job: set-runtime-env-image-tag
+      optional: true
+    - build-fabric
+  environment:
+    name: cvp
+  script:
+    - ansible-playbook -v -i $INVENTORY_PATH/inventory.yml playbooks/cv_deploy.yml
+  variables:
+    WORKSPACE_NAME: deployment-$CI_COMMIT_SHORT_SHA-$CI_JOB_ID
+  rules:
+    - when: manual
+
+post-deployment-nrfu:
+  stage: .post
+  extends: .deployment_job
+  when: manual
+  script:
+    - echo "NRFU on production network"

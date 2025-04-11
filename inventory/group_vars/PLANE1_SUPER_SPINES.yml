@@ -1,0 +1,20 @@
+---
+super_spine:
+  defaults:
+    mgmt_ip: "{{ mgmt_ip }}"
+    platform: vEOS-lab
+    loopback_ipv4_pool: 172.16.1.0/24
+    bgp_as: 65000.1
+  nodes:
+    - id: 1
+      name: x01u01
+    - id: 2
+      name: x01u02
+    - id: 3
+      name: x01u03
+    - id: 4
+      name: x01u04
+    - id: 5
+      name: x01u05
+    - id: 6
+      name: x01u06

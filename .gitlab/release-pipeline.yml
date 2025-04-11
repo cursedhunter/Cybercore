@@ -1,0 +1,38 @@
+workflow:
+  name: 'release'
+
+get-images:
+  stage: build
+  extends: .release_job
+  image:
+    name: ${DOCKER_REGISTRY_PATH_PREFIX}alpine/crane:0.20.2
+    entrypoint: [ "" ]
+  script:
+    - crane auth login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - crane mutate $RUNTIME_ENV_IMAGE -t runtime-env:$CI_COMMIT_TAG -o runtime-env.$CI_COMMIT_TAG.tar
+  artifacts:
+    paths:
+      - runtime-env.$CI_COMMIT_TAG.tar
+
+upload-images:
+  stage: build
+  image: ${DOCKER_REGISTRY_PATH_PREFIX}alpine/curl:8.10.0
+  needs:
+    - job: get-images
+  script:
+    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file runtime-env.$CI_COMMIT_TAG.tar "$PACKAGE_REGISTRY_URL/runtime-env/$CI_COMMIT_TAG/runtime-env.$CI_COMMIT_TAG.tar"'
+
+release:
+  stage: deploy
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  script:
+    - echo "running release_job for $TAG"
+  release:
+    name: 'Release $CI_COMMIT_TAG'
+    tag_name: '$CI_COMMIT_TAG'
+    description: '$CI_COMMIT_TAG'
+    assets:
+      links:
+        - name: 'runtime-env.$CI_COMMIT_TAG.tar'
+          url: '$PACKAGE_REGISTRY_URL/runtime-env/$CI_COMMIT_TAG/runtime-env.$CI_COMMIT_TAG.tar'
+          link_type: image

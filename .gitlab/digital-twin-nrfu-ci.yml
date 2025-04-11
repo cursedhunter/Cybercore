@@ -1,0 +1,26 @@
+include: '.gitlab/common-ci.yml'
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "parent_pipeline"
+
+default:
+  image: ${RUNTIME_ENV_IMAGE}
+
+# Workaround to make a child job wait for artifacts on parent job
+# https://gitlab.com/gitlab-org/gitlab/-/issues/356016
+wait-for-generate-clab-topology:
+  resource_group: wait-for-generate-clab-topology-$CI_COMMIT_SHORT_SHA
+  script:
+    - echo "generate-clab-topology artifacts ready"
+
+wait-for-generate-anta-inventory:
+  resource_group: wait-for-generate-anta-inventory-$CI_COMMIT_SHORT_SHA
+  script:
+    - echo "generate-anta-inventory artifacts ready"
+
+wait-for-generate-anta-test-catalogs:
+  resource_group: wait-for-generate-anta-test-catalogs-$CI_COMMIT_SHORT_SHA
+  script:
+    - echo "generate-anta-test-catalogs artifacts ready"
+####################################################################

@@ -1,0 +1,109 @@
+variables:
+  BASH_IMAGE: "${DOCKER_REGISTRY_PATH_PREFIX}bash:5.1"
+  RUNTIME_ENV_IMAGE: "${CI_REGISTRY_IMAGE}/runtime-env:${RUNTIME_ENV_IMAGE_TAG}"
+  PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic"
+  PIPELINE_NAME:
+    description: "Run an specific pipeline by name"
+    value: "pre-deployment"
+    options:
+      - "pre-deployment"
+      - "deployment"
+      - "build-image"
+      - "scan-image"
+      - "self-test"
+  SKIP_PRE_DEPLOYMENT_NRFU:
+    description: "Skip NRFU on pre-deployment"
+    value: "No"
+    options:
+      - "No"
+      - "Yes"
+  NRFU_N_RUNNERS:
+    description: "Number of runners to split NRFU over"
+    value: "8"
+  TOPOLOGY_SPLIT_STRATEGY:
+    description: "Strategy to split the topology"
+    value: "disjoint"
+    options:
+      - "disjoint"
+      - "spread"
+  AVD_BUILD_ENGINE:
+    description: "Build engine to generate cli configs"
+    value: "ansible"
+    options:
+      - "ansible"
+      - "pyavd"
+  SSH_USER: "arista"
+  DIGITAL_TWIN_MAX_SUPPORTED_FRAME_SIZE: 8950 # MAX_PLATFORM_MTU - VXLAN_OVERHEAD(50)
+  DIGITAL_TWIN_MAX_SUPPORTED_MTU: 8928 # DIGITAL_TWIN_MAX_SUPPORTED_FRAME_SIZE - ETH_FCS_LEN(4) - VLAN_ETH_HLEN(18)
+  VXLAN_UDP_PORT: "14789"
+  ANSIBLE_CONFIG: "ansible.cfg"
+  INVENTORY_PATH: "inventory"
+  FABRIC_INVENTORY_GROUP: "FABRIC"
+  FF_SCRIPT_SECTIONS: "true"
+  ANTA_MAX_CONNECTIONS: 10
+  ANTA_MAX_KEEPALIVE_CONNECTIONS: 10
+
+stages:
+  - .pre
+  - lint
+  - build
+  - test
+  - deploy
+  - .post
+
+default:
+  image: ${RUNTIME_ENV_IMAGE}
+
+.build-image_rules: &build-image_rules
+  - if: $PIPELINE_NAME == 'build-image'
+
+.scan-image_rules: &scan-image_rules
+  - if: $PIPELINE_NAME == 'scan-image'
+
+.self-test_rules: &self-test_rules
+  - if: $PIPELINE_NAME == 'self-test'
+
+.pre-deployment_rules: &pre-deployment_rules
+  - if: $CI_PIPELINE_SOURCE == 'merge_request_event' || $PIPELINE_NAME == 'pre-deployment'
+
+.deployment_rules: &deployment_rules
+  - if: ($CI_PIPELINE_SOURCE == 'push' && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH) || $PIPELINE_NAME == 'deployment'
+
+.release_rules: &release_rules
+  - if: $CI_COMMIT_TAG
+
+.pre-deployment_job:
+  rules: *pre-deployment_rules
+
+.deployment_job:
+  rules: *deployment_rules
+
+.release_job:
+  rules: *release_rules
+
+include:
+  # These are mutually exclusive
+  - local: '.gitlab/build-image-pipeline.yml'
+    rules: *build-image_rules
+  - local: '.gitlab/scan-image-pipeline.yml'
+    rules: *scan-image_rules
+  - local: '.gitlab/self-test-pipeline.yml'
+    rules: *self-test_rules
+  - local: '.gitlab/pre-deployment-pipeline.yml'
+    rules: *pre-deployment_rules
+  - local: '.gitlab/deployment-pipeline.yml'
+    rules: *deployment_rules
+  - local: '.gitlab/release-pipeline.yml'
+    rules: *release_rules
+
+## Runtime image tag is generated hashing the runtime image dependencies
+set-runtime-env-image-tag:
+  stage: .pre
+  image: ${BASH_IMAGE}
+  script:
+    - echo "RUNTIME_ENV_IMAGE_TAG=$(scripts/runtime_env_version.sh)" >> build.env
+  artifacts:
+    reports:
+      dotenv: build.env
+  rules:
+    - if: $RUNTIME_ENV_IMAGE_TAG == null

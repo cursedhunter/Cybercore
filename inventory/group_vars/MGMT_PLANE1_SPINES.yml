@@ -1,0 +1,538 @@
+---
+spine: # dynamic_key: node_type
+  defaults:
+    mgmt_ip: "{{ mgmt_ip }}"
+    bgp_as: 64512.1-128
+    loopback_ipv4_pool: 100.65.1.0/24
+    platform: vEOS-lab
+    uplink_ipv4_pool: 100.64.0.0/20
+    max_parallel_uplinks: 1
+  nodes:
+    - id: 1
+      name: mp01s01
+      uplink_switch_interfaces:
+        - Ethernet1/1
+        - Ethernet1/1
+        - Ethernet1/1
+        - Ethernet1/1
+        - Ethernet31/1
+        - Ethernet31/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p01l17
+        - p01l18
+    - id: 2
+      name: mp01s02
+      uplink_switch_interfaces:
+        - Ethernet2/1
+        - Ethernet2/1
+        - Ethernet2/1
+        - Ethernet2/1
+        - Ethernet32/1
+        - Ethernet32/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p01l17
+        - p01l18
+
+    - id: 3
+      name: mp02s01
+      uplink_switch_interfaces:
+        - Ethernet3/1
+        - Ethernet3/1
+        - Ethernet3/1
+        - Ethernet3/1
+        - Ethernet31/1
+        - Ethernet31/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p02l17
+        - p02l18
+    - id: 4
+      name: mp02s02
+      uplink_switch_interfaces:
+        - Ethernet4/1
+        - Ethernet4/1
+        - Ethernet4/1
+        - Ethernet4/1
+        - Ethernet32/1
+        - Ethernet32/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p02l17
+        - p02l18
+
+    - id: 5
+      name: mp03s01
+      uplink_switch_interfaces:
+        - Ethernet5/1
+        - Ethernet5/1
+        - Ethernet5/1
+        - Ethernet5/1
+        - Ethernet31/1
+        - Ethernet31/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p03l17
+        - p03l18
+    - id: 6
+      name: mp03s02
+      uplink_switch_interfaces:
+        - Ethernet6/1
+        - Ethernet6/1
+        - Ethernet6/1
+        - Ethernet6/1
+        - Ethernet32/1
+        - Ethernet32/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p03l17
+        - p03l18
+
+
+    - id: 7
+      name: mp04s01
+      uplink_switch_interfaces:
+        - Ethernet7/1
+        - Ethernet7/1
+        - Ethernet7/1
+        - Ethernet7/1
+        - Ethernet31/1
+        - Ethernet31/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p04l17
+        - p04l18
+    - id: 8
+      name: mp04s02
+      uplink_switch_interfaces:
+        - Ethernet8/1
+        - Ethernet8/1
+        - Ethernet8/1
+        - Ethernet8/1
+        - Ethernet32/1
+        - Ethernet32/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p04l17
+        - p04l18
+
+    - id: 9
+      name: mp05s01
+      uplink_switch_interfaces:
+        - Ethernet9/1
+        - Ethernet9/1
+        - Ethernet9/1
+        - Ethernet9/1
+        - Ethernet31/1
+        - Ethernet31/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p05l17
+        - p05l18
+    - id: 10
+      name: mp05s02
+      uplink_switch_interfaces:
+        - Ethernet10/1
+        - Ethernet10/1
+        - Ethernet10/1
+        - Ethernet10/1
+        - Ethernet32/1
+        - Ethernet32/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p05l17
+        - p05l18
+
+    - id: 11
+      name: mp06s01
+      uplink_switch_interfaces:
+        - Ethernet11/1
+        - Ethernet11/1
+        - Ethernet11/1
+        - Ethernet11/1
+        - Ethernet31/1
+        - Ethernet31/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p06l17
+        - p06l18
+    - id: 12
+      name: mp06s02
+      uplink_switch_interfaces:
+        - Ethernet12/1
+        - Ethernet12/1
+        - Ethernet12/1
+        - Ethernet12/1
+        - Ethernet32/1
+        - Ethernet32/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p06l17
+        - p06l18
+
+    - id: 13
+      name: mp07s01
+      uplink_switch_interfaces:
+        - Ethernet13/1
+        - Ethernet13/1
+        - Ethernet13/1
+        - Ethernet13/1
+        - Ethernet31/1
+        - Ethernet31/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p07l17
+        - p07l18
+    - id: 14
+      name: mp07s02
+      uplink_switch_interfaces:
+        - Ethernet14/1
+        - Ethernet14/1
+        - Ethernet14/1
+        - Ethernet14/1
+        - Ethernet32/1
+        - Ethernet32/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p07l17
+        - p07l18
+
+    - id: 15
+      name: mp08s01
+      uplink_switch_interfaces:
+        - Ethernet15/1
+        - Ethernet15/1
+        - Ethernet15/1
+        - Ethernet15/1
+        - Ethernet31/1
+        - Ethernet31/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p08l17
+        - p08l18
+    - id: 16
+      name: mp08s02
+      uplink_switch_interfaces:
+        - Ethernet16/1
+        - Ethernet16/1
+        - Ethernet16/1
+        - Ethernet16/1
+        - Ethernet32/1
+        - Ethernet32/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p08l17
+        - p08l18
+
+    - id: 17
+      name: mp09s01
+      uplink_switch_interfaces:
+        - Ethernet17/1
+        - Ethernet17/1
+        - Ethernet17/1
+        - Ethernet17/1
+        - Ethernet31/1
+        - Ethernet31/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p09l17
+        - p09l18
+    - id: 18
+      name: mp09s02
+      uplink_switch_interfaces:
+        - Ethernet18/1
+        - Ethernet18/1
+        - Ethernet18/1
+        - Ethernet18/1
+        - Ethernet32/1
+        - Ethernet32/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p09l17
+        - p09l18
+
+    - id: 19
+      name: mp10s01
+      uplink_switch_interfaces:
+        - Ethernet19/1
+        - Ethernet19/1
+        - Ethernet19/1
+        - Ethernet19/1
+        - Ethernet31/1
+        - Ethernet31/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p10l17
+        - p10l18
+    - id: 20
+      name: mp10s02
+      uplink_switch_interfaces:
+        - Ethernet20/1
+        - Ethernet20/1
+        - Ethernet20/1
+        - Ethernet20/1
+        - Ethernet32/1
+        - Ethernet32/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p10l17
+        - p10l18
+
+    - id: 21
+      name: mp11s01
+      uplink_switch_interfaces:
+        - Ethernet21/1
+        - Ethernet21/1
+        - Ethernet21/1
+        - Ethernet21/1
+        - Ethernet31/1
+        - Ethernet31/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p11l17
+        - p11l18
+    - id: 22
+      name: mp11s02
+      uplink_switch_interfaces:
+        - Ethernet22/1
+        - Ethernet22/1
+        - Ethernet22/1
+        - Ethernet22/1
+        - Ethernet32/1
+        - Ethernet32/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p11l17
+        - p11l18
+
+    - id: 23
+      name: mp12s01
+      uplink_switch_interfaces:
+        - Ethernet23/1
+        - Ethernet23/1
+        - Ethernet23/1
+        - Ethernet23/1
+        - Ethernet31/1
+        - Ethernet31/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p12l17
+        - p12l18
+    - id: 24
+      name: mp12s02
+      uplink_switch_interfaces:
+        - Ethernet24/1
+        - Ethernet24/1
+        - Ethernet24/1
+        - Ethernet24/1
+        - Ethernet32/1
+        - Ethernet32/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p12l17
+        - p12l18
+
+    - id: 25
+      name: mp13s01
+      uplink_switch_interfaces:
+        - Ethernet25/1
+        - Ethernet25/1
+        - Ethernet25/1
+        - Ethernet25/1
+        - Ethernet31/1
+        - Ethernet31/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p13l17
+        - p13l18
+    - id: 26
+      name: mp13s02
+      uplink_switch_interfaces:
+        - Ethernet26/1
+        - Ethernet26/1
+        - Ethernet26/1
+        - Ethernet26/1
+        - Ethernet32/1
+        - Ethernet32/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p13l17
+        - p13l18
+
+    - id: 27
+      name: mp14s01
+      uplink_switch_interfaces:
+        - Ethernet27/1
+        - Ethernet27/1
+        - Ethernet27/1
+        - Ethernet27/1
+        - Ethernet31/1
+        - Ethernet31/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p14l17
+        - p14l18
+    - id: 28
+      name: mp14s02
+      uplink_switch_interfaces:
+        - Ethernet28/1
+        - Ethernet28/1
+        - Ethernet28/1
+        - Ethernet28/1
+        - Ethernet32/1
+        - Ethernet32/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p14l17
+        - p14l18
+
+    - id: 29
+      name: mp15s01
+      uplink_switch_interfaces:
+        - Ethernet29/1
+        - Ethernet29/1
+        - Ethernet29/1
+        - Ethernet29/1
+        - Ethernet31/1
+        - Ethernet31/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p15l17
+        - p15l18
+    - id: 30
+      name: mp15s02
+      uplink_switch_interfaces:
+        - Ethernet30/1
+        - Ethernet30/1
+        - Ethernet30/1
+        - Ethernet30/1
+        - Ethernet32/1
+        - Ethernet32/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p15l17
+        - p15l18
+
+    - id: 31
+      name: mp16s01
+      uplink_switch_interfaces:
+        - Ethernet31/1
+        - Ethernet31/1
+        - Ethernet31/1
+        - Ethernet31/1
+        - Ethernet31/1
+        - Ethernet31/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p16l17
+        - p16l18
+    - id: 32
+      name: mp16s02
+      uplink_switch_interfaces:
+        - Ethernet32/1
+        - Ethernet32/1
+        - Ethernet32/1
+        - Ethernet32/1
+        - Ethernet32/1
+        - Ethernet32/1
+      uplink_switches:
+        - mx01u01
+        - mx01u02
+        - mx01u03
+        - mx01u04
+        - p16l17
+        - p16l18

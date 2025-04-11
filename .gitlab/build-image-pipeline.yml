@@ -1,0 +1,18 @@
+workflow:
+  name: 'build-image'
+
+## Builder job using kaniko, this step would need access to internet to pull the base images
+build-image:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [ "" ]
+  script:
+    - base64 -d < $DOPPEL_TOOLS_PRIVATE_KEY | tr -d '\r' > /kaniko/doppel-tools
+    - /kaniko/executor
+      --build-arg "DOCKER_REGISTRY_PATH_PREFIX=${DOCKER_REGISTRY_PATH_PREFIX}"
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/runtime-env/Dockerfile"
+      --destination "${RUNTIME_ENV_IMAGE}"
+#      --cache=true
+#      --cache-copy-layers

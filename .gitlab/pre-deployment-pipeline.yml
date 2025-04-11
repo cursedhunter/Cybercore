@@ -1,0 +1,168 @@
+include: '.gitlab/common-ci.yml'
+
+workflow:
+  name: 'pre-deployment'
+
+.pre-deployment-nrfu_job:
+  rules:
+    - if: $CI_COMMIT_TITLE =~ /\[skip-nrfu\]/i || $SKIP_PRE_DEPLOYMENT_NRFU == "Yes"
+      when: never
+    - !reference [ .pre-deployment_job, rules ]
+
+pre-commit:
+  stage: lint
+  extends: .pre-deployment_job
+  script:
+    - pre-commit run --all-files --show-diff-on-failure
+
+build-fabric-digital-twin:
+  stage: build
+  extends: [.build-fabric, .pre-deployment_job]
+  variables:
+    TELEMETRY_SERVERS: $TELEMETRY_DIGITAL_TWIN_SERVERS
+    TELEMETRY_TOKEN_PATH: /mnt/flash/token
+    MAX_SUPPORTED_MTU: $DIGITAL_TWIN_MAX_SUPPORTED_MTU
+
+build-fabric-production:
+  stage: build
+  extends: [.build-fabric, .pre-deployment_job]
+  variables:
+    TELEMETRY_SERVERS: $TELEMETRY_PRODUCTION_SERVERS
+
+generate-anta-inventory:
+  stage: build
+  extends: .pre-deployment-nrfu_job
+  needs:
+    - job: set-runtime-env-image-tag
+      optional: true
+    - build-fabric-digital-twin
+  # Workaround to make a child job wait for artifacts on parent job
+  # https://gitlab.com/gitlab-org/gitlab/-/issues/356016
+  resource_group: wait-for-generate-anta-inventory-$CI_COMMIT_SHORT_SHA
+  script:
+    - generate-anta-inventory -i $INVENTORY_PATH/inventory.yml --limit $FABRIC_INVENTORY_GROUP -v
+  artifacts:
+    paths:
+      - anta
+
+generate-clab-topology:
+  stage: build
+  extends: .pre-deployment-nrfu_job
+  needs:
+    - job: set-runtime-env-image-tag
+      optional: true
+    - build-fabric-digital-twin
+  # Workaround to make a child job wait for artifacts on parent job
+  # https://gitlab.com/gitlab-org/gitlab/-/issues/356016
+  resource_group: wait-for-generate-clab-topology-$CI_COMMIT_SHORT_SHA
+  script:
+    - CLAB_HOSTS_IPS=$(cut -d "," -f2 < $CLAB_HOSTS)
+    - split-topology -i $INVENTORY_PATH/inventory.yml --limit $FABRIC_INVENTORY_GROUP --strategy $TOPOLOGY_SPLIT_STRATEGY -o host_mapping.yml $CLAB_HOSTS_IPS
+    - generate-clab-topology -i $INVENTORY_PATH/inventory.yml --limit $FABRIC_INVENTORY_GROUP -m host_mapping.yml -c tools_config.yml -v
+  artifacts:
+    paths:
+      - clab
+      - host_mapping.yml
+
+generate-anta-test-catalogs:
+  stage: build
+  extends: .pre-deployment-nrfu_job
+  needs:
+    - job: set-runtime-env-image-tag
+      optional: true
+    - build-fabric-digital-twin
+  # Workaround to make a child job wait for artifacts on parent job
+  # https://gitlab.com/gitlab-org/gitlab/-/issues/356016
+  resource_group: wait-for-generate-anta-test-catalogs-$CI_COMMIT_SHORT_SHA
+  script:
+    - ansible-playbook playbooks/validate_state.yml -f $(nproc) --check -i $INVENTORY_PATH/inventory.yml
+    - |
+      N_CATALOGS=$(find $INVENTORY_PATH/intended/test_catalogs -name "*.yml" | wc -l)
+      if [[ $N_CATALOGS == 0 ]]; then exit 0; fi
+    # patch test_catalogs: add collect all to anta.tests.routing.generic.VerifyRoutingTableEntry
+    - |
+      YQ_COMMAND='."anta.tests.routing.generic".[] |= (with(select(.VerifyRoutingTableEntry).[]; .collect = "all"))'
+      parallel yq \'$YQ_COMMAND\' -i {} ::: $INVENTORY_PATH/intended/test_catalogs/*.yml
+    # split test catalog fast + slow
+    - mkdir -p $INVENTORY_PATH/intended/test_catalogs_fast
+    - mkdir -p $INVENTORY_PATH/intended/test_catalogs_slow
+    - |
+      YQ_COMMAND='del(.[].[] | select(.VerifyReachability))'
+      parallel yq \'$YQ_COMMAND\' {} '>' $INVENTORY_PATH/intended/test_catalogs_fast/{/} ::: $INVENTORY_PATH/intended/test_catalogs/*.yml
+      YQ_COMMAND='del(.[].[] | select(.VerifyReachability == null))'
+      parallel yq \'$YQ_COMMAND\' {} '>' $INVENTORY_PATH/intended/test_catalogs_slow/{/} ::: $INVENTORY_PATH/intended/test_catalogs/*.yml
+  artifacts:
+    paths:
+      - $INVENTORY_PATH/intended/test_catalogs_fast
+      - $INVENTORY_PATH/intended/test_catalogs_slow
+
+digital-twin-distribute:
+  stage: deploy
+  extends: [ .pre-deployment-nrfu_job, .remote_ssh_job ]
+  needs:
+    - job: set-runtime-env-image-tag
+      optional: true
+    - build-fabric-digital-twin
+    - generate-clab-topology
+  script:
+    - CLAB_HOST_NAMES=$(cut -d "," -f1 < $CLAB_HOSTS)
+    - CLAB_HOST_IPS=$(cut -d "," -f2 < $CLAB_HOSTS)
+    - cp -r $INVENTORY_PATH/intended/configs clab/configs
+    - if [[ -f $TELEMETRY_DIGITAL_TWIN_ONBOARDING_TOKEN ]]; then cp $TELEMETRY_DIGITAL_TWIN_ONBOARDING_TOKEN clab/cvp-token; fi
+    - if [[ -f $CLAB_ENV ]]; then cp $CLAB_ENV clab/clab.env; fi
+    - cd clab && tar -czf ../mclab.tgz * && cd -
+    - |
+      parallel --tag "echo copy configs to {1} && scripts/distribute.sh $SSH_USER {2} mclab.tgz mclab-$CI_COMMIT_SHA 2>&1 | tr -d '\r'" ::: $CLAB_HOST_NAMES :::+ $CLAB_HOST_IPS
+  artifacts:
+    paths:
+      - mclab.tgz
+
+digital-twin-generate-pipeline:
+  stage: deploy
+  extends: .pre-deployment-nrfu_job
+  needs:
+    - job: set-runtime-env-image-tag
+      optional: true
+    - generate-clab-topology
+    - generate-anta-inventory
+  script:
+    - |
+      yq '{"host_mapping": .}' host_mapping.yml > host_mapping_data.yml
+    - cat .gitlab/digital-twin-nrfu-ci.yml > digital-twin-nrfu-child-pipeline.yml
+    - jinja2 --strict .gitlab/deploy.yml.jinja2 < host_mapping_data.yml >> digital-twin-nrfu-child-pipeline.yml
+    - jinja2 --strict -D NRFU_N_RUNNERS=$NRFU_N_RUNNERS .gitlab/nrfu.yml.jinja2 < anta/inventory.yml >> digital-twin-nrfu-child-pipeline.yml
+  artifacts:
+    paths:
+      - digital-twin-nrfu-child-pipeline.yml
+
+digital-twin-deploy-and-nrfu:
+  stage: deploy
+  extends: .pre-deployment-nrfu_job
+  needs:
+    - job: set-runtime-env-image-tag
+      optional: true
+    - digital-twin-distribute
+    - digital-twin-generate-pipeline
+  resource_group: digital-twin
+  trigger:
+    include:
+      - artifact: digital-twin-nrfu-child-pipeline.yml
+        job: digital-twin-generate-pipeline
+    strategy: depend
+  variables:
+    PARENT_PIPELINE_ID: $CI_PIPELINE_ID
+
+cvp-validate:
+  stage: deploy
+  extends: .pre-deployment_job
+  needs:
+    - job: set-runtime-env-image-tag
+      optional: true
+    - build-fabric-production
+  script:
+    - ansible-playbook -v -i $INVENTORY_PATH/inventory.yml playbooks/cv_deploy.yml
+  variables:
+    SUBMIT_WORKSPACE: false
+    WORKSPACE_NAME: pre-deployment-$CI_COMMIT_SHORT_SHA-$CI_JOB_ID
+  rules:
+    - when: manual

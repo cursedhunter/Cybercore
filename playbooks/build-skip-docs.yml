@@ -1,0 +1,20 @@
+---
+- name: Build Configuration
+  hosts: "{{ lookup('ansible.builtin.env', 'FABRIC_INVENTORY_GROUP', default='FABRIC') }}"
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Generate intended variables
+      ansible.builtin.import_role:
+        name: arista.avd.eos_designs
+      vars:
+        eos_designs_documentation:
+          enable: false
+
+    - name: Generate device intended config and documentation
+      ansible.builtin.import_role:
+        name: arista.avd.eos_cli_config_gen
+      vars:
+        eos_cli_config_gen_documentation:
+          enable: false

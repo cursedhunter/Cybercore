@@ -1,0 +1,13 @@
+workflow:
+  name: 'scan-image'
+
+include:
+  - template: Jobs/Container-Scanning.gitlab-ci.yml
+
+container_scanning:
+  variables:
+    CS_IMAGE: $RUNTIME_ENV_IMAGE
+    CS_DOCKERFILE_PATH: "${CI_PROJECT_DIR}/runtime-env/Dockerfile"
+    GIT_STRATEGY: fetch
+  dependencies:
+    - set-runtime-env-image-tag

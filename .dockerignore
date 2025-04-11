@@ -1,0 +1,9 @@
+.ansible
+.venv
+.idea
+.git
+.env
+anta
+clab
+inventory
+docker_images

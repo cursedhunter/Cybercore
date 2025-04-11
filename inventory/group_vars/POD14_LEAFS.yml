@@ -1,0 +1,191 @@
+---
+l3leaf: # dynamic_key: node_type
+  defaults:
+    mgmt_ip: "{{ mgmt_ip }}"
+    bgp_as: 65114.1-38
+    loopback_ipv4_pool: 10.114.0.0/24
+    mlag_peer_ipv4_pool: 10.114.2.0/24
+    mlag_peer_l3_ipv4_pool: 10.114.3.0/24
+    platform: vEOS-lab
+    spanning_tree_mode: mstp
+    spanning_tree_priority: 16384
+    uplink_ipv4_pool: 10.6.14.0/23
+    uplink_switches:
+      - p14s01
+      - p14s02
+      - p14s03
+      - p14s04
+    virtual_router_mac_address: 00:1c:73:00:dc:01
+    vtep_loopback_ipv4_pool: 10.114.1.0/24
+  node_groups:
+    - filter:
+        tags:
+          - POD14_RACK1
+      group: RACK1
+      nodes:
+        - id: 1
+          name: p14l01
+        - id: 2
+          name: p14l02
+    - filter:
+        tags:
+          - POD14_RACK2
+      group: RACK2
+      nodes:
+        - id: 3
+          name: p14l03
+        - id: 4
+          name: p14l04
+    - filter:
+        tags:
+          - POD14_RACK3
+      group: RACK3
+      nodes:
+        - id: 5
+          name: p14l05
+        - id: 6
+          name: p14l06
+    - filter:
+        tags:
+          - POD14_RACK4
+      group: RACK4
+      nodes:
+        - id: 7
+          name: p14l07
+        - id: 8
+          name: p14l08
+    - filter:
+        tags:
+          - POD14_RACK5
+      group: RACK5
+      nodes:
+        - id: 9
+          name: p14l09
+        - id: 10
+          name: p14l10
+    - filter:
+        tags:
+          - POD14_RACK6
+      group: RACK6
+      nodes:
+        - id: 11
+          name: p14l11
+        - id: 12
+          name: p14l12
+    - filter:
+        tags:
+          - POD14_RACK7
+      group: RACK7
+      nodes:
+        - id: 13
+          name: p14l13
+        - id: 14
+          name: p14l14
+    - filter:
+        tags:
+          - POD14_RACK8
+      group: RACK8
+      nodes:
+        - id: 15
+          name: p14l15
+        - id: 16
+          name: p14l16
+    - filter:
+        tags:
+          - POD14_RACK9
+      group: RACK9
+      nodes:
+        - id: 17
+          name: p14l17
+        - id: 18
+          name: p14l18
+    - filter:
+        tags:
+          - POD14_RACK10
+      group: RACK10
+      nodes:
+        - id: 19
+          name: p14l19
+        - id: 20
+          name: p14l20
+    - filter:
+        tags:
+          - POD14_RACK11
+      group: RACK11
+      nodes:
+        - id: 21
+          name: p14l21
+        - id: 22
+          name: p14l22
+    - filter:
+        tags:
+          - POD14_RACK12
+      group: RACK12
+      nodes:
+        - id: 23
+          name: p14l23
+        - id: 24
+          name: p14l24
+    - filter:
+        tags:
+          - POD14_RACK13
+      group: RACK13
+      nodes:
+        - id: 25
+          name: p14l25
+        - id: 26
+          name: p14l26
+    - filter:
+        tags:
+          - POD14_RACK14
+      group: RACK14
+      nodes:
+        - id: 27
+          name: p14l27
+        - id: 28
+          name: p14l28
+    - filter:
+        tags:
+          - POD14_RACK15
+      group: RACK15
+      nodes:
+        - id: 29
+          name: p14l29
+        - id: 30
+          name: p14l30
+    - filter:
+        tags:
+          - POD14_RACK16
+      group: RACK16
+      nodes:
+        - id: 31
+          name: p14l31
+        - id: 32
+          name: p14l32
+    - filter:
+        tags:
+          - POD14_RACK17
+      group: RACK17
+      nodes:
+        - id: 33
+          name: p14l33
+        - id: 34
+          name: p14l34
+    - filter:
+        tags:
+          - POD14_RACK18
+      group: RACK18
+      nodes:
+        - id: 35
+          name: p14l35
+        - id: 36
+          name: p14l36
+    - filter:
+        tags:
+          - POD14_RACK19
+      group: RACK19
+      nodes:
+        - id: 37
+          name: p14l37
+        - id: 38
+          name: p14l38

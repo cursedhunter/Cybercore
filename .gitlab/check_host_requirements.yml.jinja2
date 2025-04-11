@@ -1,0 +1,24 @@
+include: '.gitlab/common-ci.yml'
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "parent_pipeline"
+
+default:
+  image: ${RUNTIME_ENV_IMAGE}
+
+### CHECK HOST REQUIREMENTS JOBS ###
+{% for host in host_ips %}
+check-hosts-ssh-{{ host }}:
+  extends: .remote_ssh_job
+  script:
+    - scripts/check_ssh_connection.sh $SSH_USER {{ host }} 2>&1 | tr -d '\r'
+
+check-host-requirements-{{ host }}:
+  extends: .remote_ssh_job
+  needs:
+    - check-hosts-ssh-{{ host }}
+  script:
+    - scripts/check_required_tools.sh $SSH_USER {{ host }} 2>&1 | tr -d '\r'
+{% endfor %}
+### CHECK HOST REQUIREMENTS JOBS ###

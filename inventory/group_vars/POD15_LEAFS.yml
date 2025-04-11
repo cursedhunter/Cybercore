@@ -1,0 +1,191 @@
+---
+l3leaf: # dynamic_key: node_type
+  defaults:
+    mgmt_ip: "{{ mgmt_ip }}"
+    bgp_as: 65115.1-38
+    loopback_ipv4_pool: 10.115.0.0/24
+    mlag_peer_ipv4_pool: 10.115.2.0/24
+    mlag_peer_l3_ipv4_pool: 10.115.3.0/24
+    platform: vEOS-lab
+    spanning_tree_mode: mstp
+    spanning_tree_priority: 16384
+    uplink_ipv4_pool: 10.6.15.0/23
+    uplink_switches:
+      - p15s01
+      - p15s02
+      - p15s03
+      - p15s04
+    virtual_router_mac_address: 00:1c:73:00:dc:01
+    vtep_loopback_ipv4_pool: 10.115.1.0/24
+  node_groups:
+    - filter:
+        tags:
+          - POD15_RACK1
+      group: RACK1
+      nodes:
+        - id: 1
+          name: p15l01
+        - id: 2
+          name: p15l02
+    - filter:
+        tags:
+          - POD15_RACK2
+      group: RACK2
+      nodes:
+        - id: 3
+          name: p15l03
+        - id: 4
+          name: p15l04
+    - filter:
+        tags:
+          - POD15_RACK3
+      group: RACK3
+      nodes:
+        - id: 5
+          name: p15l05
+        - id: 6
+          name: p15l06
+    - filter:
+        tags:
+          - POD15_RACK4
+      group: RACK4
+      nodes:
+        - id: 7
+          name: p15l07
+        - id: 8
+          name: p15l08
+    - filter:
+        tags:
+          - POD15_RACK5
+      group: RACK5
+      nodes:
+        - id: 9
+          name: p15l09
+        - id: 10
+          name: p15l10
+    - filter:
+        tags:
+          - POD15_RACK6
+      group: RACK6
+      nodes:
+        - id: 11
+          name: p15l11
+        - id: 12
+          name: p15l12
+    - filter:
+        tags:
+          - POD15_RACK7
+      group: RACK7
+      nodes:
+        - id: 13
+          name: p15l13
+        - id: 14
+          name: p15l14
+    - filter:
+        tags:
+          - POD15_RACK8
+      group: RACK8
+      nodes:
+        - id: 15
+          name: p15l15
+        - id: 16
+          name: p15l16
+    - filter:
+        tags:
+          - POD15_RACK9
+      group: RACK9
+      nodes:
+        - id: 17
+          name: p15l17
+        - id: 18
+          name: p15l18
+    - filter:
+        tags:
+          - POD15_RACK10
+      group: RACK10
+      nodes:
+        - id: 19
+          name: p15l19
+        - id: 20
+          name: p15l20
+    - filter:
+        tags:
+          - POD15_RACK11
+      group: RACK11
+      nodes:
+        - id: 21
+          name: p15l21
+        - id: 22
+          name: p15l22
+    - filter:
+        tags:
+          - POD15_RACK12
+      group: RACK12
+      nodes:
+        - id: 23
+          name: p15l23
+        - id: 24
+          name: p15l24
+    - filter:
+        tags:
+          - POD15_RACK13
+      group: RACK13
+      nodes:
+        - id: 25
+          name: p15l25
+        - id: 26
+          name: p15l26
+    - filter:
+        tags:
+          - POD15_RACK14
+      group: RACK14
+      nodes:
+        - id: 27
+          name: p15l27
+        - id: 28
+          name: p15l28
+    - filter:
+        tags:
+          - POD15_RACK15
+      group: RACK15
+      nodes:
+        - id: 29
+          name: p15l29
+        - id: 30
+          name: p15l30
+    - filter:
+        tags:
+          - POD15_RACK16
+      group: RACK16
+      nodes:
+        - id: 31
+          name: p15l31
+        - id: 32
+          name: p15l32
+    - filter:
+        tags:
+          - POD15_RACK17
+      group: RACK17
+      nodes:
+        - id: 33
+          name: p15l33
+        - id: 34
+          name: p15l34
+    - filter:
+        tags:
+          - POD15_RACK18
+      group: RACK18
+      nodes:
+        - id: 35
+          name: p15l35
+        - id: 36
+          name: p15l36
+    - filter:
+        tags:
+          - POD15_RACK19
+      group: RACK19
+      nodes:
+        - id: 37
+          name: p15l37
+        - id: 38
+          name: p15l38

@@ -1,0 +1,47 @@
+workflow:
+  name: 'self-test'
+
+check-ci-variables:
+  stage: test
+  needs:
+    - job: set-runtime-env-image-tag
+      optional: true
+  script:
+    - scripts/check_ci_variable.sh ANTA_USERNAME "Missing CI variable \$ANTA_USERNAME, please check README.md"
+    - scripts/check_ci_variable.sh ANTA_PASSWORD "Missing CI variable \$ANTA_PASSWORD, please check README.md"
+    - scripts/check_ci_variable.sh CLAB_HOSTS "Missing CI variable \$CLAB_HOSTS, please check README.md"
+    - scripts/check_ci_variable.sh CLAB_ENV "Missing CI variable \$CLAB_ENV, please check README.md"
+    - scripts/check_ci_variable.sh CV_DEPLOY_SERVER "Missing CI variable \$CV_DEPLOY_SERVER, please check README.md"
+    - scripts/check_ci_variable.sh CV_DEPLOY_TOKEN "Missing CI variable \$CV_DEPLOY_TOKEN, please check README.md"
+    - scripts/check_ci_variable.sh TELEMETRY_PRODUCTION_SERVERS "Missing CI variable \$TELEMETRY_PRODUCTION_SERVERS, please check README.md"
+    - scripts/check_ci_variable.sh SSH_CONFIG "Missing CI variable \$SSH_CONFIG, please check README.md"
+    - scripts/check_ci_variable.sh SSH_USER "Missing CI variable \$SSH_USER, please check README.md"
+    - scripts/check_ci_variable.sh SSH_PRIVATE_KEY "Missing CI variable \$SSH_PRIVATE_KEY, please check README.md"
+
+check-hosts-generate-pipeline:
+  stage: test
+  needs:
+    - job: set-runtime-env-image-tag
+      optional: true
+  script:
+    - CLAB_HOSTS_IPS=$(cut -d "," -f2 < $CLAB_HOSTS)
+    - |
+      echo "$CLAB_HOSTS_IPS" | yq -o=yaml '. |= split(" ")' | yq '{"host_ips": .}' > template_data.yml
+    - jinja2 --strict .gitlab/check_host_requirements.yml.jinja2 < template_data.yml >> check-hosts-child-pipeline.yml
+  artifacts:
+    paths:
+      - check-hosts-child-pipeline.yml
+
+check-hosts:
+  stage: test
+  needs:
+    - job: set-runtime-env-image-tag
+      optional: true
+    - check-hosts-generate-pipeline
+  trigger:
+    include:
+      - artifact: check-hosts-child-pipeline.yml
+        job: check-hosts-generate-pipeline
+    strategy: depend
+  variables:
+    PARENT_PIPELINE_ID: $CI_PIPELINE_ID
