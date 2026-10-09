@@ -6,7 +6,7 @@ pod_name: PLANE-1
 spine: # dynamic_key: node_type
   defaults:
     mgmt_ip: "{{ mgmt_ip }}"
-    bgp_as: 651116
+    bgp_as: 651116-651117
     loopback_ipv4_pool: 172.17.1.0/24
     platform: vEOS-lab
     uplink_ipv4_pool: 10.0.10.0/24

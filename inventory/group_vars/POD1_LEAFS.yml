@@ -2,7 +2,7 @@
 l3leaf: # dynamic_key: node_type
   defaults:
     mgmt_ip: "{{ mgmt_ip }}"
-    bgp_as: 651101-5
+    bgp_as: 651101-651105
     evpn_role: client
     evpn_route_servers:
       - p01l01a
