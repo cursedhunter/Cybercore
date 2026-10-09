@@ -21,5 +21,3 @@ hsn_plane1_spine_loopback_ipv4_pool: 10.49.1.32/27
 
 mgmt_plane1_spine_uplink_ipv4_pool: 10.82.16.0/20
 mgmt_plane1_spine_loopback_ipv4_pool: 10.50.1.32/27
-
-
