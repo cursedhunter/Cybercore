@@ -1,0 +1,7 @@
+#!/bin/sh
+#
+# Workaround for BUG813899
+#
+for i in `ls -1 /sys/class/net | grep ^et`; do
+   /usr/bin/env python3 /mnt/flash/disable-offload "${i}"
+done

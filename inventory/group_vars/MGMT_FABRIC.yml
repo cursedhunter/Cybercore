@@ -4,7 +4,7 @@ default_interfaces:
   - types:
       - super-spine
     platforms:
-      - vEOS-lab
+      - "7050"
     downlink_interfaces:
       - Ethernet1-32/1
 
@@ -12,7 +12,7 @@ default_interfaces:
   - types:
       - spine
     platforms:
-      - vEOS-lab
+      - "7280"
     uplink_interfaces:
       - Ethernet49-56/1
     downlink_interfaces:
@@ -22,7 +22,7 @@ default_interfaces:
   - types:
       - l3leaf
     platforms:
-      - vEOS-lab
+      - "7010TX"
     uplink_interfaces:
       - Ethernet49-52/1
     downlink_interfaces:

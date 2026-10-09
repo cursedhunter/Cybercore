@@ -1,0 +1,8 @@
+#
+# Workaround for BUG813899
+#
+
+After the BUG is resolved and the fix is shipping cEOS-lab, remove the following:
+
+clab/ceos/rc.eos file
+    also remove its reference in the tools_config.yml

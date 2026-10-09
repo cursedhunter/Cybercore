@@ -1,5 +1,39 @@
 # Change Log
 
+## [1.6.0] 2026-02-13
+
+### Improvements
+
+* Update avd@5.7.2
+* Update anta@1.7.0
+
+## [1.5.0] 2025-08-26
+
+### Improvements
+
+* Update avd@5.5.1
+* Refactor AVD config to new models
+
+## [1.4.0] 2025-06-20
+
+### Improvements
+
+* Update doppel-tools@v0.0.19
+* Improved pre-deployment pipeline cv-validate with pre-deployment workspaces
+* Add post-deployment-nrfu job on deployment pipeline
+* Improved cv-deploy job on deployment pipeline with Auto-Execute action
+* Add linter rules to add "---" on all yaml files
+
+## [1.3.0] 2025-05-28
+
+### Improvements
+
+* Update avd@5.4.0
+* Update anta@1.4.0
+* Update doppel-tools@v0.0.18
+* Improved pre-deployment pipeline with anta_runner
+* Add mtu discovery pipeline
+
 ## [1.2.0] 2025-04-08
 
 ### Improvements

@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Copyright (c) 2025 Arista Networks, Inc.  All rights reserved.
+# Arista Networks, Inc. Confidential and Proprietary.
+# Subject to Arista Networks, Inc.'s EULA.
+# FOR INTERNAL USE ONLY. NOT FOR DISTRIBUTION.
 set -euo pipefail
 
 usage() {
@@ -21,7 +25,7 @@ ssh -T "$SSH_USER@$SSH_HOST" bash << 'EOF'
 set -euox pipefail
 
 export CLAB_LABDIR_BASE=/run
-timeout --preserve-status 10m clab destroy --all --cleanup || true
+clab destroy --all --cleanup || true
 
 RUNNING_CONTAINER_IDS=$(docker ps -q --filter "label=containerlab")
 if [[ ! -z "$RUNNING_CONTAINER_IDS" ]]; then

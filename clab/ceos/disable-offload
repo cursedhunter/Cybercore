@@ -1,0 +1,11 @@
+#!/usr/bin/env python3
+#
+# Workaround for BUG813899
+#
+import subprocess
+import sys
+
+for offload in [ "rx", "tx", "sg", "tso", "ufo", "gso", "gro", "lro",
+		 "rxvlan", "txvlan", "rxhash" ]:
+   disableCmd = [ "ethtool", "-K", sys.argv[ 1 ], offload, "off" ]
+   subprocess.call( [ "sudo" ] + disableCmd )

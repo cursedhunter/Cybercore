@@ -1,12 +1,9 @@
+---
 ## A remote ssh job can extend from this hidden_job
 .remote_ssh_job:
   before_script:
-    - eval $(ssh-agent -s)
-    - base64 -d < $SSH_PRIVATE_KEY | tr -d '\r' | ssh-add -
-    - ssh-add -L
-    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
-    - if [ -f "$CLAB_KNOWN_HOSTS" ]; then cp "$CLAB_KNOWN_HOSTS" ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts; fi
-    - if [ -f "$SSH_CONFIG" ]; then cp "$SSH_CONFIG" ~/.ssh/config && chmod 600 ~/.ssh/config; fi
+    - awk -F ',' '{print $2, $1}' $CLAB_HOSTS >> /etc/hosts
+    - source scripts/pre_ssh_config.sh
 
 .build-fabric:
   script:

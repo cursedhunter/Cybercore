@@ -32,19 +32,39 @@ variables:
     options:
       - "ansible"
       - "pyavd"
+  WAIT_READINESS_DURATION_MINUTES:
+    description: "Wait readiness duration in minutes"
+    value: "6"
   SSH_USER: "arista"
-  DIGITAL_TWIN_MAX_SUPPORTED_FRAME_SIZE: 8950 # MAX_PLATFORM_MTU - VXLAN_OVERHEAD(50)
-  DIGITAL_TWIN_MAX_SUPPORTED_MTU: 8928 # DIGITAL_TWIN_MAX_SUPPORTED_FRAME_SIZE - ETH_FCS_LEN(4) - VLAN_ETH_HLEN(18)
+  MAX_MTU_BETWEEN_CLAB_HOSTS: 9000
+  DIGITAL_TWIN_MAX_SUPPORTED_MTU: 8928 # should be <= MAX_MTU_BETWEEN_CLAB_HOSTS - VXLAN_OVERHEAD(50) - ETH_FCS_LEN(4) - VLAN_ETH_HLEN(18)
   VXLAN_UDP_PORT: "14789"
   ANSIBLE_CONFIG: "ansible.cfg"
   INVENTORY_PATH: "inventory"
   FABRIC_INVENTORY_GROUP: "FABRIC"
   FF_SCRIPT_SECTIONS: "true"
-  ANTA_MAX_CONNECTIONS: 10
-  ANTA_MAX_KEEPALIVE_CONNECTIONS: 10
+  CLAB_HOST_INTERFACE: "ens192"
+  ANTA_RUNNER_TIMEOUT: 60
+#  SKIP_DOCKER_LOGIN: 1
+
+workflow:
+  name: "$PIPELINE_NAME"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      variables:
+        PIPELINE_NAME: "pre-deployment"
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      variables:
+        PIPELINE_NAME: "deployment"
+    - if: $CI_COMMIT_TAG
+      variables:
+        PIPELINE_NAME: "release"
 
 stages:
   - .pre
+  - env
   - lint
   - build
   - test
@@ -55,31 +75,30 @@ default:
   image: ${RUNTIME_ENV_IMAGE}
 
 .build-image_rules: &build-image_rules
-  - if: $PIPELINE_NAME == 'build-image'
+  - if: $CI_PIPELINE_SOURCE == "web" && $PIPELINE_NAME == 'build-image'
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $RUNTIME_ENV_IMAGE_TAG == null
+    changes:
+      - runtime-env/*
+      - requirements.txt
+      - collection-requirements.yml
+      - .pre-commit-config.yaml
 
 .scan-image_rules: &scan-image_rules
-  - if: $PIPELINE_NAME == 'scan-image'
+  - if: $CI_PIPELINE_SOURCE == "web" && $PIPELINE_NAME == 'scan-image'
 
 .self-test_rules: &self-test_rules
-  - if: $PIPELINE_NAME == 'self-test'
+  - if: $CI_PIPELINE_SOURCE == "web" && $PIPELINE_NAME == 'self-test'
 
 .pre-deployment_rules: &pre-deployment_rules
-  - if: $CI_PIPELINE_SOURCE == 'merge_request_event' || $PIPELINE_NAME == 'pre-deployment'
+  - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+  - if: $CI_PIPELINE_SOURCE == "web" && $PIPELINE_NAME == "pre-deployment"
 
 .deployment_rules: &deployment_rules
-  - if: ($CI_PIPELINE_SOURCE == 'push' && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH) || $PIPELINE_NAME == 'deployment'
+  - if: $CI_PIPELINE_SOURCE == 'push' && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  - if: $CI_PIPELINE_SOURCE == "web" && $PIPELINE_NAME == "deployment"
 
 .release_rules: &release_rules
   - if: $CI_COMMIT_TAG
-
-.pre-deployment_job:
-  rules: *pre-deployment_rules
-
-.deployment_job:
-  rules: *deployment_rules
-
-.release_job:
-  rules: *release_rules
 
 include:
   # These are mutually exclusive

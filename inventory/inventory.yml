@@ -1,191 +1,42 @@
 ---
 all:
   children:
-    CV:
-      hosts:
-        cvp:
-          ansible_host: "{{ lookup('ansible.builtin.env', 'CV_SERVERS') | split(',') | first }}"
-          ansible_password: "{{ lookup('ansible.builtin.env', 'CV_TOKEN') }}"
-
     FABRIC:
       vars:
         mgmt_interface_vrf: MGMT
         mgmt_interface: Management1
         mgmt_ip: "{{ mgmt_ip_pool[inventory_hostname] | mandatory(msg='Host does not have a mgmt_ip defined inside inventory/group_vars/FABRIC/mgmt_ip_pool.yml') }}"
-        mgmt_gateway: "{{ mgmt_ip | ansible.utils.ipaddr('network/prefix') | ansible.utils.ipaddr('1') | ansible.utils.ipaddr('address') }}"
+        mgmt_gateway: "{{ mgmt_ip | ansible.utils.ipaddr('network/prefix') | ansible.utils.ipaddr('254') | ansible.utils.ipaddr('address') }}"
       children:
         MGMT_FABRIC:
           children:
-            MGMT_SUPER_SPINES:
-              children:
-                MGMT_PLANE1_SUPER_SPINES:
-                  hosts:
-                    mx01u[01:04]:
-            MGMT_SPINES:
-              children:
-                MGMT_PLANE1_SPINES:
-                  hosts:
-                    mp[01:16]s[01:02]:
             MGMT_LEAFS:
               children:
                 MGMT_POD1_LEAFS:
                   hosts:
-                    mp01l[01:19]:
-                MGMT_POD2_LEAFS:
-                  hosts:
-                    mp02l[01:19]:
-                MGMT_POD3_LEAFS:
-                  hosts:
-                    mp03l[01:19]:
-                MGMT_POD4_LEAFS:
-                  hosts:
-                    mp04l[01:19]:
-                MGMT_POD5_LEAFS:
-                  hosts:
-                    mp05l[01:19]:
-                MGMT_POD6_LEAFS:
-                  hosts:
-                    mp06l[01:19]:
-                MGMT_POD7_LEAFS:
-                  hosts:
-                    mp07l[01:19]:
-                MGMT_POD8_LEAFS:
-                  hosts:
-                    mp08l[01:19]:
-                MGMT_POD9_LEAFS:
-                  hosts:
-                    mp09l[01:19]:
-                MGMT_POD10_LEAFS:
-                  hosts:
-                    mp10l[01:19]:
-                MGMT_POD11_LEAFS:
-                  hosts:
-                    mp11l[01:19]:
-                MGMT_POD12_LEAFS:
-                  hosts:
-                    mp12l[01:19]:
-                MGMT_POD13_LEAFS:
-                  hosts:
-                    mp13l[01:19]:
-                MGMT_POD14_LEAFS:
-                  hosts:
-                    mp14l[01:19]:
-                MGMT_POD15_LEAFS:
-                  hosts:
-                    mp15l[01:19]:
-                MGMT_POD16_LEAFS:
-                  hosts:
-                    mp16l[01:19]:
-        OVERLAY_CONTROLLERS:
-          hosts:
-            x[01:04]c01:
-        SUPER_SPINES:
-          children:
-            PLANE1_SUPER_SPINES:
-              hosts:
-                x01u[01:06]:
-            PLANE2_SUPER_SPINES:
-              hosts:
-                x02u[01:06]:
-            PLANE3_SUPER_SPINES:
-              hosts:
-                x03u[01:06]:
-            PLANE4_SUPER_SPINES:
-              hosts:
-                x04u[01:06]:
+                    mp01l01:
+                      is_deployed: false
         SPINES:
           children:
             PLANE1_SPINES:
               hosts:
-                p[01:16]s01:
-            PLANE2_SPINES:
-              hosts:
-                p[01:16]s02:
-            PLANE3_SPINES:
-              hosts:
-                p[01:16]s03:
-            PLANE4_SPINES:
-              hosts:
-                p[01:16]s04:
+                p01s01:
+                  is_deployed: false
+                p01s02:
+                  is_deployed: false
         LEAFS:
           children:
             POD1_LEAFS:
               hosts:
-                p01l[01:38]:
-            POD2_LEAFS:
-              hosts:
-                p02l[01:38]:
-            POD3_LEAFS:
-              hosts:
-                p03l[01:38]:
-            POD4_LEAFS:
-              hosts:
-                p04l[01:38]:
-            POD5_LEAFS:
-              hosts:
-                p05l[01:38]:
-            POD6_LEAFS:
-              hosts:
-                p06l[01:38]:
-            POD7_LEAFS:
-              hosts:
-                p07l[01:38]:
-            POD8_LEAFS:
-              hosts:
-                p08l[01:38]:
-            POD9_LEAFS:
-              hosts:
-                p09l[01:38]:
-            POD10_LEAFS:
-              hosts:
-                p10l[01:38]:
-            POD11_LEAFS:
-              hosts:
-                p11l[01:38]:
-            POD12_LEAFS:
-              hosts:
-                p12l[01:38]:
-            POD13_LEAFS:
-              hosts:
-                p13l[01:38]:
-            POD14_LEAFS:
-              hosts:
-                p14l[01:38]:
-            POD15_LEAFS:
-              hosts:
-                p15l[01:38]:
-            POD16_LEAFS:
-              hosts:
-                p16l[01:38]:
+                p01l01a:
+                  is_deployed: false
+                p01l01b:
+                  is_deployed: false
+                p01l03:
+                  is_deployed: false
+                p01l04:
+                  is_deployed: false
     OVERLAY:
       children:
+        MGMT_POD1_LEAFS:
         POD1_LEAFS:
-        POD2_LEAFS:
-        POD3_LEAFS:
-        POD4_LEAFS:
-        POD5_LEAFS:
-        POD6_LEAFS:
-        POD7_LEAFS:
-        POD8_LEAFS:
-        POD9_LEAFS:
-        POD10_LEAFS:
-        POD11_LEAFS:
-        POD12_LEAFS:
-        POD13_LEAFS:
-        POD14_LEAFS:
-        POD15_LEAFS:
-        POD16_LEAFS:
-  vars:
-    ansible_user: cvpadmin
-    ansible_password: cvp123!
-    ansible_network_os: arista.eos.eos
-    # Configure privilege escalation
-    ansible_become: true
-    ansible_become_method: enable
-    # HTTPAPI configuration
-    ansible_connection: httpapi
-    ansible_httpapi_port: 443
-    ansible_httpapi_use_ssl: true
-    ansible_httpapi_validate_certs: false
-    # Use default EOS ciphers:
-    ansible_httpapi_ciphers: AES256-SHA:DHE-RSA-AES256-SHA:AES128-SHA:DHE-RSA-AES128-SHA

@@ -1,74 +1,90 @@
+# Copyright (c) 2025 Arista Networks, Inc.  All rights reserved.
+# Arista Networks, Inc. Confidential and Proprietary.
+# Subject to Arista Networks, Inc.'s EULA.
+# FOR INTERNAL USE ONLY. NOT FOR DISTRIBUTION.
 import argparse
+import json
+import logging
 import sys
 from pathlib import Path
 
-from junitparser import TestCase, TestSuite, JUnitXml, Skipped, Error, Failure
-import json
+from junitparser import Error, Failure, JUnitXml, Skipped, TestCase, TestSuite
+from natsort import natsorted
+
+logger = logging.getLogger()
 
 
-def generate_junit_report(input_path: Path, output_path: Path) -> bool:
+def generate_junit_report(input_path: Path, output_path: Path, fail_if_report_empty: bool = False) -> bool:
     xml = JUnitXml()
 
     has_errors_or_failures = False
 
-    for report_path in sorted(input_path.glob('*.json')):
-        test_case_results = {}
+    with open(input_path, mode="r", encoding="utf-8") as fd:
+        nrfu_report = json.load(fd)
 
-        print(f"Processing {report_path}")
-        with open(report_path, mode="r", encoding="utf-8") as fd:
-            nrfu_report = json.load(fd)
+    if len(nrfu_report) == 0:
+        logger.error("No nrfu report found or report is empty")
+        return fail_if_report_empty
 
-        if len(nrfu_report) == 0:
-            continue
+    test_cases_by_node: dict[str, list[TestCase]] = {}
 
-        node_name = nrfu_report[0]['name']
+    for report_idx, report in enumerate(nrfu_report):
+        node_name = report["name"]
+        test_cases = test_cases_by_node.setdefault(node_name, [])
 
-        for report_idx, report in enumerate(nrfu_report):
-            report_test = report['test']
-            test_case = test_case_results.setdefault(report_test, [])
+        test_name = report["test"]
+        test_case = TestCase(name=test_name, classname=node_name)
+        report_result = report["result"]
 
-            report_result = report['result']
-            if report_result == "success":
-                continue
+        if report_result == "failure" or report_result == "error":
+            has_errors_or_failures = True
 
-            if report_result == "failure" or report_result == "error":
-                has_errors_or_failures = True
-
-            report_message = ','.join(report['messages'])
-
+        if report_result != "success":
             result_cls = {
                 "error": Error,
                 "skipped": Skipped,
                 "failure": Failure,
             }.get(report_result)
-            test_case.append(result_cls(message=report_message))
 
-        # Add suite to JunitXml
-        node_suite = TestSuite(node_name)
-        test_cases = []
-        n_tests = 0
-        for test_name, test_results in test_case_results.items():
-            test_case = TestCase(name=test_name, classname=f"{node_name}")
-            test_case.result = test_results
-            n_tests += len(test_results)
-            test_cases.append(test_case)
-        node_suite.add_testcases(test_cases)
-        xml.add_testsuite(node_suite)
+            if result_cls is None:
+                logger.warning("Test result is unknown. Skipping.")
+                continue
 
-    xml.write(output_path.as_posix(), pretty=True)
+            test_case.result = [result_cls(message=message) for message in report["messages"]]
+
+        test_cases.append(test_case)
+
+    test_suites: dict[str, TestSuite] = {}
+
+    for node_name in natsorted(test_cases_by_node):
+        test_suite = test_suites.setdefault(node_name, TestSuite(node_name))
+        test_suite.add_testcases(test_cases_by_node[node_name])
+
+    # Add suites to JunitXml
+    for suite in test_suites.values():
+        xml.add_testsuite(suite)
+
+    xml.write(output_path.as_posix(), pretty=True, to_console=output_path.name == "-")
 
     return has_errors_or_failures
 
 
 def main():
     parser = argparse.ArgumentParser(description="Translates a json ANTA report to JUnit.")
-    parser.add_argument("-i", "--input-path", required=True, type=Path, help="Path to the ANTA reports/test_results.")
-    parser.add_argument("-o", "--output-path", default=Path("nrfu.xml"), type=Path, help="Path to the output junit report.")
+    parser.add_argument("-i", "--input-path", required=True, type=Path, help="Path to the ANTA report file.")
+    parser.add_argument("-o", "--output-path", default=Path("-"), type=Path, help="Output path, stdout if not specified.")
+    parser.add_argument("--fail-if-empty", action="store_true", help="Fail if report is empty.")
 
     args = parser.parse_args()
 
-    has_errors_or_failures = generate_junit_report(args.input_path, args.output_path)
-    sys.exit(1 if has_errors_or_failures else 0)
+    logging.basicConfig(level=logging.INFO)
+    logger.info("input_path: %s", args.input_path)
+    logger.info("output_path: %s", args.output_path)
+    logger.info("fail_if_empty: %s", args.fail_if_empty)
+
+    has_errors_or_failures = generate_junit_report(args.input_path, args.output_path, fail_if_report_empty=args.fail_if_empty)
+    if has_errors_or_failures:
+        sys.exit("Report has errors or failures")
 
 
 if __name__ == "__main__":
