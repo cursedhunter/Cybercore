@@ -7,7 +7,7 @@ spine: # dynamic_key: node_type
   defaults:
     mgmt_ip: "{{ mgmt_ip }}"
     bgp_as: "{{ asn_hsn_plane1_spines }}" # 651116-651117
-    loopback_ipv4_pool: "{{ hsn_plane1_spines_loopback_ipv4_pool }}" # 172.17.1.0/24
+    loopback_ipv4_pool: "{{ hsn_plane1_spine_loopback_ipv4_pool }}" # 172.17.1.0/24
     platform: "7060"
     uplink_ipv4_pool: "{{ hsn_plane1_spine_uplink_ipv4_pool }}" # 10.0.10.0/24
     max_parallel_uplinks: 4

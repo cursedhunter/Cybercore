@@ -17,7 +17,7 @@ asn_mgmt_pod1_leafs: 651010-651015
 
 # Spines
 hsn_plane1_spine_uplink_ipv4_pool: 10.0.10.0/24
-hsn_plane1_spine_loopback_ipv4_pool: 172.17.1.0/24
+hsn_plane1_spine_loopback_ipv4_pool: 10.0.9.0/24
 
 mgmt_plane1_spine_uplink_ipv4_pool: 10.82.16.0/20
 mgmt_plane1_spine_loopback_ipv4_pool: 10.50.1.32/27
