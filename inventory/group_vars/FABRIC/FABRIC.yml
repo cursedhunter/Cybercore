@@ -104,11 +104,11 @@ dns_settings:
 
 custom_structured_configuration_prefix: [custom_structured_configuration_, bgp_overrides_]
 bgp_overrides_router_bgp:
-  as_notation: asdot
+  as_notation: asplain
 
 custom_structured_configuration_interface_defaults:
   ethernet:
-    shutdown: true
+    shutdown: false
 
 # NTP Servers IP or DNS name, first NTP server will be preferred, and sourced from Management VRF
 ntp_settings:

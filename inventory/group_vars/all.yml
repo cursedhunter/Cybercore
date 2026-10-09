@@ -11,7 +11,7 @@ asn_hsn_plane1_spines: 651116-651117
 
 asn_hsn_plane1_super_spines: 65301.4353
 
-asn_hsn_pod1_leafs: 651101-651105
+asn_hsn_pod1_leafs: 651001-651005
 
 asn_mgmt_pod1_leafs: 651010-651015
 
@@ -28,6 +28,6 @@ hsn_pod1_leaf_mlag_peer_ipv4_pool: 10.0.13.0/24
 hsn_pod1_leaf_mlag_peer_l3_ipv4_pool: 10.0.14.0/24
 hsn_pod1_leaf_vtep_loopback_ipv4_pool: 10.0.102.0/24
 
-mgmt_pod1_leaf_uplink_ipv4_pool: 10.67.101.0/24
+mgmt_pod1_leaf_uplink_ipv4_pool: 10.67.1.101/24
 mgmt_pod1_leaf_loopback_ipv4_pool: 10.0.11.0/24
 mgmt_pod1_leaf_vtep_loopback_ipv4_pool: 10.68.101.0/24
