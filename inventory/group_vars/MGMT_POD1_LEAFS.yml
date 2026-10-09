@@ -4,7 +4,7 @@ l3leaf: # dynamic_key: node_type
     mgmt_ip: "{{ mgmt_ip }}"
     evpn_route_servers:
       - p01l01a
-      - p01l02a
+      - p01l01b
     bgp_as: 651010
     loopback_ipv4_pool: 10.0.11.20/32
     platform: "7010TX"
