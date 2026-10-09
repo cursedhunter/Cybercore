@@ -15,10 +15,10 @@ l3leaf: # dynamic_key: node_type
       - p01l01a
       - p01l02a
     uplink_switch_interfaces:
-      - Et28/1
-      - Et28/2
-      - Et28/3
-      - Et28/4
+      - Ethernet28/1
+      - Ethernet28/2
+      - Ethernet28/3
+      - Ethernet28/4
     virtual_router_mac_address: 00:1c:73:00:dc:01
     vtep_loopback_ipv4_pool: 10.68.101.0/24
   node_groups:
