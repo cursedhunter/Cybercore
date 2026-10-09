@@ -7,17 +7,27 @@ asn_mgmt_plane1_super_spines: 65353.4353
 
 asn_overlay_controllers: 65319.1025
 
-asn_hsn_plane1_spines: 65301.4609-5000
+asn_hsn_plane1_spines: 651116-651117
 
 asn_hsn_plane1_super_spines: 65301.4353
 
-asn_hsn_pod1_leafs: 65302.4865-5200
+asn_hsn_pod1_leafs: 651101-651105
 
-asn_mgmt_pod1_leafs: 65306.4865-5200
+asn_mgmt_pod1_leafs: 651010-651015
 
 # Spines
-hsn_plane1_spine_uplink_ipv4_pool: 10.81.16.0/20
-hsn_plane1_spine_loopback_ipv4_pool: 10.49.1.32/27
+hsn_plane1_spine_uplink_ipv4_pool: 10.0.10.0/24
+hsn_plane1_spine_loopback_ipv4_pool: 172.17.1.0/24
 
 mgmt_plane1_spine_uplink_ipv4_pool: 10.82.16.0/20
 mgmt_plane1_spine_loopback_ipv4_pool: 10.50.1.32/27
+
+hsn_pod1_leaf_uplink_ipv4_pool: 10.0.101.0/23
+hsn_pod1_leaf_loopback_ipv4_pool: 10.0.12.0/24
+hsn_pod1_leaf_mlag_peer_ipv4_pool: 10.0.13.0/24
+hsn_pod1_leaf_mlag_peer_l3_ipv4_pool: 10.0.14.0/24
+hsn_pod1_leaf_vtep_loopback_ipv4_pool: 10.0.102.0/24
+
+mgmt_pod1_leaf_uplink_ipv4_pool: 10.67.101.0/24
+mgmt_pod1_leaf_loopback_ipv4_pool: 10.0.11.0/24
+mgmt_pod1_leaf_vtep_loopback_ipv4_pool: 10.68.101.0/24
