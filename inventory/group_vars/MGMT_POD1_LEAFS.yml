@@ -13,7 +13,7 @@ l3leaf: # dynamic_key: node_type
     uplink_ipv4_pool: 10.67.101.0/24
     uplink_switches:
       - p01l01a
-      - p01l02a
+      - p01l01b
     uplink_switch_interfaces:
       - Ethernet28/1
       - Ethernet28/2
