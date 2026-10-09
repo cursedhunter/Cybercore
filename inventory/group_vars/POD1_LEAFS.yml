@@ -10,6 +10,9 @@ l3leaf: # dynamic_key: node_type
     loopback_ipv4_pool: 10.0.12.0/24
     mlag_peer_ipv4_pool: 10.0.13.0/24
     mlag_peer_l3_ipv4_pool: 10.0.14.0/24
+    mlag_interfaces:
+      - Ethernet29/1
+      - Ethernet30/1
     spanning_tree_mode: mstp
     spanning_tree_priority: 16384
     uplink_ipv4_pool: 10.0.101.0/23
