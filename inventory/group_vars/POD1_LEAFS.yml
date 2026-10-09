@@ -26,6 +26,7 @@ l3leaf: # dynamic_key: node_type
         tags:
           - OVERLAY_POD1_RACK1
           - OVERLAY_POD1_RACK2
+          - OVERLAY_C2M2_VXLAN
       group: RACK1
       evpn_role: server
       nodes:
@@ -36,6 +37,7 @@ l3leaf: # dynamic_key: node_type
     - filter:
         tags:
           - OVERLAY_POD1_RACK3
+          - OVERLAY_C2M2_VXLAN
       group: RACK3
       nodes:
         - id: 3
@@ -44,6 +46,7 @@ l3leaf: # dynamic_key: node_type
         tags:
           - OVERLAY_POD1_RACK4
           - OVERLAY_POD1_RACK5
+          - OVERLAY_C2M2_VXLAN
       group: RACK4
       nodes:
         - id: 4

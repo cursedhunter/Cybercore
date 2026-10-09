@@ -4,3 +4,22 @@
 
 asn_mgmt_plane1_spines: 65353.4609-5000
 asn_mgmt_plane1_super_spines: 65353.4353
+
+asn_overlay_controllers: 65319.1025
+
+asn_hsn_plane1_spines: 65301.4609-5000
+
+asn_hsn_plane1_super_spines: 65301.4353
+
+asn_hsn_pod1_leafs: 65302.4865-5200
+
+asn_mgmt_pod1_leafs: 65306.4865-5200
+
+# Spines
+hsn_plane1_spine_uplink_ipv4_pool: 10.81.16.0/20
+hsn_plane1_spine_loopback_ipv4_pool: 10.49.1.32/27
+
+mgmt_plane1_spine_uplink_ipv4_pool: 10.82.16.0/20
+mgmt_plane1_spine_loopback_ipv4_pool: 10.50.1.32/27
+
+
