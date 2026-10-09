@@ -6,7 +6,7 @@ l3leaf: # dynamic_key: node_type
       - p01l01a
       - p01l01b
     bgp_as: 651010-651015
-    loopback_ipv4_pool: 10.0.11.20/32
+    loopback_ipv4_pool: 10.0.11.0/24
     platform: "7010TX"
     spanning_tree_mode: mstp
     spanning_tree_priority: 16384
