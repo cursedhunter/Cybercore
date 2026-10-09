@@ -1,9 +1,10 @@
 containerlab_base_topology:
-  name: clever_jones
+  name: cybercore
 
   mgmt:
-    ipv4-subnet: 100.64.0.0/21
-    ipv4-gw: 100.64.0.6
+    ipv4-subnet: 10.65.0.0/21
+    ipv4-gw: 10.65.0.1
+    bridge: br-cybercore
 
   topology:
     kinds:
@@ -14,6 +15,8 @@ containerlab_base_topology:
         binds:
           - cvp-token:/mnt/flash/token:ro
           - ceos/EthIntf.py:/usr/lib/python3.9/site-packages/EthIntf.py:ro
+          - ceos/disable-offload:/mnt/flash/disable-offload:ro
+          - ceos/rc.eos:/mnt/flash/rc.eos:ro
         healthcheck:
           test:
             - CMD-SHELL
@@ -31,5 +34,10 @@ containerlab_base_topology:
           - nginx/ssl:/etc/nginx/ssl:ro
         ports:
           - 443:443
-        mgmt-ipv4: 100.64.0.7
-    links: []
+        mgmt-ipv4: 10.65.0.2
+        stages:
+          configure:
+            exec: # add all mgmt network gateways to br-mgmt
+              - command: ip addr add 10.65.1.254/24 dev br-cybercore
+                target: host
+                phase: on-enter
