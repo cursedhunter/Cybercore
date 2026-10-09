@@ -5,12 +5,12 @@ l3leaf: # dynamic_key: node_type
     evpn_route_servers:
       - p01l01a
       - p01l01b
-    bgp_as: "{{asn_mgmt_pod1_leafs}}" # 651010-651015
-    loopback_ipv4_pool: "{{mgmt_pod1_leaf_loopback_ipv4_pool}} # 10.0.11.0/24
+    bgp_as: "{{ asn_mgmt_pod1_leafs }}" # 651010-651015
+    loopback_ipv4_pool: "{{ mgmt_pod1_leaf_loopback_ipv4_pool }} # 10.0.11.0/24
     platform: "7010TX"
     spanning_tree_mode: mstp
     spanning_tree_priority: 16384
-    uplink_ipv4_pool: "{{mgmt_pod1_leaf_uplink_ipv4_pool}}" # 10.67.101.0/24
+    uplink_ipv4_pool: "{{ mgmt_pod1_leaf_uplink_ipv4_pool }}" # 10.67.101.0/24
     uplink_switches:
       - p01l01a
       - p01l01b
