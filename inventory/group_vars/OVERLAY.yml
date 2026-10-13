@@ -55,6 +55,14 @@ tenants: # dynamic_key: network_services
               - node: p01l04
                 ip_address_virtual_secondaries:
                   - 10.65.4.254/24
+              - node: p01l03
+                ip_address_virtual_secondaries:
+                  - 10.65.3.254/24
+                  - 10.66.3.254/24
+              - node: p01l01[a:b]
+                ip_address_virtual_secondaries:
+                  - 10.65.6.254/24
+                  - 10.65.8.254/24
           - id: 100
             name: VLAN100
             ip_address_virtual: "10.64.1.254/24"
