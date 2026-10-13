@@ -53,7 +53,7 @@ tenants: # dynamic_key: network_services
             profile: c2m2_fabric_vxlan_profile
             nodes:
               - node: p01l04
-                ip_address_virtual_secondaries
+                ip_address_virtual_secondaries:
                   - 10.65.4.254/24
           - id: 100
             name: VLAN100
