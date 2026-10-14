@@ -139,5 +139,4 @@ tenants: # dynamic_key: network_services
             name: outbound
             nodes:
               - node: p01l01a
-                ip_address:
-                  - 10.70.1.254/24
+                ip_address: "10.70.1.254/24"
