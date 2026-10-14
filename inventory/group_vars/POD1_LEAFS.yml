@@ -27,6 +27,7 @@ l3leaf: # dynamic_key: node_type
           - OVERLAY_POD1_RACK1
           - OVERLAY_POD1_RACK2
           - OVERLAY_C2M2_VXLAN
+          - OVERLAY_POD1_NSX
       group: RACK1
       evpn_role: server
       nodes:

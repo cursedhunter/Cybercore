@@ -33,7 +33,15 @@ svi_profiles:
     ip_helpers:
       - ip_helper: 10.65.6.110
     mtu: 9100
-
+  - profile: nsx_svi_profile
+    vxlan: false
+    enabled: true
+    description: "NSX SVI, per rack subnet"
+    structured_config:
+      no_autostate: true
+    ip_helpers:
+      - ip_helper: 10.65.6.110
+    mtu: 9100
 tenants: # dynamic_key: network_services
   - name: IP_FABRIC
     mac_vrf_vni_base: 30000
@@ -92,3 +100,44 @@ tenants: # dynamic_key: network_services
             ip_address_virtual: "10.64.5.254/24"
             tags: [OVERLAY_POD1_RACK5]
             profile: ip_fabric_svi_profile
+          - id: 993
+            name: edge-tep
+            ip_address_virtual: "10.72.6.254/24"
+            tags: [OVERLAY_POD1_NSX]
+            profile: nsx_svi_profile
+          - id: 994
+            name: edge-uplink1
+            ip_address_virtual: "172.16.6.126/25"
+            tags: [OVERLAY_POD1_NSX]
+            profile: nsx_svi_profile
+          - id: 995
+            name: edge-uplink2
+            ip_address_virtual: "172.16.6.254/25"
+            tags: [OVERLAY_POD1_NSX]
+            profile: nsx_svi_profile
+          - id: 996
+            name: exsi-pxe
+            ip_address_virtual: "10.71.6.254/24"
+            tags: [OVERLAY_POD1_NSX]
+            profile: nsx_svi_profile
+          - id: 997
+            name: hosttep
+            ip_address_virtual: "10.70.6.254/24"
+            tags: [OVERLAY_POD1_NSX]
+            profile: nsx_svi_profile
+          - id: 998
+            name: vsan
+            ip_address_virtual: "10.68.6.254/24"
+            tags: [OVERLAY_POD1_NSX]
+            profile: nsx_svi_profile
+          - id: 999
+            name: vmotion
+            ip_address_virtual: "10.69.6.254/24"
+            tags: [OVERLAY_POD1_NSX]
+            profile: nsx_svi_profile
+          - id: 666
+            name: outbound
+            nodes:
+              - node: p01l01a
+                ip_address:
+                  - 10.70.1.254/24
