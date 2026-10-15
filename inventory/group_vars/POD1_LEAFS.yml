@@ -39,7 +39,7 @@ l3leaf: # dynamic_key: node_type
             static_routes:
               - vrf: IP_FABRIC
                 prefix: 0.0.0.0/0
-                next-hop: 10.70.1.39
+                next_hop: 10.70.1.39
             router_bgp:
               vrfs:
                 - name: IP_FABRIC
