@@ -1,0 +1,63 @@
+p01l01a:
+
+nodes:
+  - id: 21
+    evpn_role: server
+    platform: "7050BL"
+    evpn_gateway:
+      <not needed>
+    l3_interfaces:
+      - name: Ethernet19/1
+        description: "Firewall"
+        ipv4_acl_out: "DropOutboundPrivate"
+        ip_address: 203.203.203.0/31
+        speed: 100g
+        enabled: true
+    structured_config:
+      router_bgp:
+        peer_groups:
+          - name: EVPN-OVERLAY-CORE
+            route_map_out: RM-AS-PREPEND_OUT
+        vrfs:
+          - name: IP_FABRIC
+            neighbors:
+              - ip_address: 203.203.203.1 # firewall
+                peer_group: IPv4-UNDERLAY-PEERS
+                remote-as: "65351.3840"
+                description: "firewall"
+                bfd: true
+                next_hop_self: true
+            route_targets:
+              import:
+                - address_family: evpn
+                  route_targets:
+                    - "100:100" # imports remote wan subs
+      route_maps:
+        - name: RM-AS-PREPEND-OUT
+          sequence_numbers:
+            - sequence: 10
+              type: permit
+              set:
+                - "as-path prepend last-as 4"
+      ethernet_intefaces:
+        - name: Ethernet19/1
+          vrf: IP_FABRIC
+
+ipv4_acls:
+  - name: DropOutboundPrivate
+    counters_per_entry: false
+    entries:
+      - source: "10.0.0.0/12"
+        destination: 10.0.0.0/12"
+        sequence: 10
+        # remark: "prevent data traffic"
+        action: deny
+        protocol: "ip"
+        log: false
+     - source: "any"
+       destination: "any"
+       sequence: 20
+       action: permit
+       protocol: "ip"
+       log: false
+       # remark: "permit all other traffic outbound"
