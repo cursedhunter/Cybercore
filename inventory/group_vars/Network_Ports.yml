@@ -1,6 +1,19 @@
 ---
 
 port_profiles:
+  - profile: outbound
+    speed: "auto 10gfull"
+    enabled: true
+    mode: access
+    vlans: 666
+    # spanning_tree_portfast: edge
+    # spanning_tree_bpdufilter: enabled
+    # spanning_tree_bpduguard: enabled
+    # flowcontrol:
+    #   received: "on"
+    validate_state: false
+    validate_lldp: false
+
   - profile: mgmt-vxlan
     speed: "auto 1gfull"
     enabled: true
@@ -68,6 +81,10 @@ port_profiles:
     validate_lldp: false
 
 network_ports:
+  - switches: p01l01a
+    switch_ports: Ethernet33
+    profile: outbound
+    description: "Fortinet"
   - switches: [d(1|4)(1|2)p(1|2|3|4)l12(a|b)]
     switch_ports: [Ethernet1-8/1]
     profile: unused
