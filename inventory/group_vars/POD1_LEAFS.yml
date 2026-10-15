@@ -34,6 +34,18 @@ l3leaf: # dynamic_key: node_type
       nodes:
         - id: 1
           name: p01l01a
+          # add default route to firewall redistribute in vrf..
+          structured_config:
+            static_routes:
+              - vrf: IP_FABRIC
+                prefix: 0.0.0.0/0
+                next-hop: 10.70.1.39
+            router_bgp:
+              vrfs:
+                - name: IP_FABRIC
+                  redistribute:
+                    static:
+                      enabled: true
         - id: 2
           name: p01l01b
       uplink_switch_interfaces:
