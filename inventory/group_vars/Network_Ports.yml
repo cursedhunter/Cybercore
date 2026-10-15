@@ -5,18 +5,12 @@ port_profiles:
     speed: "auto 1gfull"
     enabled: true
     mode: access
-    # mtu: 9100
     vlans: 10
     spanning_tree_portfast: edge
     spanning_tree_bpdufilter: enabled
     spanning_tree_bpduguard: enabled
     flowcontrol:
       received: "on"
-    # port_channel:
-    #  mode: active
-    #  lacp_fallback: "individual"
-    #  individual:
-    #    profile: utility-compute-node-data
     validate_state: false
     validate_lldp: false
     
@@ -52,7 +46,7 @@ port_profiles:
         profile: c2m2-vxlan-lacp
     validate_state: false
     validate_lldp: false
-    
+
   - profile: general-infrastruture-node-trunk
     speed: "auto 100g-2"
     enabled: true
