@@ -13,7 +13,7 @@ port_profiles:
       received: "on"
     validate_state: false
     validate_lldp: false
-    
+
   - profile: c2m2-vxlan-single
     speed: "auto 25gfull"
     enabled: true
