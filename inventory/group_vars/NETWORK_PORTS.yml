@@ -61,6 +61,21 @@ port_profiles:
     validate_state: false
     validate_lldp: false
 
+  - profile: esxi-node-trunk
+    speed: "50g-2"
+    enabled: true
+    mode: trunk
+    mtu: 9100
+    native_vlan: 67
+    vlans: 67,100,993-999
+    spanning_tree_portfast: edge
+    spanning_tree_bpdufilter: enabled
+    spanning_tree_bpduguard: enabled
+    flowcontrol:
+      received: "on"
+    validate_state: false
+    validate_lldp: false
+
   - profile: vsan-node-trunk
     speed: "25g"
     enabled: true
@@ -106,14 +121,46 @@ network_ports:
     description: "Fortinet"
   - switches:
       - p01l01a
+      - p01l01b
     switch_ports:
       - Ethernet7/1
       - Ethernet7/2
       - Ethernet7/3
       - Ethernet7/4
+      - Ethernet9/1
+      - Ethernet9/2
+      - Ethernet9/3
+      - Ethernet9/4
     profile: vsan-node-trunk
     description: "VSAN"
-
+  - switches:
+      - p01l01a
+      - p01l01b
+    switch_ports:
+      - Ethernet8/1
+      - Ethernet8/3
+      - Ethernet8/5
+      - Ethernet8/7
+      - Ethernet10/1
+      - Ethernet10/3
+      - Ethernet10/5
+      - Ethernet10/7
+    profile: esxi-node-trunk
+    description: "esxi"
+  - switches:
+      - p01l01a
+      - p01l01b
+    switch_ports:
+      - Ethernet17/1
+      - Ethernet18/1
+      - Ethernet19/1
+      - Ethernet20/1
+      - Ethernet21/1
+      - Ethernet22/1
+      - Ethernet23/1
+      - Ethernet24/1
+    profile: general-infrastructure-node-trunk
+    description: "proxmox"
   - switches:
       - mp01l01
     switch_ports:
