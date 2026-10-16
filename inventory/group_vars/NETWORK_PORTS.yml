@@ -120,7 +120,7 @@ port_profiles:
       lacp_fallback:
         mode: "individual"
         individual:
-          profile: general-infrastructure-node-trunk
+          profile: general-infrastruture-node-trunk
     validate_state: false
     validate_lldp: false
 
