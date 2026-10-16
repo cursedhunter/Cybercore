@@ -91,32 +91,32 @@ tenants: # dynamic_key: network_services
                   - 10.65.6.254/24
                   - 10.65.8.254/24
           - id: 100
-            name: VLAN100
+            name: Data-Rack1
             ip_address_virtual: "10.64.1.254/24"
             tags: [OVERLAY_POD1_RACK1]
             profile: ip_fabric_svi_profile
           - id: 102
-            name: VLAN102
+            name: Data-Rack2
             ip_address_virtual: "10.64.2.254/24"
             tags: [OVERLAY_POD1_RACK2]
             profile: ip_fabric_svi_profile
           - id: 100
-            name: VLAN100
+            name: Data-Rack3
             ip_address_virtual: "10.64.3.254/24"
             tags: [OVERLAY_POD1_RACK3]
             profile: ip_fabric_svi_profile
           - id: 100
-            name: VLAN100
+            name: Data-Rack4
             ip_address_virtual: "10.64.4.254/24"
             tags: [OVERLAY_POD1_RACK4]
             profile: ip_fabric_svi_profile
           - id: 105
-            name: VLAN105
+            name: Data-Rack5
             ip_address_virtual: "10.64.5.254/24"
             tags: [OVERLAY_POD1_RACK5]
             profile: ip_fabric_svi_profile
           - id: 993
-            name: edge-tep
+            name: edge_tep
             ip_address_virtual: "10.72.6.254/24"
             tags: [OVERLAY_POD1_NSX]
             profile: nsx_svi_profile

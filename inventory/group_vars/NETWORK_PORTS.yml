@@ -2,7 +2,7 @@
 
 port_profiles:
   - profile: outbound
-    speed: "auto 10gfull"
+    # speed: "auto 10gfull"
     enabled: true
     mode: access
     vlans: 666
@@ -61,6 +61,21 @@ port_profiles:
     validate_state: false
     validate_lldp: false
 
+  - profile: vsan-node-trunk
+    speed: "25g"
+    enabled: true
+    mode: trunk
+    mtu: 9100
+    native_vlan: 67
+    vlans: 67,100,993-999
+    spanning_tree_portfast: edge
+    spanning_tree_bpdufilter: enabled
+    spanning_tree_bpduguard: enabled
+    flowcontrol:
+      received: "on"
+    validate_state: false
+    validate_lldp: false
+
   - profile: general-infrastruture-node-trunk
     speed: "auto 100g-2"
     enabled: true
@@ -90,8 +105,21 @@ network_ports:
     profile: outbound
     description: "Fortinet"
   - switches:
+      - p01l01a
+    switch_ports:
+      - Ethernet7/1
+      - Ethernet7/2
+      - Ethernet7/3
+      - Ethernet7/4
+    profile: vsan-node-trunk
+    description: "VSAN"
+
+  - switches:
       - mp01l01
     switch_ports:
       - Ethernet1-48
     profile: mgmt-vxlan
     description: "Ilos"
+  - switches: [d(1|4)(1|2)p(1|2|3|4)l12(a|b)]
+    switch_ports: [Ethernet1-8/1]
+    profile: unused
