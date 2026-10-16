@@ -159,7 +159,7 @@ network_ports:
       - Ethernet22/1
       - Ethernet23/1
       - Ethernet24/1
-    profile: general-infrastructure-node-trunk
+    profile: general-infrastruture-node-trunk
     description: "proxmox"
   - switches:
       - mp01l01
