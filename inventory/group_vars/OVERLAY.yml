@@ -59,7 +59,7 @@ tenants: # dynamic_key: network_services
       - name: IP_FABRIC
         vrf_vni: 10
         svis:
-          - id: 15
+          - id: 10
             name: MGMT_VXLAN
             ip_address_virtual: "10.65.0.254/24"
             tags: [OVERLAY_MGMT_VXLAN]
