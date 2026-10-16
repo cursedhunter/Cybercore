@@ -83,12 +83,16 @@ port_profiles:
     validate_lldp: false
 
 network_ports:
-  - switches: [p01l01a]
-    switch_ports: [Ethernet33]
+  - switches:
+      - p01l01a
+    switch_ports:
+      - Ethernet33
     profile: outbound
     description: "Fortinet"
-  - switches: [mp01l01]
-    switch_ports: [Ethernet1-48]
+  - switches:
+      - mp01l01
+    switch_ports:
+      - Ethernet1-48
     profile: mgmt-vxlan
     description: "Ilos"
   - switches: [d(1|4)(1|2)p(1|2|3|4)l12(a|b)]
