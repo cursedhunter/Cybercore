@@ -95,6 +95,3 @@ network_ports:
       - Ethernet1-48
     profile: mgmt-vxlan
     description: "Ilos"
-  - switches: [d(1|4)(1|2)p(1|2|3|4)l12(a|b)]
-    switch_ports: [Ethernet1-8/1]
-    profile: unused
