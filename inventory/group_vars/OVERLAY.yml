@@ -102,6 +102,7 @@ tenants: # dynamic_key: network_services
             ip_address_virtual: "10.64.2.254/24"
             tags: [OVERLAY_POD1_RACK2]
             profile: ip_fabric_svi_profile
+            nodes:
               - node: p01l01a
                 ip_address_virtual_secondaries:
                   - 10.64.8.254/24

@@ -1,4 +1,5 @@
 ---
+
 l3leaf: # dynamic_key: node_type
   defaults:
     mgmt_ip: "{{ mgmt_ip }}"
