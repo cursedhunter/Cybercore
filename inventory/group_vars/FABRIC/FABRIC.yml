@@ -57,13 +57,13 @@ default_interfaces:
   - types:
       - l3leaf
     platforms:
-      - vEOS-lab
+      - 7050DX4
     uplink_interfaces:
-      - Ethernet1-4/1
+      - Ethernet31-32/1
     mlag_interfaces:
-      - Ethernet5-6/1
+      - Ethernet29-30/1
     downlink_interfaces:
-      - Ethernet7-32/1
+      - Ethernet1-27/1
 
 aaa_settings:
   local_users:
@@ -150,7 +150,7 @@ shutdown_bgp_towards_undeployed_peers: false
 shutdown_interfaces_towards_undeployed_peers: false
 
 platform_settings:
-  - platforms: ["7060"]
+  - platforms: ["7050DX4", "7060"]
     reload_delay:
       mlag: 300
       non_mlag: 330

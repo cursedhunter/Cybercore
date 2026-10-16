@@ -32,6 +32,7 @@ l3leaf: # dynamic_key: node_type
           - OUTBOUND
       group: RACK1
       evpn_role: server
+      platform: "7050DX4"
       nodes:
         - id: 1
           name: p01l01a
