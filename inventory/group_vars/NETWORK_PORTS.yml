@@ -1,6 +1,18 @@
 ---
 
 port_profiles:
+  - profile: unused
+    enabled: false
+    mode: access
+    # vlans: 666
+    # spanning_tree_portfast: edge
+    # spanning_tree_bpdufilter: enabled
+    # spanning_tree_bpduguard: enabled
+    # flowcontrol:
+    #   received: "on"
+    validate_state: false
+    validate_lldp: false
+
   - profile: outbound
     # speed: "auto 10gfull"
     enabled: true
