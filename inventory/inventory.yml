@@ -40,3 +40,7 @@ all:
       children:
         MGMT_POD1_LEAFS:
         POD1_LEAFS:
+    NETWORK_PORTS:
+      children:
+        MGMT_POD1_LEAFS:
+        POD1_LEAFS:
