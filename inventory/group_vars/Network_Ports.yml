@@ -86,7 +86,11 @@ network_ports:
     profile: outbound
     description: "Fortinet"
   - switches: mp01l01
-    switch_ports: [Ethernet1-48]
+    switch_ports: Ethernet1
+    profile: mgmt-vxlan
+    description: "Ilos"
+  - switches: mp01l01
+    switch_ports: [Ethernet2-48]
     profile: mgmt-vxlan
     description: "Ilos"
   - switches: [d(1|4)(1|2)p(1|2|3|4)l12(a|b)]
