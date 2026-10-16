@@ -168,6 +168,7 @@ platform_settings:
         enable: true
         vrf: MGMT
     raw_eos_cli: |
+      service unsupported-transceiver Meadowgate_Lab b85d0a8
       ip hardware fib load-balance distribution dynamic
       ip hardware fib load-balance distribution dynamic inactivity-threshold 60 microseconds
       ip hardware fib load-balance distribution dynamic sampling-period 10 microseconds
@@ -192,6 +193,7 @@ platform_settings:
         enable: true
         vrf: MGMT
     raw_eos_cli: |
+      service unsupported-transceiver Meadowgate_Lab b85d0a8
       ip hardware fib load-balance distribution dynamic
       ip hardware fib load-balance distribution dynamic inactivity-threshold 60 microseconds
       ip hardware fib load-balance distribution dynamic sampling-period 10 microseconds

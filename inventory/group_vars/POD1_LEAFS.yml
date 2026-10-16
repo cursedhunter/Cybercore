@@ -73,6 +73,8 @@ l3leaf: # dynamic_key: node_type
       uplink_switch_interfaces:
         - Ethernet3/1
         - Ethernet4/1
+        - Ethernet3/1
+        - Ethernet4/1
       uplink_interfaces:
         - Ethernet29/1
         - Ethernet30/1
