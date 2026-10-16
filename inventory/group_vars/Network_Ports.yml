@@ -1,0 +1,94 @@
+---
+
+port_profiles:
+  - profile: outbound
+    speed: "auto 10gfull"
+    enabled: true
+    mode: access
+    vlans: 666
+    # spanning_tree_portfast: edge
+    # spanning_tree_bpdufilter: enabled
+    # spanning_tree_bpduguard: enabled
+    # flowcontrol:
+    #   received: "on"
+    validate_state: false
+    validate_lldp: false
+
+  - profile: mgmt-vxlan
+    speed: "auto 1gfull"
+    enabled: true
+    mode: access
+    vlans: 10
+    spanning_tree_portfast: edge
+    spanning_tree_bpdufilter: enabled
+    spanning_tree_bpduguard: enabled
+    flowcontrol:
+      received: "on"
+    validate_state: false
+    validate_lldp: false
+
+  - profile: c2m2-vxlan-single
+    speed: "auto 25gfull"
+    enabled: true
+    mode: access
+    mtu: 9100
+    vlans: 67
+    spanning_tree_portfast: edge
+    spanning_tree_bpdufilter: enabled
+    spanning_tree_bpduguard: enabled
+    flowcontrol:
+      received: "on"
+    validate_state: false
+    validate_lldp: false
+
+  - profile: c2m2-vxlan-lacp
+    speed: "auto 25gfull"
+    enabled: true
+    mode: access
+    mtu: 9100
+    vlans: 67
+    spanning_tree_portfast: edge
+    spanning_tree_bpdufilter: enabled
+    spanning_tree_bpduguard: enabled
+    flowcontrol:
+      received: "on"
+    port_channel:
+      mode: active
+      lacp_fallback: "individual"
+      individual:
+        profile: c2m2-vxlan-lacp
+    validate_state: false
+    validate_lldp: false
+
+  - profile: general-infrastruture-node-trunk
+    speed: "auto 100g-2"
+    enabled: true
+    mode: trunk
+    mtu: 9100
+    native_vlan: 67
+    vlans: 15,67,100
+    spanning_tree_portfast: edge
+    spanning_tree_bpdufilter: enabled
+    spanning_tree_bpduguard: enabled
+    flowcontrol:
+      received: "on"
+    port_channel:
+      mode: active
+      lacp_fallback: "individual"
+      individual:
+        profile: utility-compute-node-data
+    validate_state: false
+    validate_lldp: false
+
+network_ports:
+  - switches: p01l01a
+    switch_ports: [Ethernet33]
+    profile: outbound
+    description: "Fortinet"
+  - switches: mp01l01
+    switch_ports: [Ethernet1-48]
+    profile: mgmt-vxlan
+    description: "Ilos"
+  - switches: [d(1|4)(1|2)p(1|2|3|4)l12(a|b)]
+    switch_ports: [Ethernet1-8/1]
+    profile: unused
