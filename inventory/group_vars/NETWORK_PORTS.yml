@@ -92,7 +92,7 @@ port_profiles:
     validate_lldp: false
 
   - profile: general-infrastruture-node-trunk
-    speed: "auto 100g-2"
+    speed: "auto 100g-4"
     enabled: true
     mode: trunk
     mtu: 9100
