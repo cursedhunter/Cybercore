@@ -27,3 +27,26 @@ default_interfaces:
       - Ethernet49-52/1
     downlink_interfaces:
       - Ethernet1-48/1
+
+custom_platform_settings:
+  - platforms:
+      - 7010TX
+    feature_support:
+      per_interface_mtu: false
+    reload_delay:
+      mlag: 300
+      non_mlag: 330
+    default_interface_mtu: 9214
+    structured_config:
+      sflow:
+        sample: 2048
+        polling_interval: 30
+        destinations:
+          - destination: 127.0.0.1
+        source_interface: Loopback0
+        run: true
+      queue_monitor_length:
+        enabled: true
+      queue_monitor_streaming:
+        enable: true
+        vrf: MGMT

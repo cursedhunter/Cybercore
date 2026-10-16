@@ -109,6 +109,7 @@ bgp_overrides_router_bgp:
 custom_structured_configuration_interface_defaults:
   ethernet:
     shutdown: false
+  mtu: "{{ lookup('ansible.builtin.env', 'MAX_SUPPORTED_MTU', default=9214) }}"
 
 # NTP Servers IP or DNS name, first NTP server will be preferred, and sourced from Management VRF
 ntp_settings:
@@ -147,3 +148,29 @@ bfd_multihop:
 
 shutdown_bgp_towards_undeployed_peers: false
 shutdown_interfaces_towards_undeployed_peers: false
+
+platform_settings:
+  - platforms: ["7060"]
+    reload_delay:
+      mlag: 300
+      non_mlag: 330
+    structured_config:
+      sflow:
+        sample: 2048
+        polling_interval: 30
+        destinations:
+          - destination: 127.0.0.1
+        source_interface: Loopback0
+        run: true
+      queue_monitor_length:
+        enabled: true
+      queue_monitor_streaming:
+        enable: true
+        vrf: MGMT
+    raw_eos_cli: |
+      ip hardware fib load-balance distribution dynamic
+      ip hardware fib load-balance distribution dynamic inactivity-threshold 60 microseconds
+      ip hardware fib load-balance distribution dynamic sampling-period 10 microseconds
+      ip hardware fib load-balance distribution dynamic average-traffic-weight 10
+      ip hardware fib load-balance distribution dynamic seed 100
+      ip hardware fib load-balance distribution dynamic flow-set-size 3
