@@ -140,6 +140,30 @@ port_profiles:
     validate_state: false
     validate_lldp: false
 
+  - profile: dell-mgmt-leaf
+    speed: "forced 10000full"
+    enabled: true
+    mode: access
+    mtu: 9214
+    vlans: 67
+    port_channel:
+      mode: active
+      lacp_fallback:
+        mode: "individual"
+        individual:
+          profile: dell-mgmt-leaf
+    validate_state: false
+    validate_lldp: false
+
+  - profile: zfs-access
+    # speed: "forced 10000full"
+    enabled: true
+    mode: access
+    mtu: 9000
+    vlans: 100
+    validate_state: false
+    validate_lldp: false
+
 network_ports:
   - switches:
       - p01l01a
@@ -195,6 +219,45 @@ network_ports:
       - Ethernet1-48
     profile: mgmt-vxlan
     description: "Ilos"
+  - switches:
+      - p01l03
+    switch_ports:
+      - Ethernet27/1
+      - Ethernet27/2
+      - Ethernet27/3
+      - Ethernet27/4
+    profile: dell-mgmt-leaf
+    description: "Dell mleaf"
+  - switches:
+      - p01l03
+    switch_ports:
+      - Ethernet1/1
+      - Ethernet2/1
+      - Ethernet3/1
+      - Ethernet4/1
+    profile: zfs-access
+    description: "ZFS 100G"
+  - switches:
+      - p01l03
+    switch_ports:
+      - Ethernet5/1
+      - Ethernet5/2
+      - Ethernet5/3
+      - Ethernet5/4
+      - Ethernet6/1
+      - Ethernet6/2
+      - Ethernet6/3
+      - Ethernet6/4
+      - Ethernet7/1
+      - Ethernet7/2
+      - Ethernet7/3
+      - Ethernet7/4
+      - Ethernet8/1
+      - Ethernet8/2
+      - Ethernet8/3
+      - Ethernet8/4
+    profile: zfs-access
+    description: "ZFS 10G"
   - switches: [d(1|4)(1|2)p(1|2|3|4)l12(a|b)]
     switch_ports: [Ethernet1-8/1]
     profile: unused
