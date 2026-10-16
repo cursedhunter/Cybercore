@@ -152,11 +152,13 @@ tenants: # dynamic_key: network_services
             profile: nsx_svi_profile
           - id: 15
             name: ceph
+            ip_address_virtual: "10.73.8.254/24"
             tags: [OVERLAY_POD1_CEPH]
             profile: ceph_svi_profile
           - id: 666
             name: outbound
             tags: [OUTBOUND]
+            enabled: true
             nodes:
               - node: p01l01a
                 ip_address: "10.70.1.254/24"

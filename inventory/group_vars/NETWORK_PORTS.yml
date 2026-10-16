@@ -18,6 +18,7 @@ port_profiles:
     enabled: true
     mode: access
     vlans: 666
+    mtu: 9000
     # spanning_tree_portfast: edge
     # spanning_tree_bpdufilter: enabled
     # spanning_tree_bpduguard: enabled
