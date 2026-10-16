@@ -55,7 +55,7 @@ port_profiles:
     port_channel:
       mode: active
       lacp_fallback:
-        - individual
+        mode: "individual"
       individual:
         profile: c2m2-vxlan-lacp
     validate_state: false
@@ -76,7 +76,7 @@ port_profiles:
     port_channel:
       mode: active
       lacp_fallback:
-        - individual
+        mode: "individual"
       individual:
         profile: general-infrastructure-node-trunk
     validate_state: false
