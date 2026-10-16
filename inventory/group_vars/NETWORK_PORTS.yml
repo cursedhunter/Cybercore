@@ -56,8 +56,8 @@ port_profiles:
       mode: active
       lacp_fallback:
         mode: "individual"
-      individual:
-        profile: c2m2-vxlan-lacp
+        individual:
+          profile: c2m2-vxlan-lacp
     validate_state: false
     validate_lldp: false
 
@@ -77,8 +77,8 @@ port_profiles:
       mode: active
       lacp_fallback:
         mode: "individual"
-      individual:
-        profile: general-infrastructure-node-trunk
+        individual:
+          profile: general-infrastructure-node-trunk
     validate_state: false
     validate_lldp: false
 
