@@ -64,6 +64,10 @@ tenants: # dynamic_key: network_services
             ip_address_virtual: "10.65.0.254/24"
             tags: [OVERLAY_MGMT_VXLAN]
             profile: mgmt_fabric_vxlan_profile
+              - node: mp01l01
+                ip_address_virtual_secondaries:
+                  - 10.66.1.254/24
+                  - 10.66.8.254/24
           - id: 67
             name: C2M2
             ip_address_virtual: "10.65.1.254/24"

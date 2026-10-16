@@ -32,7 +32,7 @@ port_profiles:
     enabled: true
     mode: access
     mtu: 9100
-    vlans: 10
+    vlans: 67
     spanning_tree_portfast: edge
     spanning_tree_bpdufilter: enabled
     spanning_tree_bpduguard: enabled
@@ -85,6 +85,8 @@ network_ports:
     switch_ports: Ethernet33
     profile: outbound
     description: "Fortinet"
+  - switches: mp01l01
+    switch_ports: Ethernet1-48
   - switches: [d(1|4)(1|2)p(1|2|3|4)l12(a|b)]
     switch_ports: [Ethernet1-8/1]
     profile: unused
