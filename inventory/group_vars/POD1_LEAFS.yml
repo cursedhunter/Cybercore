@@ -61,12 +61,24 @@ l3leaf: # dynamic_key: node_type
           - OVERLAY_POD1_RACK3
           - OVERLAY_C2M2_VXLAN
       group: RACK3
+      platform: "7060CX2"
       nodes:
         - id: 3
           name: p01l03
+      uplink_switches:
+        - p01s01
+        - p01s01
+        - p01s02
+        - p01s02
       uplink_switch_interfaces:
         - Ethernet3/1
         - Ethernet4/1
+      uplink_interfaces:
+        - Ethernet29/1
+        - Ethernet30/1
+        - Ethernet31/1
+        - Ethernet32/1
+      uplink_interface_speed: "forced 100gfull"
     - filter:
         tags:
           - OVERLAY_POD1_RACK4

@@ -174,3 +174,27 @@ platform_settings:
       ip hardware fib load-balance distribution dynamic average-traffic-weight 10
       ip hardware fib load-balance distribution dynamic seed 100
       ip hardware fib load-balance distribution dynamic flow-set-size 3
+  - platforms: [7060CX2"]
+    reload_delay:
+      mlag: 300
+      non_mlag: 330
+    structured_config:
+      sflow:
+        sample: 2048
+        polling_interval: 30
+        destinations:
+          - destination: 127.0.0.1
+        source_interface: Loopback0
+        run: true
+      queue_monitor_length:
+        enabled: true
+      queue_monitor_streaming:
+        enable: true
+        vrf: MGMT
+    raw_eos_cli: |
+      ip hardware fib load-balance distribution dynamic
+      ip hardware fib load-balance distribution dynamic inactivity-threshold 60 microseconds
+      ip hardware fib load-balance distribution dynamic sampling-period 10 microseconds
+      ip hardware fib load-balance distribution dynamic average-traffic-weight 10
+      ip hardware fib load-balance distribution dynamic seed 100
+      ip hardware fib load-balance distribution dynamic flow-set-size 3
