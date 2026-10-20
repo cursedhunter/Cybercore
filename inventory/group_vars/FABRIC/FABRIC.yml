@@ -175,7 +175,7 @@ platform_settings:
       ip hardware fib load-balance distribution dynamic average-traffic-weight 10
       ip hardware fib load-balance distribution dynamic seed 100
       ip hardware fib load-balance distribution dynamic flow-set-size 3
-  - platforms: [7060CX2"]
+  - platforms: ["7060CX2"]
     reload_delay:
       mlag: 300
       non_mlag: 330
