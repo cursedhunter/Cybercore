@@ -110,4 +110,4 @@ l3leaf: # dynamic_key: node_type
             description: "Recirculation Ports"
             shutdown: false
             channel_group:
-              id: "recirulation 1"   
+              id: "recirulation 1"
