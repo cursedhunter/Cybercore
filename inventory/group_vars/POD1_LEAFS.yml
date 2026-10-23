@@ -109,5 +109,5 @@ l3leaf: # dynamic_key: node_type
           - name: Ethernet9/1-18/1
             description: "Recirculation Ports"
             shutdown: false
-            custom_cli: |
+            raw_eos_cli: |
               channel-group recirculation 1
