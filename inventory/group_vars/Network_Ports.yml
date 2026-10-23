@@ -96,7 +96,7 @@ network_ports:
       - Ethernet11-48
     profile: mgmt-vxlan
     description: "Ilos"
-- switches:
+  - switches:
       - mp01l01
     switch_ports:
       - Ethernet10

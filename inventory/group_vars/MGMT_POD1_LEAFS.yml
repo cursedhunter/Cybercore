@@ -23,7 +23,7 @@ l3leaf: # dynamic_key: node_type
       - Ethernet50
     uplink_interface_speed: "25g"
     virtual_router_mac_address: 00:1c:73:00:dc:01
-    vtep_loopback_ipv4_pool: "{{mgmt_pod1_leaf_vtep_loopback_ipv4_pool}}" # 10.68.101.0/24
+    vtep_loopback_ipv4_pool: "{{ mgmt_pod1_leaf_vtep_loopback_ipv4_pool }}" # 10.68.101.0/24
   node_groups:
     - filter:
         tags:
