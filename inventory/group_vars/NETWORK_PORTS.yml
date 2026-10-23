@@ -216,9 +216,16 @@ network_ports:
   - switches:
       - mp01l01
     switch_ports:
-      - Ethernet1-48
+      - Ethernet1-9
+      - Ethernet11-48
     profile: mgmt-vxlan
     description: "Ilos"
+  - switches:
+      - mp01l01
+    switch_ports:
+      - Ethernet10
+    profile: c2m2-vxlan-single
+    description: "KVM"
   - switches:
       - p01l03
     switch_ports:
