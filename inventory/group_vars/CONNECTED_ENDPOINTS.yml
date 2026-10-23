@@ -1,12 +1,14 @@
 ---
 
-connected_endpoints:
+servers:
   - name: mp01l05
     adapters:
-      - switches:
-          - p01l04
-          - p01l04
-          - p01l04
+      - endpoint_ports:
+          - Eth49/1
+          - Eth49/2
+          - Eth49/3
+          - Eth49/4
+        switches:
           - p01l04
         switch_ports:
           - Ethernet28/1
