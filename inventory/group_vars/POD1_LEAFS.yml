@@ -4,9 +4,6 @@ l3leaf: # dynamic_key: node_type
     mgmt_ip: "{{ mgmt_ip }}"
     bgp_as: "{{ asn_hsn_pod1_leafs }}" # 651101-651105
     evpn_role: client
-    evpn_route_servers:
-      - p01l01a
-      - p01l01b
     loopback_ipv4_pool: "{{ hsn_pod1_leaf_loopback_ipv4_pool }}" # 10.0.12.0/24
     mlag_peer_ipv4_pool: "{{ hsn_pod1_leaf_mlag_peer_ipv4_pool }}" # 10.0.13.0/24
     mlag_peer_l3_ipv4_pool: "{{ hsn_pod1_leaf_mlag_peer_l3_ipv4_pool }}" # 10.0.14.0/24
@@ -62,6 +59,9 @@ l3leaf: # dynamic_key: node_type
           - OVERLAY_C2M2_VXLAN
       group: RACK3
       platform: "7060CX2"
+      evpn_route_servers:
+        - p01l01a
+        - p01l01b
       nodes:
         - id: 3
           name: p01l03
@@ -87,6 +87,9 @@ l3leaf: # dynamic_key: node_type
           - OVERLAY_POD1_RACK5
           - OVERLAY_C2M2_VXLAN
       group: RACK4
+      evpn_route_servers:
+        - p01l01a
+        - p01l01b
       nodes:
         - id: 4
           name: p01l04
