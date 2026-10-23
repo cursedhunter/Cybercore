@@ -21,7 +21,7 @@ all:
             PLANE1_SPINES:
               hosts:
                 p01s01:
-                  is_deployed: false
+                  is_deployed: true
                 p01s02:
                   is_deployed: true
         LEAFS:
