@@ -278,23 +278,3 @@ network_ports:
   - switches: [d(1|4)(1|2)p(1|2|3|4)l12(a|b)]
     switch_ports: [Ethernet1-8/1]
     profile: unused
-
-connected_endpoints:
-  - name: mp01l05
-    adapters:
-      - switches:
-          - p01l04
-          - p01l04
-          - p01l04
-          - p01l04
-        switch_ports:
-          - Ethernet28/1
-          - Ethernet28/2
-          - Ethernet28/3
-          - Ethernet28/4
-        adapter_type: other
-        mode: access
-        vlans: "67"
-        port_channel:
-          description: "mp01l05"
-          mode: active
