@@ -93,7 +93,7 @@ port_profiles:
     enabled: true
     mode: trunk
     mtu: 9100
-    native_vlan: 67
+    # native_vlan: 67
     vlans: 67,100,993-999
     spanning_tree_portfast: edge
     spanning_tree_bpdufilter: enabled
@@ -108,7 +108,7 @@ port_profiles:
     enabled: true
     mode: trunk
     mtu: 9100
-    native_vlan: 67
+    # native_vlan: 67
     vlans: 67,100,993-999
     spanning_tree_portfast: edge
     spanning_tree_bpdufilter: enabled
