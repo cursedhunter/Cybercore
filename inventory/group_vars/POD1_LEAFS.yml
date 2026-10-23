@@ -55,13 +55,16 @@ l3leaf: # dynamic_key: node_type
             - Ethernet2/1
           structured_config:
             ethernet_interfaces:
-              - name: Ethernet1/1
+              - name: Ethernet1-2/1
                 speed: 100g-2
                 error_correction_encoding:
                   enabled: true
                   reed_solomon: true
-                raw_eos_cli: |
-                  phy link training
+              - name: Ethernet1-2/3
+                speed: 100g-2
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
     - filter:
         tags:
           - OVERLAY_POD1_RACK3
