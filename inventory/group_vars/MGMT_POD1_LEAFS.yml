@@ -28,6 +28,7 @@ l3leaf: # dynamic_key: node_type
     - filter:
         tags:
           - OVERLAY_MGMT_VXLAN
+          - OVERLAY_C2M2_VXLAN
       group: RACK1
       nodes:
         - id: 1

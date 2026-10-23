@@ -115,9 +115,9 @@ custom_structured_configuration_interface_defaults:
 ntp_settings:
   server_vrf: use_mgmt_interface_vrf
   servers:
-    - name: 0.pool.ntp.org
+    - name: 10.65.6.108
       iburst: true
-    - name: 1.pool.ntp.org
+    - name: 10.65.6.120
       iburst: true
 
 evpn_ebgp_multihop: 8
@@ -175,6 +175,12 @@ platform_settings:
       ip hardware fib load-balance distribution dynamic average-traffic-weight 10
       ip hardware fib load-balance distribution dynamic seed 100
       ip hardware fib load-balance distribution dynamic flow-set-size 3
+      service unsupported-transceiver Meadowgate_Lab b85d0a8
+      username admin privilege 15 role network-admin secret sha512 $6$9cdTWrsp/CClMCVh$xvhQaNtGc1paGEo2OW9n.n45/0RMR3iKng938j65uSdEf/sLI0CpqEKQViUV0K/U1KDWFJfPlgIsZ9Cv77fbD.
+      username cvpadmin privilege 15 secret sha512 $6$Cpdy2nld0AowmaVa$Nf4jJx0/3BeyDpIqRzRUOxw3aJuDmwPTAsEUnFc/qw/C57CNllV5GVCVYnpcQokWY1MLtWFLnAiBVZB.bcjcp1
+      daemon TerminAttr
+        exec /usr/bin/TerminAttr -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -cvaddr=10.65.8.209:9910,10.65.8.210:9910,10.65.8.211:9910 -cvauth=token,/tmp/token -cvvrf=MGMT -taillogs
+        no shutdown
   - platforms: ["7060CX2"]
     reload_delay:
       mlag: 300
@@ -192,3 +198,10 @@ platform_settings:
       queue_monitor_streaming:
         enable: true
         vrf: MGMT
+    raw_eos_cli: |
+      service unsupported-transceiver Meadowgate_Lab b85d0a8
+      username admin privilege 15 role network-admin secret sha512 $6$9cdTWrsp/CClMCVh$xvhQaNtGc1paGEo2OW9n.n45/0RMR3iKng938j65uSdEf/sLI0CpqEKQViUV0K/U1KDWFJfPlgIsZ9Cv77fbD.
+      username cvpadmin privilege 15 secret sha512 $6$Cpdy2nld0AowmaVa$Nf4jJx0/3BeyDpIqRzRUOxw3aJuDmwPTAsEUnFc/qw/C57CNllV5GVCVYnpcQokWY1MLtWFLnAiBVZB.bcjcp1
+      daemon TerminAttr
+        exec /usr/bin/TerminAttr -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -cvaddr=10.65.8.209:9910,10.65.8.210:9910,10.65.8.211:9910 -cvauth=token,/tmp/token -cvvrf=MGMT -taillogs
+        no shutdown
