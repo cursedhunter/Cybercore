@@ -15,7 +15,7 @@ all:
                 MGMT_POD1_LEAFS:
                   hosts:
                     mp01l01:
-                      is_deployed: false
+                      is_deployed: true
         SPINES:
           children:
             PLANE1_SPINES:
@@ -23,19 +23,19 @@ all:
                 p01s01:
                   is_deployed: false
                 p01s02:
-                  is_deployed: false
+                  is_deployed: true
         LEAFS:
           children:
             POD1_LEAFS:
               hosts:
                 p01l01a:
-                  is_deployed: false
+                  is_deployed: true
                 p01l01b:
-                  is_deployed: false
+                  is_deployed: true
                 p01l03:
-                  is_deployed: false
+                  is_deployed: true
                 p01l04:
-                  is_deployed: false
+                  is_deployed: true
     OVERLAY:
       children:
         MGMT_POD1_LEAFS:
