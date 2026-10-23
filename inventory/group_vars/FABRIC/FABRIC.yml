@@ -150,7 +150,7 @@ shutdown_bgp_towards_undeployed_peers: false
 shutdown_interfaces_towards_undeployed_peers: false
 
 platform_settings:
-  - platforms: ["7050DX4", "7060"]
+  - platforms: ["7050DX4"]
     reload_delay:
       mlag: 300
       non_mlag: 330
@@ -183,7 +183,7 @@ platform_settings:
         no shutdown
       interface Ethernet1/1
         phy link training
-- platforms: ["7060"]
+  - platforms: ["7060"]
     reload_delay:
       mlag: 300
       non_mlag: 330
