@@ -296,5 +296,5 @@ connected_endpoints:
         mode: access
         vlans: "67"
         port_channel:
-          description:: "mp01l05"
+          description: "mp01l05"
           mode: active
