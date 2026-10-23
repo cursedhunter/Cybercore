@@ -183,6 +183,44 @@ platform_settings:
         no shutdown
       interface Ethernet1/1
         phy link training
+      interface Ethernet1/3
+        phy link training
+      interface Ethernet1/5
+        phy link training
+      interface Ethernet1/7
+        phy link training
+      interface Ethernet2/1
+        phy link training
+      interface Ethernet2/3
+        phy link training
+      interface Ethernet2/5
+        phy link training
+      interface Ethernet2/7
+        phy link training
+      interface Ethernet3/1
+        phy link training
+      interface Ethernet3/3
+        phy link training
+      interface Ethernet3/5
+        phy link training
+      interface Ethernet3/7
+        phy link training
+      interface Ethernet4/1
+        phy link training
+      interface Ethernet4/3
+        phy link training
+      interface Ethernet4/5
+        phy link training
+      interface Ethernet4/7
+        phy link training
+      interface Ethernet5/1
+        phy link training
+      interface Ethernet5/3
+        phy link training
+      interface Ethernet5/5
+        phy link training
+      interface Ethernet5/7
+        phy link training
   - platforms: ["7060"]
     reload_delay:
       mlag: 300
