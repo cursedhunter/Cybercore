@@ -117,6 +117,12 @@ tenants: # dynamic_key: network_services
             ip_address_virtual: "10.64.3.254/24"
             tags: [OVERLAY_POD1_RACK3]
             profile: ip_fabric_svi_profile
+            nodes:
+              - node: p01l03
+                ip_address_virtual_secondaries:
+                  - 10.3.100.1/24
+                  - 10.3.100.254/24
+                  - 10.64.3.1/24
           - id: 100
             name: Data-Rack4
             ip_address_virtual: "10.64.4.254/24"
