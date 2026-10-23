@@ -100,4 +100,7 @@ l3leaf: # dynamic_key: node_type
       uplink_switch_interfaces:
         - Ethernet5/1
         - Ethernet6/1
+      uplink_interfaces:
+        - Ethernet31/1
+        - Ethernet32/1
       uplink_interface_speed: "forced 100gfull"
