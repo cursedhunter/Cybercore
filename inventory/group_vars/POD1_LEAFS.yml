@@ -104,10 +104,3 @@ l3leaf: # dynamic_key: node_type
         - Ethernet31/1
         - Ethernet32/1
       uplink_interface_speed: "forced 100gfull"
-      structured_config:
-        ethernet_interfaces:
-          - name: Ethernet9/1-18/1
-            description: "Recirculation Ports"
-            shutdown: false
-            raw_eos_cli: |
-              channel-group recirculation 1

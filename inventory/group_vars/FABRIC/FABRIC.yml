@@ -208,3 +208,8 @@ platform_settings:
       interface Recirc-Channel1
         switchport mode trunk
         switchport recirculation features vxlan
+              structured_config:
+      interface Et9/1-18/1:
+        description: "Recirculation Ports"
+        no shutdown
+        channel-group recirculation 1
