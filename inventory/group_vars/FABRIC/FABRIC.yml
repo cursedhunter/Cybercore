@@ -182,7 +182,7 @@ platform_settings:
         exec /usr/bin/TerminAttr -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -cvaddr=10.65.8.209:9910,10.65.8.210:9910,10.65.8.211:9910 -cvauth=token,/tmp/token -cvvrf=MGMT -taillogs
         no shutdown
       interface Ethernet1/1
-        phy link training 
+        phy link training
 - platforms: ["7060"]
     reload_delay:
       mlag: 300
