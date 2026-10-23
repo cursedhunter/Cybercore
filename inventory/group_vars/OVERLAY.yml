@@ -78,6 +78,7 @@ tenants: # dynamic_key: network_services
               - node: p01l04
                 ip_address_virtual_secondaries:
                   - 10.65.4.254/24
+                  - 10.66.4.254/24
               - node: p01l03
                 ip_address_virtual_secondaries:
                   - 10.65.3.254/24

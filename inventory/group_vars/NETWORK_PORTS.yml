@@ -287,6 +287,7 @@ network_ports:
       - Ethernet3/1-4
       - Ethernet4/1-4
       - Ethernet5/1-4
+      - Ethernet6/1-4
     profile: c2m2-vxlan-single
     description: Splunk
   - switches:
