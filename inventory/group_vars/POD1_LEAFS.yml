@@ -56,12 +56,10 @@ l3leaf: # dynamic_key: node_type
           structured_config:
             ethernet_interfaces:
               - name: Ethernet1/1
-                speed: 100g-2
                 error_correction_encoding:
                   enabled: true
                   reed_solomon: true
               - name: Ethernet1/3
-                speed: 100g-2
                 error_correction_encoding:
                   enabled: true
                   reed_solomon: true
