@@ -208,7 +208,8 @@ platform_settings:
       interface Recirc-Channel1
         switchport mode trunk
         switchport recirculation features vxlan
-      interface Et9/1-18/1:
-        description: "Recirculation Ports"
+      interface Et9/1-18/1
+        description "Recirculation Ports"
         no shutdown
+        traffic-loopback source system device mac
         channel-group recirculation 1
