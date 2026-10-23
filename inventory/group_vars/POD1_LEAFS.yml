@@ -94,9 +94,6 @@ l3leaf: # dynamic_key: node_type
       nodes:
         - id: 4
           name: p01l04
-      uplink_switch_interfaces:
-        - Ethernet5/1
-        - Ethernet6/1
       uplink_switches:
         - p01s02
         - p01s02
