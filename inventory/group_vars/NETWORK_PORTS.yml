@@ -40,6 +40,20 @@ port_profiles:
     validate_state: false
     validate_lldp: false
 
+  - profile: c2m2-vxlan-7010
+    # speed: "auto 25gfull"
+    enabled: true
+    mode: access
+    # mtu: 9100
+    vlans: 67
+    spanning_tree_portfast: edge
+    spanning_tree_bpdufilter: enabled
+    spanning_tree_bpduguard: enabled
+    flowcontrol:
+      received: "on"
+    validate_state: false
+    validate_lldp: false
+
   - profile: c2m2-vxlan-single
     speed: "auto 25gfull"
     enabled: true
