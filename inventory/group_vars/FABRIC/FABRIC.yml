@@ -205,3 +205,5 @@ platform_settings:
       daemon TerminAttr
         exec /usr/bin/TerminAttr -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -cvaddr=10.65.8.209:9910,10.65.8.210:9910,10.65.8.211:9910 -cvauth=token,/tmp/token -cvvrf=MGMT -taillogs
         no shutdown
+      hardware tcam
+        profile vxlan-routing
