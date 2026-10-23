@@ -10,6 +10,9 @@ servers:
           - Eth49/4
         switches:
           - p01l04
+          - p01l04
+          - p01l04
+          - p01l04
         switch_ports:
           - Ethernet28/1
           - Ethernet28/2
