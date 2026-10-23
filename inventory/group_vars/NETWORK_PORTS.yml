@@ -238,7 +238,7 @@ network_ports:
       - mp01l01
     switch_ports:
       - Ethernet10
-    profile: c2m2-vxlan-single
+    profile: c2m2-vxlan-7010
     description: "KVM"
   - switches:
       - p01l03
