@@ -1,67 +1,18 @@
 ---
+
+dc_name: PLANE1
+pod_name: PLANE-1
+
 spine: # dynamic_key: node_type
   defaults:
     mgmt_ip: "{{ mgmt_ip }}"
-    bgp_as: 65001.1-128
-    loopback_ipv4_pool: 172.17.1.0/24
-    platform: vEOS-lab
-    uplink_ipv4_pool: 10.1.0.0/20
+    bgp_as: "{{ asn_hsn_plane1_spines }}" # 651116-651117
+    loopback_ipv4_pool: "{{ hsn_plane1_spine_loopback_ipv4_pool }}" # 172.17.1.0/24
+    platform: "7060"
+    # uplink_ipv4_pool: "{{ hsn_plane1_spine_uplink_ipv4_pool }}" # 10.0.10.0/24
     max_parallel_uplinks: 4
-    uplink_switches:
-      - x01u01
-      - x01u01
-      - x01u01
-      - x01u01
-      - x01u02
-      - x01u02
-      - x01u02
-      - x01u02
-      - x01u03
-      - x01u03
-      - x01u03
-      - x01u03
-      - x01u04
-      - x01u04
-      - x01u04
-      - x01u04
-      - x01u05
-      - x01u05
-      - x01u05
-      - x01u05
-      - x01u06
-      - x01u06
-      - x01u06
-      - x01u06
   nodes:
     - id: 1
       name: p01s01
     - id: 2
-      name: p02s01
-    - id: 3
-      name: p03s01
-    - id: 4
-      name: p04s01
-    - id: 5
-      name: p05s01
-    - id: 6
-      name: p06s01
-    - id: 7
-      name: p07s01
-    - id: 8
-      name: p08s01
-    - id: 9
-      name: p09s01
-    - id: 10
-      name: p10s01
-    - id: 11
-      name: p11s01
-    - id: 12
-      name: p12s01
-    - id: 13
-      name: p13s01
-    - id: 14
-      name: p14s01
-    - id: 15
-      name: p15s01
-    - id: 16
-      name: p16s01
+      name: p01s02

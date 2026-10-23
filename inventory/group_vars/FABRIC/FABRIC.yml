@@ -1,6 +1,10 @@
 ---
 
 fabric_name: FABRIC
+dc_name: dc1
+
+generate_cv_tags:
+  topology_hints: true
 
 node_type_keys:
   - key: spine
@@ -11,6 +15,7 @@ node_type_keys:
     type: l3leaf
     connected_endpoints: true
     default_evpn_role: client
+    cv_tags_topology_type: leaf
     default_ptp_priority1: 30
     mlag_support: true
     network_services:
@@ -18,19 +23,9 @@ node_type_keys:
       l3: true
     vtep: true
 
-  #  - key: border_leaf
-  #    type: border-leaf
-  #    connected_endpoints: true
-  #    default_evpn_role: client
-  #    default_ptp_priority1: 30
-  #    mlag_support: true
-  #    network_services:
-  #      l2: true
-  #      l3: true
-  #    vtep: true
-
   - key: super_spine
     type: super-spine
+    default_evpn_role: none
 
   - key: overlay_controller
     type: overlay-controller
@@ -42,8 +37,7 @@ default_interfaces:
     platforms:
       - vEOS-lab
     uplink_interfaces:
-      - Ethernet1-4/1
-
+      - Ethernet1-6/1
   - types:
       - super-spine
     platforms:
@@ -63,67 +57,68 @@ default_interfaces:
   - types:
       - l3leaf
     platforms:
-      - vEOS-lab
+      - 7050DX4
     uplink_interfaces:
-      - Ethernet1-4/1
+      - Ethernet31-32/1
     mlag_interfaces:
-      - Ethernet5-6/1
+      - Ethernet29-30/1
     downlink_interfaces:
-      - Ethernet7-32/1
+      - Ethernet1-27/1
 
-local_users:
-  - name: admin
-    privilege: 15
-    role: network-admin
-    sha512_password: "$6$hpdQay6BcrZvWaw5$wBAFmW/kOk8NAArSekZd1b5G3LafQIVAiOoT22HmatoqEBuaYv8Qp5sBv7S0/P1B.ZDUBc8vebNu0sY1hNEES0"
-  - name: cvpadmin
-    privilege: 15
-    role: network-admin
-    sha512_password: "$6$sutaqJ4NpqFd6ee/$X9rBKN.SvANxvJleABn/dDkhGlzP3RHVXzolncWJmxPoGJeaGOn4hA2hWkoYNPVS7kVXJF2RTJgbnG/w7KAMM/"
-  - name: arista
-    privilege: 15
-    role: network-admin
-    sha512_password: "$6$ZGX/X07MoiWP9hvX$3UaAtOAiBGc54DYHdQt5dsr5P2HLydxjrda51Zw69tSsF4tahXPVj26PwOiZUy/xFRZL3CAkT7.lsOPqWfIbU0"
-  - name: demo57
-    privilege: 15
-    role: network-admin
-    no_password: true
+aaa_settings:
+  local_users:
+    - name: admin
+      privilege: 15
+      role: network-admin
+      sha512_password: "$6$hpdQay6BcrZvWaw5$wBAFmW/kOk8NAArSekZd1b5G3LafQIVAiOoT22HmatoqEBuaYv8Qp5sBv7S0/P1B.ZDUBc8vebNu0sY1hNEES0"
+    - name: cvpadmin
+      privilege: 15
+      role: network-admin
+      sha512_password: "$6$sutaqJ4NpqFd6ee/$X9rBKN.SvANxvJleABn/dDkhGlzP3RHVXzolncWJmxPoGJeaGOn4hA2hWkoYNPVS7kVXJF2RTJgbnG/w7KAMM/"
 
 mgmt_interface: Management1
 mgmt_interface_description: mgmt-interface
 mgmt_interface_vrf: MGMT
-mgmt_gateway: 100.64.0.6
+
+management_eapi:
+  enabled: true
+  enable_http: true
+  enable_https: true
+  # vrfs:
+  #  - name: MGMT
+  #    enabled: true
 
 p2p_uplinks_mtu: "{{ lookup('ansible.builtin.env', 'MAX_SUPPORTED_MTU', default=9214) }}"
 
-# Cloud Vision server information
-cvp_token_file: "{{ lookup('ansible.builtin.env', 'TELEMETRY_TOKEN_PATH', default='/tmp/token') }}"
-cvp_instance_ips: "{{ lookup('ansible.builtin.env', 'TELEMETRY_SERVERS') | split(',') }}"
+cv_settings:
+  onprem_clusters:
+    - name: cv
+      servers: "{{ lookup('ansible.builtin.env', 'TELEMETRY_SERVERS') | split(',') | map('community.general.dict_kv', 'name') }}"
+      token_file: "{{ lookup('ansible.builtin.env', 'TELEMETRY_TOKEN_PATH', default='/tmp/token') }}"
 
-name_servers:
-  - 10.255.0.2
-  - 8.8.8.8
+dns_settings:
+  domain: aristanetworks.com
+  servers:
+    - ip_address: 8.8.8.8
+    - ip_address: 10.65.1.110
 
-# FIXME: remove this line
-
-custom_structured_configuration_dns_domain: xl.aristanetworks.com
-
-custom_structured_configuration_prefix: [ custom_structured_configuration_, bgp_overrides_ ]
+custom_structured_configuration_prefix: [custom_structured_configuration_, bgp_overrides_]
 bgp_overrides_router_bgp:
-  as_notation: asdot
+  as_notation: asplain
 
 custom_structured_configuration_interface_defaults:
   ethernet:
-    shutdown: true
-
+    shutdown: false
+  mtu: "{{ lookup('ansible.builtin.env', 'MAX_SUPPORTED_MTU', default=9214) }}"
 
 # NTP Servers IP or DNS name, first NTP server will be preferred, and sourced from Management VRF
 ntp_settings:
   server_vrf: use_mgmt_interface_vrf
   servers:
-    - name: 0.pool.ntp.org
-    - name: 1.pool.ntp.org
-
+    - name: 10.65.6.108
+      iburst: true
+    - name: 10.65.6.120
+      iburst: true
 
 evpn_ebgp_multihop: 8
 
@@ -133,7 +128,7 @@ overlay_routing_protocol: ebgp
 # Optional, enable multicast features
 # underlay_multicast: true
 # evpn_multicast: true
-service_routing_protocols_model: multi-agent
+# service_routing_protocols_model: multi-agent
 
 bgp_peer_groups:
   ipv4_underlay_peers:
@@ -143,10 +138,6 @@ bgp_peer_groups:
   mlag_ipv4_underlay_peer:
     password: "vnEaG8gMeQf3d3cN6PktXQ=="
 
-
-# custom_structured_configuration_eos_cli: |
-#   platform tfa personality arfa
-
 #### Override for vEOS Lab Caveats ####
 
 # Adjust default bfd values
@@ -154,3 +145,63 @@ bfd_multihop:
   interval: 1200
   min_rx: 1200
   multiplier: 3
+
+shutdown_bgp_towards_undeployed_peers: false
+shutdown_interfaces_towards_undeployed_peers: false
+
+platform_settings:
+  - platforms: ["7050DX4", "7060"]
+    reload_delay:
+      mlag: 300
+      non_mlag: 330
+    structured_config:
+      sflow:
+        sample: 2048
+        polling_interval: 30
+        destinations:
+          - destination: 127.0.0.1
+        source_interface: Loopback0
+        run: true
+      queue_monitor_length:
+        enabled: true
+      queue_monitor_streaming:
+        enable: true
+        vrf: MGMT
+    raw_eos_cli: |
+      service unsupported-transceiver Meadowgate_Lab b85d0a8
+      ip hardware fib load-balance distribution dynamic
+      ip hardware fib load-balance distribution dynamic inactivity-threshold 60 microseconds
+      ip hardware fib load-balance distribution dynamic sampling-period 10 microseconds
+      ip hardware fib load-balance distribution dynamic average-traffic-weight 10
+      ip hardware fib load-balance distribution dynamic seed 100
+      ip hardware fib load-balance distribution dynamic flow-set-size 3
+      service unsupported-transceiver Meadowgate_Lab b85d0a8
+      username admin privilege 15 role network-admin secret sha512 $6$9cdTWrsp/CClMCVh$xvhQaNtGc1paGEo2OW9n.n45/0RMR3iKng938j65uSdEf/sLI0CpqEKQViUV0K/U1KDWFJfPlgIsZ9Cv77fbD.
+      username cvpadmin privilege 15 secret sha512 $6$Cpdy2nld0AowmaVa$Nf4jJx0/3BeyDpIqRzRUOxw3aJuDmwPTAsEUnFc/qw/C57CNllV5GVCVYnpcQokWY1MLtWFLnAiBVZB.bcjcp1
+      daemon TerminAttr
+        exec /usr/bin/TerminAttr -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -cvaddr=10.65.8.209:9910,10.65.8.210:9910,10.65.8.211:9910 -cvauth=token,/tmp/token -cvvrf=MGMT -taillogs
+        no shutdown
+  - platforms: ["7060CX2"]
+    reload_delay:
+      mlag: 300
+      non_mlag: 330
+    structured_config:
+      sflow:
+        sample: 2048
+        polling_interval: 30
+        destinations:
+          - destination: 127.0.0.1
+        source_interface: Loopback0
+        run: true
+      queue_monitor_length:
+        enabled: true
+      queue_monitor_streaming:
+        enable: true
+        vrf: MGMT
+    raw_eos_cli: |
+      service unsupported-transceiver Meadowgate_Lab b85d0a8
+      username admin privilege 15 role network-admin secret sha512 $6$9cdTWrsp/CClMCVh$xvhQaNtGc1paGEo2OW9n.n45/0RMR3iKng938j65uSdEf/sLI0CpqEKQViUV0K/U1KDWFJfPlgIsZ9Cv77fbD.
+      username cvpadmin privilege 15 secret sha512 $6$Cpdy2nld0AowmaVa$Nf4jJx0/3BeyDpIqRzRUOxw3aJuDmwPTAsEUnFc/qw/C57CNllV5GVCVYnpcQokWY1MLtWFLnAiBVZB.bcjcp1
+      daemon TerminAttr
+        exec /usr/bin/TerminAttr -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -cvaddr=10.65.8.209:9910,10.65.8.210:9910,10.65.8.211:9910 -cvauth=token,/tmp/token -cvvrf=MGMT -taillogs
+        no shutdown

@@ -1,5 +1,5 @@
-workflow:
-  name: 'self-test'
+---
+include: ".gitlab/common-ci.yml"
 
 check-ci-variables:
   stage: test
@@ -18,30 +18,48 @@ check-ci-variables:
     - scripts/check_ci_variable.sh SSH_USER "Missing CI variable \$SSH_USER, please check README.md"
     - scripts/check_ci_variable.sh SSH_PRIVATE_KEY "Missing CI variable \$SSH_PRIVATE_KEY, please check README.md"
 
-check-hosts-generate-pipeline:
+check-hosts-ssh:
   stage: test
+  extends: .remote_ssh_job
   needs:
     - job: set-runtime-env-image-tag
       optional: true
+    - check-ci-variables
   script:
-    - CLAB_HOSTS_IPS=$(cut -d "," -f2 < $CLAB_HOSTS)
-    - |
-      echo "$CLAB_HOSTS_IPS" | yq -o=yaml '. |= split(" ")' | yq '{"host_ips": .}' > template_data.yml
-    - jinja2 --strict .gitlab/check_host_requirements.yml.jinja2 < template_data.yml >> check-hosts-child-pipeline.yml
-  artifacts:
-    paths:
-      - check-hosts-child-pipeline.yml
+    - cut -d "," -f1 < $CLAB_HOSTS | xargs -I{} scripts/check_ssh_connection.sh $SSH_USER {} 2>&1 | tr -d '\r'
 
-check-hosts:
+check-host-requirements:
   stage: test
+  extends: .remote_ssh_job
   needs:
     - job: set-runtime-env-image-tag
       optional: true
-    - check-hosts-generate-pipeline
-  trigger:
-    include:
-      - artifact: check-hosts-child-pipeline.yml
-        job: check-hosts-generate-pipeline
-    strategy: depend
-  variables:
-    PARENT_PIPELINE_ID: $CI_PIPELINE_ID
+    - check-hosts-ssh
+  script:
+    - cut -d "," -f1 < $CLAB_HOSTS | xargs -I{} scripts/check_required_tools.sh $SSH_USER {} 2>&1 | tr -d '\r'
+
+discover-mtu:
+  stage: test
+  extends: .remote_ssh_job
+  needs:
+    - job: set-runtime-env-image-tag
+      optional: true
+    - check-hosts-ssh
+  script:
+    - CLAB_HOST_NAMES=$(cut -d "," -f1 < $CLAB_HOSTS)
+    - echo "$CLAB_HOST_NAMES" | xargs -I{} scripts/set_maxmtu.sh $SSH_USER {} $CLAB_HOST_INTERFACE 2>&1 | tr -d '\r'
+    - FROM_HOST=$(echo "$CLAB_HOST_NAMES" | head -n 1)
+    - TO_HOSTS=$(echo "$CLAB_HOST_NAMES" | tail -n +2)
+    - MAX_DISCOVERED_MTU=$(ssh -T "$SSH_USER@$FROM_HOST" python - --source-interface $CLAB_HOST_INTERFACE --max-mtu 10000 $TO_HOSTS < scripts/mtu_discovery.py)
+    - echo "Discovered mac MTU between hosts $MAX_DISCOVERED_MTU"
+    - |
+      if [[ "$MAX_MTU_BETWEEN_CLAB_HOSTS" -gt "$MAX_DISCOVERED_MTU" ]]; then
+        echo "MAX_MTU_BETWEEN_CLAB_HOSTS($MAX_MTU_BETWEEN_CLAB_HOSTS) is greater than discovered max MTU between hosts ($MAX_DISCOVERED_MTU)"
+        exit 1
+      fi
+      # DIGITAL_TWIN_MAX_SUPPORTED_MTU + VXLAN_OVERHEAD(50) + ETH_FCS_LEN(4) + VLAN_ETH_HLEN(18)
+      NEEDS_MTU=$(($DIGITAL_TWIN_MAX_SUPPORTED_MTU + 72))
+      if [[ "$NEEDS_MTU" -gt "$MAX_DISCOVERED_MTU" ]]; then
+        echo "DIGITAL_TWIN_MAX_SUPPORTED_MTU + overhead ($NEEDS_MTU) is greated than discovered max MTU between hosts ($MAX_DISCOVERED_MTU)"
+        exit 1
+      fi

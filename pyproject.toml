@@ -9,18 +9,19 @@ packages = []
 name = "clever_jones"
 version = "0.0.0"
 description = "clever_jones"
-authors = [{ name = "Arista Networks", email = "eosplus-dev@arista.com" }]
+authors = [{ name = "Arista Networks" }]
 readme = "README.md"
 dependencies = [
-    "pyavd[ansible]==5.2.2",
-    "pre-commit~=3.8.0",
-    "ansible-lint~=25.1.3 ; platform_system != 'Windows'",
+    "pyavd[ansible]==6.4.0",
+    "pre-commit~=4.2.0",
+    "passlib~=1.7.4",
     ## Project depencencies
-    "anta @ git+https://github.com/dlobato/anta.git@blue",
-    "pyavd-cli~=0.1.4",
-    "doppel-tools @ git+ssh://git@github.com/arista-eosplus/doppel-tools@v0.0.17",
-    "junitparser==3.1.2",
+    "pyavd-cli",
+    "doppel-tools @ git+ssh://git@github.com/arista-eosplus/doppel-tools@v0.0.20",
+    "junitparser~=3.2.0",
+    "natsort~=8.4.0",
     "jinja2-cli~=0.8.2",
+    "certifi",
 ]
 requires-python = ">=3.11"
 
@@ -30,3 +31,5 @@ dev = ["pip-tools"]
 [tool.pip-tools.compile]
 emit-find-links = false
 strip-extras = true
+emit-index-url = false
+header = false

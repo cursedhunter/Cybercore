@@ -11,10 +11,11 @@ exclude_paths:
 mock_roles:
   - arista.avd.eos_designs
   - arista.avd.eos_cli_config_gen
-  - arista.avd.cvp_configlet_upload
-  - arista.avd.eos_config_deploy_cvp
-  - arista.avd.eos_validate_state
   - arista.avd.cv_deploy
+  - arista.avd.anta_runner
+
+mock_modules:
+  - arista.avd.cv_workflow
 
 skip_list:
   - yaml[line-length]

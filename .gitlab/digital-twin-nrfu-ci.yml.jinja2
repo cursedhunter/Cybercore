@@ -1,0 +1,49 @@
+include: '.gitlab/common-ci.yml'
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "parent_pipeline"
+
+default:
+  image: ${RUNTIME_ENV_IMAGE}
+
+{% for host in host_mapping %}
+destroy-and-deploy-{{ host }}:
+  extends: .remote_ssh_job
+  script:
+    - if [[ -z ${SKIP_DOCKER_LOGIN+x} ]]; then scripts/docker_login.sh $SSH_USER {{ host }} $CI_JOB_TOKEN $CI_REGISTRY $CI_REGISTRY_USER; fi
+    - scripts/add_clab_hosts.sh $SSH_USER {{ host }} mclab-$CI_COMMIT_SHA/clab_hosts.csv 2>&1 | tr -d '\r'
+    - scripts/destroy.sh $SSH_USER {{ host }} 2>&1 | tr -d '\r'
+    - scripts/deploy.sh $SSH_USER {{ host }} mclab-$CI_COMMIT_SHA/{{ host }}.clab.yml $MAX_MTU_BETWEEN_CLAB_HOSTS $DIGITAL_TWIN_MAX_SUPPORTED_MTU $CLAB_HOST_INTERFACE 2> deploy.{{ host }}.log | tr -d '\r'
+  artifacts:
+    when: always
+    paths:
+      - deploy.{{ host }}.log
+{% endfor %}
+
+nrfu:
+  needs: # needs refer to jobs in digital-twin-nrfu-ci.yml
+    {% for host in host_mapping -%}
+    - job: destroy-and-deploy-{{ host }}
+      artifacts: false
+    {% endfor %}
+    - pipeline: $PARENT_PIPELINE_ID
+      job: build-fabric-digital-twin
+    - pipeline: $PARENT_PIPELINE_ID
+      job: generate-clab-topology
+  before_script:
+    - python scripts/generate_etc_hosts_digital_twin.py --clab-hosts $CLAB_HOSTS --host-mapping host_mapping.yml >> /etc/hosts
+  script:
+    - ansible-playbook playbooks/anta_runner_digital_twin.yml -i ${INVENTORY_PATH}/inventory.yml || NRFU_STATUS=$?
+    - python scripts/anta_json_report_to_junit.py -i ${INVENTORY_PATH}/anta/reports/anta_report.json -o nrfu.junit.xml --fail-if-empty
+    - exit $NRFU_STATUS
+  artifacts:
+    when: always
+    paths:
+      - ${INVENTORY_PATH}/anta/reports
+      - ${INVENTORY_PATH}/anta/logs
+      - nrfu.junit.xml
+    reports:
+      junit: nrfu.junit.xml
+  when: delayed
+  start_in: {{ nrfu_start_in_min }} minutes

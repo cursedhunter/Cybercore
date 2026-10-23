@@ -1,65 +1,61 @@
-include: '.gitlab/common-ci.yml'
-
-workflow:
-  name: 'deployment'
+---
+include: ".gitlab/common-ci.yml"
 
 pre-commit:
   stage: lint
-  extends: .deployment_job
   script:
     - pre-commit run --all-files --show-diff-on-failure
 
 build-fabric:
   stage: build
-  extends: [.build-fabric, .deployment_job]
+  extends: .build-fabric
   variables:
     TELEMETRY_SERVERS: $TELEMETRY_PRODUCTION_SERVERS
 
-generate-anta-inventory:
-  stage: build
-  extends: .deployment_job
-  needs:
-    - job: set-runtime-env-image-tag
-      optional: true
-    - build-fabric
-  script:
-    - generate-anta-inventory -i $INVENTORY_PATH/inventory.yml -v
-  artifacts:
-    paths:
-      - anta
-
-generate-anta-test-catalogs:
-  stage: build
-  extends: .deployment_job
-  needs:
-    - job: set-runtime-env-image-tag
-      optional: true
-    - build-fabric
-  script:
-    - ansible-playbook playbooks/validate_state.yml -f $(nproc) --check -i $INVENTORY_PATH/inventory.yml
-  artifacts:
-    paths:
-      - $INVENTORY_PATH/intended/test_catalogs
-
-cvp-deploy:
+cv-deploy:
   stage: deploy
-  extends: .deployment_job
   needs:
     - job: set-runtime-env-image-tag
       optional: true
     - build-fabric
   environment:
-    name: cvp
+    name: cloudvision
   script:
+    - |
+      if echo "$CI_COMMIT_MESSAGE" | grep "\[execute-change-now\]"; then
+        export RUN_CHANGE_CONTROL=true
+      fi
     - ansible-playbook -v -i $INVENTORY_PATH/inventory.yml playbooks/cv_deploy.yml
   variables:
-    WORKSPACE_NAME: deployment-$CI_COMMIT_SHORT_SHA-$CI_JOB_ID
-  rules:
-    - when: manual
+    WORKSPACE_NAME: deployment-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA
+    WORKSPACE_DESCRIPTION: "Changes authored by $CI_COMMIT_AUTHOR in commit $COMMIT_URL"
+    CHANGE_CONTROL_DESCRIPTION: "Changes authored by $CI_COMMIT_AUTHOR in commit $COMMIT_URL"
+    COMMIT_URL: "$CI_PROJECT_URL/-/commits/$CI_COMMIT_SHORT_SHA"
 
 post-deployment-nrfu:
   stage: .post
-  extends: .deployment_job
-  when: manual
+  needs:
+    - job: set-runtime-env-image-tag
+      optional: true
+    - build-fabric
+    - cv-deploy
+  before_script:
+    - |
+      if [[ -f ${PRODUCTION_ETC_HOSTS} ]]; then
+        cat ${PRODUCTION_ETC_HOSTS} >> /etc/hosts
+      else
+        get-management-ip-addresses -i ${INVENTORY_PATH}/inventory.yml >> /etc/hosts
+      fi
   script:
-    - echo "NRFU on production network"
+    - ansible-playbook playbooks/anta_runner.yml -i ${INVENTORY_PATH}/inventory.yml || NRFU_STATUS=$?
+    - python scripts/anta_json_report_to_junit.py -i ${INVENTORY_PATH}/anta/reports/anta_report.json -o nrfu.junit.xml --fail-if-empty
+    - exit $NRFU_STATUS
+  artifacts:
+    when: always
+    paths:
+      - ${INVENTORY_PATH}/anta/reports
+      - ${INVENTORY_PATH}/anta/logs
+      - nrfu.junit.xml
+    reports:
+      junit: nrfu.junit.xml
+  when: manual

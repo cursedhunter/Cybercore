@@ -1,6 +1,4 @@
-workflow:
-  name: 'scan-image'
-
+---
 include:
   - template: Jobs/Container-Scanning.gitlab-ci.yml
 
