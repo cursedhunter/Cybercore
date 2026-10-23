@@ -10,7 +10,7 @@
       arista.avd.cv_workflow:
         cv_servers: "{{ lookup('ansible.builtin.env', 'CV_DEPLOY_SERVER', default=Undefined) }}"
         cv_token: "{{ lookup('ansible.builtin.env', 'CV_DEPLOY_TOKEN', default=Undefined) }}"
-        cv_verify_certs: "{{ lookup('ansible.builtin.env', 'CV_VERIFY_CERTS', default=true) | bool }}"
+        cv_verify_certs: "{{ lookup('ansible.builtin.env', 'CV_VERIFY_CERTS', default=false) | bool }}"
 
         configuration_dir: "{{ inventory_dir }}/intended/configs"
         structured_config_dir: "{{ inventory_dir }}/intended/structured_configs"

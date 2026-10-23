@@ -10,7 +10,7 @@
       vars:
         cv_server: "{{ lookup('ansible.builtin.env', 'CV_DEPLOY_SERVER', default=lookup('ansible.builtin.env', 'TELEMETRY_PRODUCTION_SERVERS') | split(',') | first) }}"
         cv_token: "{{ lookup('ansible.builtin.env', 'CV_DEPLOY_TOKEN') }}"
-        cv_verify_certs: "{{ lookup('ansible.builtin.env', 'CV_VERIFY_CERTS', default=true) | bool }}"
+        cv_verify_certs: "{{ lookup('ansible.builtin.env', 'CV_VERIFY_CERTS', default=false) | bool }}"
         cv_submit_workspace: "{{ lookup('ansible.builtin.env', 'SUBMIT_WORKSPACE', default=true) | bool }}"
         cv_run_change_control: "{{ lookup('ansible.builtin.env', 'RUN_CHANGE_CONTROL', default=false) | bool }}"
         cv_workspace_name: "{{ lookup('ansible.builtin.env', 'WORKSPACE_NAME') }}"
