@@ -300,6 +300,8 @@ network_ports:
   - switches:
       - p01l03
     switch_ports:
+      - Ethernet5/1-4
+      - Ethernet6/1-4
       - Ethernet7/1-4
       - Ethernet8/1-4
     profile: zfs-access
