@@ -48,6 +48,87 @@ l3leaf: # dynamic_key: node_type
           uplink_switch_interfaces:
             - Ethernet1/1
             - Ethernet1/1
+          structured_config:
+            ethernet_interfaces:
+              - name: Ethernet1/1
+                error_correction_encoding:
+                  reed_solomon: true
+              - name: Ethernet1/3
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet1/5
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet1/7
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet2/1
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet2/3
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet2/5
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet2/7
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet3/1
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet3/3
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet3/5
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet3/7
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet4/1
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet4/3
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet4/5
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet4/7
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet5/1
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet5/3
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet5/5
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet5/7
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
         - id: 2
           name: p01l01b
           uplink_switch_interfaces:
@@ -60,6 +141,78 @@ l3leaf: # dynamic_key: node_type
                   enabled: true
                   reed_solomon: true
               - name: Ethernet1/3
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet1/5
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet1/7
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet2/1
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet2/3
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet2/5
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet2/7
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet3/1
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet3/3
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet3/5
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet3/7
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet4/1
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet4/3
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet4/5
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet4/7
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet5/1
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet5/3
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet5/5
+                error_correction_encoding:
+                  enabled: true
+                  reed_solomon: true
+              - name: Ethernet5/7
                 error_correction_encoding:
                   enabled: true
                   reed_solomon: true
