@@ -44,3 +44,6 @@ all:
       children:
         MGMT_POD1_LEAFS:
         POD1_LEAFS:
+    CONNECTED_ENDPOINTS:
+      children:
+        POD1_LEAFS:
