@@ -189,14 +189,8 @@ network_ports:
       - p01l01a
       - p01l01b
     switch_ports:
-      - Ethernet7/1
-      - Ethernet7/2
-      - Ethernet7/3
-      - Ethernet7/4
-      - Ethernet9/1
-      - Ethernet9/2
-      - Ethernet9/3
-      - Ethernet9/4
+      - Ethernet7/1-4
+      - Ethernet9/1-4
     profile: vsan-node-trunk
     description: "VSAN"
   - switches:
@@ -243,10 +237,7 @@ network_ports:
   - switches:
       - p01l03
     switch_ports:
-      - Ethernet27/1
-      - Ethernet27/2
-      - Ethernet27/3
-      - Ethernet27/4
+      - Ethernet27/1-4
     profile: dell-mgmt-leaf
     description: "Dell mleaf"
   - switches:
@@ -261,22 +252,10 @@ network_ports:
   - switches:
       - p01l03
     switch_ports:
-      - Ethernet5/1
-      - Ethernet5/2
-      - Ethernet5/3
-      - Ethernet5/4
-      - Ethernet6/1
-      - Ethernet6/2
-      - Ethernet6/3
-      - Ethernet6/4
-      - Ethernet7/1
-      - Ethernet7/2
-      - Ethernet7/3
-      - Ethernet7/4
-      - Ethernet8/1
-      - Ethernet8/2
-      - Ethernet8/3
-      - Ethernet8/4
+      - Ethernet5/1-4
+      - Ethernet6/1-4
+      - Ethernet7/1-4
+      - Ethernet8/1-4
     profile: zfs-access
     description: "ZFS 10G"
   - switches:
@@ -292,11 +271,12 @@ network_ports:
     description: Splunk
   - switches:
       - p01l04
+      - p01l04
+      - p01l04
+      - p01l04
     switch_ports:
       - Ethernet28/1-4
     profile: dell-mgmt-leaf
-    port_channel:
-      mode: active
     description: "Dell mleaf"
   - switches: [d(1|4)(1|2)p(1|2|3|4)l12(a|b)]
     switch_ports: [Ethernet1-8/1]
