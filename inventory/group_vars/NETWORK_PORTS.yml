@@ -295,6 +295,8 @@ network_ports:
     switch_ports:
       - Ethernet28/1-4
     profile: dell-mgmt-leaf
+    port_channel:
+      mode: active
     description: "Dell mleaf"
   - switches: [d(1|4)(1|2)p(1|2|3|4)l12(a|b)]
     switch_ports: [Ethernet1-8/1]
