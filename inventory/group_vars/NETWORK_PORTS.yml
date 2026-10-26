@@ -180,7 +180,7 @@ port_profiles:
       lacp_fallback:
         mode: "individual"
         individual:
-          profile: dell-mgmt-leaf
+          profile: dell-mgmt-leaf-rack5
     validate_state: false
     validate_lldp: false
 
