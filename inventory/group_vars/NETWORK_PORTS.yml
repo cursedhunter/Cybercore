@@ -202,7 +202,7 @@ port_profiles:
 
 network_ports:
   - switches:
-      - p01l01a
+      # - p01l01a
       - p01l01b
     switch_ports:
       - Ethernet1/1
@@ -320,9 +320,15 @@ network_ports:
   - switches:
       - p01l04
     switch_ports:
-      - Ethernet28/1-4
+      - Ethernet28/1
     profile: dell-mgmt-leaf
     description: "Dell mleaf"
+  - switches:
+      - p01l04
+    switch_ports:
+      - Ethernet28/2-4
+    profile: unused
+    description: "Dell mleaf shutdown"
   - switches: [d(1|4)(1|2)p(1|2|3|4)l12(a|b)]
     switch_ports: [Ethernet1-8/1]
     profile: unused
