@@ -227,6 +227,8 @@ network_ports:
       - Ethernet1/3
       - Ethernet1/5
       - Ethernet1/7
+    profile: codeword-svi-lacp
+    description: HPE EDS
   - switches:
       - p01l01a
       - p01l01b
@@ -236,7 +238,7 @@ network_ports:
       - Ethernet3/5
       - Ethernet3/7
     profile: codeword-svi-lacp
-    description: "HPE EDS"
+    description: PVE's
   - switches:
       - p01l01a
     switch_ports:
