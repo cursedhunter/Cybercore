@@ -247,7 +247,7 @@ network_ports:
     profile: codeword-svi-lacp
     description: "HPE EDS NIC 1"
   - switches:
-      # - p01l01a
+      - p01l01a
       - p01l01b
     switch_ports:
       - Ethernet2/1
