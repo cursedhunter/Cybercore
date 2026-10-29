@@ -324,9 +324,15 @@ network_ports:
   - switches:
       - p01l03
     switch_ports:
-      - Ethernet27/1-4
+      - Ethernet27/1
     profile: dell-mgmt-leaf
     description: "Dell mleaf"
+  - switches:
+      - p01l03
+    switch_ports:
+      - Ethernet27/2-4
+    profile: unused
+    description: "Dell mleaf unused"
   - switches:
       - p01l03
     switch_ports:
