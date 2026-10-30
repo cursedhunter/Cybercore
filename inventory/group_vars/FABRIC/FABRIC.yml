@@ -85,8 +85,8 @@ management_eapi:
   enable_http: true
   enable_https: true
   vrfs:
-   - name: MGMT
-     enabled: true
+    - name: MGMT
+      enabled: true
 
 p2p_uplinks_mtu: "{{ lookup('ansible.builtin.env', 'MAX_SUPPORTED_MTU', default=9214) }}"
 
