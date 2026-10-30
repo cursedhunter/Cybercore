@@ -277,7 +277,6 @@ network_ports:
       - p01l01b
     switch_ports:
       - Ethernet7/1-4
-      - Ethernet9/1-4
     profile: vsan-node-trunk
     description: "VSAN"
   - switches:
@@ -288,10 +287,6 @@ network_ports:
       - Ethernet8/3
       - Ethernet8/5
       - Ethernet8/7
-      - Ethernet10/1
-      - Ethernet10/3
-      - Ethernet10/5
-      - Ethernet10/7
     profile: esxi-node-trunk
     description: "esxi"
   - switches:
