@@ -118,8 +118,23 @@ port_profiles:
     validate_state: false
     validate_lldp: false
 
-  - profile: proxmox-node-trunk
+  - profile: proxmox-node-trunk-100g-4
     speed: "auto 100g-4"
+    enabled: true
+    mode: trunk
+    mtu: 9100
+    native_vlan: 67
+    vlans: 15,67,100,102
+    spanning_tree_portfast: edge
+    spanning_tree_bpdufilter: enabled
+    spanning_tree_bpduguard: enabled
+    flowcontrol:
+      received: "on"
+    validate_state: false
+    validate_lldp: false
+
+  - profile: proxmox-node-trunk-100g
+    speed: "100g"
     enabled: true
     mode: trunk
     mtu: 9100
@@ -291,6 +306,18 @@ network_ports:
     description: "esxi"
   - switches:
       - p01l01a
+    switch_ports:
+      - Ethernet17/1
+      - Ethernet18/1
+      - Ethernet19/1
+      - Ethernet20/1
+      - Ethernet21/1
+      - Ethernet22/1
+      - Ethernet23/1
+      - Ethernet24/1
+    profile: proxmox-node-trunk-100g-4
+    description: "proxmox"
+  - switches:
       - p01l01b
     switch_ports:
       - Ethernet17/1
@@ -301,7 +328,7 @@ network_ports:
       - Ethernet22/1
       - Ethernet23/1
       - Ethernet24/1
-    profile: proxmox-node-trunk
+    profile: proxmox-node-trunk-100g
     description: "proxmox"
   - switches:
       - mp01l01
