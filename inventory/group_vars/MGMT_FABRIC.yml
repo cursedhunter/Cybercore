@@ -53,5 +53,5 @@ custom_platform_settings:
     raw_eos_cli: |
       service unsupported-transceiver Meadowgate_Lab b85d0a8
       daemon TerminAttr
-        exec /usr/bin/TerminAttr -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -cvaddr=10.65.8.209:9910,10.65.8.210:9910,10.65.8.211:9910 -cvauth=token,/tmp/token -cvvrf=IP_FABRIC -cvsourceintf=Vlan10 -taillogs
+        exec /usr/bin/TerminAttr -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -cvaddr=10.65.1.243:9910,10.65.1.244:9910,10.65.1.245:9910 -cvauth=token,/tmp/token -cvvrf=IP_FABRIC -cvsourceintf=Vlan10 -taillogs
         no shutdown
