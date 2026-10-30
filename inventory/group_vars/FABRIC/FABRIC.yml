@@ -84,9 +84,9 @@ management_eapi:
   enabled: true
   enable_http: true
   enable_https: true
-  # vrfs:
-  #  - name: MGMT
-  #    enabled: true
+  vrfs:
+   - name: MGMT
+     enabled: true
 
 p2p_uplinks_mtu: "{{ lookup('ansible.builtin.env', 'MAX_SUPPORTED_MTU', default=9214) }}"
 
@@ -97,7 +97,7 @@ cv_settings:
       token_file: "{{ lookup('ansible.builtin.env', 'TELEMETRY_TOKEN_PATH', default='/tmp/token') }}"
 
 dns_settings:
-  domain: aristanetworks.com
+  domain: lab.graingerdock4.com
   servers:
     - ip_address: 8.8.8.8
     - ip_address: 10.65.1.110
