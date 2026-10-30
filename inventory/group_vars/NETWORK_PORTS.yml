@@ -235,7 +235,7 @@ port_profiles:
     enabled: true
     mode: trunk
     mtu: 9100
-    native_vlans 100
+    native_vlan: 100
     vlans: 15,67,100
     spanning_tree_portfast: edge
     spanning_tree_bpdufilter: enabled
