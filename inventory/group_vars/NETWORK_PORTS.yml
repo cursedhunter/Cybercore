@@ -211,9 +211,12 @@ port_profiles:
   - profile: codeword-svi-lacp
     speed: "100g-2"
     enabled: true
-    mode: access
+    # mode: access
+    # mtu: 9100
+    # vlans: 100
+    mode: trunk
     mtu: 9100
-    vlans: 100
+    vlans: 15,67,100
     spanning_tree_portfast: edge
     spanning_tree_bpdufilter: enabled
     spanning_tree_bpduguard: enabled
