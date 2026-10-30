@@ -1,4 +1,4 @@
-# clever_jones
+# Cybercore
 
 ## Quick start
 
