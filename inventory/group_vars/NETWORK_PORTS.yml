@@ -302,7 +302,7 @@ network_ports:
       - Ethernet3/3
       - Ethernet3/5
       - Ethernet3/7
-    profile: codeword-svi-lacp
+    profile: pve-svi-lacp
     description: PVE's
   - switches:
       - p01l01a
