@@ -230,6 +230,29 @@ port_profiles:
     validate_state: false
     validate_lldp: false
 
+  - profile: pve-svi-lacp
+    speed: "100g-2"
+    enabled: true
+    mode: trunk
+    mtu: 9100
+    native_vlan: 100
+    vlans: 15,67,100
+    spanning_tree_portfast: edge
+    spanning_tree_bpdufilter: enabled
+    spanning_tree_bpduguard: enabled
+    raw_eos_cli: |
+      phy link training
+    flowcontrol:
+      received: "on"
+    port_channel:
+      mode: active
+      lacp_fallback:
+        mode: "individual"
+        individual:
+          profile: pve-svi-lacp
+    validate_state: false
+    validate_lldp: false
+
 network_ports:
   - switches:
       - p01l01a
@@ -279,7 +302,7 @@ network_ports:
       - Ethernet3/3
       - Ethernet3/5
       - Ethernet3/7
-    profile: codeword-svi-lacp
+    profile: pve-svi-lacp
     description: PVE's
   - switches:
       - p01l01a
