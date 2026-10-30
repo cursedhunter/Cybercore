@@ -70,11 +70,11 @@ aaa_settings:
     - name: admin
       privilege: 15
       role: network-admin
-      sha512_password: "$6$hpdQay6BcrZvWaw5$wBAFmW/kOk8NAArSekZd1b5G3LafQIVAiOoT22HmatoqEBuaYv8Qp5sBv7S0/P1B.ZDUBc8vebNu0sY1hNEES0"
+      sha512_password: "$6$37IFaF.OwMryVaHN$jhP4nbvc9EQcFxsmUsLoNvoxs3Bo5ZAjCPt2zuLbJ0OWH4ovtOA/oUCr8SOurRZzOGY5RD37ZNgTqzyaKGEdo/"
     - name: cvpadmin
       privilege: 15
       role: network-admin
-      sha512_password: "$6$sutaqJ4NpqFd6ee/$X9rBKN.SvANxvJleABn/dDkhGlzP3RHVXzolncWJmxPoGJeaGOn4hA2hWkoYNPVS7kVXJF2RTJgbnG/w7KAMM/"
+      sha512_password: "$6$YjSaCDBDfksJhHe/$uEDYNNzuQHWcliy/HUFha/tANrAgGl5pLJs3MMqPlJrLfWaD4368NOpbcpH5or/TEGn32byx0hZUl6yEiX26R/"
 
 mgmt_interface: Management1
 mgmt_interface_description: mgmt-interface
