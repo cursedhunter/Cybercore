@@ -108,7 +108,7 @@ bgp_overrides_router_bgp:
 
 custom_structured_configuration_interface_defaults:
   ethernet:
-    shutdown: false
+    shutdown: true
   mtu: "{{ lookup('ansible.builtin.env', 'MAX_SUPPORTED_MTU', default=9214) }}"
 
 # NTP Servers IP or DNS name, first NTP server will be preferred, and sourced from Management VRF
