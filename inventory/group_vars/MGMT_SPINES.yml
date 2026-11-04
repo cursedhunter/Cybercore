@@ -1,2 +1,7 @@
 ---
 type: spine
+
+# For spines/supers
+qos_profiles:
+  - name: PF_SPINE_POLICY # for spines
+    trust: "dscp"
