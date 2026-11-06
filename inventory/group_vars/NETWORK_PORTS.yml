@@ -227,7 +227,7 @@ port_profiles:
         mode: "individual"
         individual:
           profile: codeword-svi-lacp
-      qos_profile: PF_PM_CLASSIFY
+    qos_profile: PF_PM_CLASSIFY
     validate_state: false
     validate_lldp: false
 
