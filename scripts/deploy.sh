@@ -7,7 +7,7 @@
 set -euox pipefail
 
 usage() {
-  echo "Usage: $0 <ssh-user> <ssh-host> <topology-path> <max-mtu-between-hosts> <digital-twin-max-mtu> [<interface>, default=ens192]"
+  echo "Usage: $0 <ssh-user> <ssh-host> <topology-path> <max-mtu-between-hosts> <digital-twin-max-mtu> [<interface>, default=ens18]"
   exit 1
 }
 
