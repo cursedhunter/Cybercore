@@ -230,7 +230,7 @@ platform_settings:
         traffic-loopback source system device mac
         channel-group recirculation 1
 
-custome_structured_configuration_standard_access_lists:
+custom_structured_configuration_standard_access_lists:
   - name: CP-PROTECT
     counters_per_entry: false
     sequence_numbers:
@@ -241,7 +241,7 @@ custome_structured_configuration_standard_access_lists:
       - sequence: 30
         action: permit 10.70.1.38/32
 
-custome_structured_configuration_ip_access_lists:
+custom_structured_configuration_ip_access_lists:
   # - name: ACL_CONTROL_PLANE
   #   counters_per_entry: false
   #   entries:
