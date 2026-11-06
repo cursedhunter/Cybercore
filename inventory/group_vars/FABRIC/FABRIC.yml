@@ -229,3 +229,82 @@ platform_settings:
         no shutdown
         traffic-loopback source system device mac
         channel-group recirculation 1
+
+custom_structured_configuration_standard_access_lists:
+  - name: CP-PROTECT
+    counters_per_entry: false
+    sequence_numbers:
+      - sequence: 10
+        action: permit 10.65.0.0/24
+      - sequence: 20
+        action: permit 10.65.1.0/24
+      - sequence: 30
+        action: permit 10.70.1.38/32
+
+custom_structured_configuration_ip_access_lists:
+  # - name: ACL_CONTROL_PLANE
+  #   counters_per_entry: false
+  #   entries:
+  #     - sequence: 10
+  #       # remark "BGP"
+  #       action: "permit"
+  #       protocol: "tcp"
+  #       source: "any"
+  #       destination: "any"
+  #       destination_ports_match: "eq"
+  #       destination_ports: [bgp]
+  - name: ACL_PRODUCTION_TRAFFIC
+    counters_per_entry: false
+    entries:
+      - sequence: 10
+        # remark "Data Traffic"
+        action: "permit"
+        protocol: "ip"
+        source: "10.64.0.0/16"
+        destination: "10.64.0.0/16"
+  - name: ACL_METRICS_TRAFFIC
+    counters_per_entry: false
+    entries:
+      - sequence: 10
+        # remark "C2M2 Traffic"
+        action: "permit"
+        protocol: "ip"
+        source: "10.65.0.0/16"
+        destination: "any"
+
+custom_structured_configuration_class_maps:
+  qos:
+    - name: CM_MATCH_CP
+      ip:
+        access_group: ACL_CONTROL_PLANE
+    - name: CM_MATCH_PRODUCTION
+      ip:
+        access_group: ACL_PRODUCTION_TRAFFIC
+    - name: CM_MATCH_CP
+      ip:
+        access_group: ACL_METRICS_TRAFFIC
+    # - name: CM_MATCH_COPP
+    #   ip:
+    #     access_group: ACL_COPP_MGMT
+
+custom_structured_configuration_policy_maps:
+  qos:
+    - name: PM_CLASSIFY
+      classes:
+        - name: CM_MATCH_CP
+          set:
+            traffic_class: 7
+            dscp: cs6
+        - name: CM_MATCH_PRODUCTION
+          set:
+            traffic_class: 5
+            dscp: af41
+        - name: CM_MATCH_METRICS
+          set:
+            traffic_class: 0
+
+# copp_system_policy:
+#   classes:
+#      - name: MATCH_COPP
+#        shape: 10000
+#        bandwidth: 5000
