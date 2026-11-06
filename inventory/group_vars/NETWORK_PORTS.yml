@@ -304,8 +304,8 @@ network_ports:
     switch_ports:
       - Ethernet1/1
       - Ethernet1/3
-      - Ethernet1/5
-      - Ethernet1/7
+      - Ethernet2/5
+      - Ethernet2/7
     profile: codeword-data-svi-lacp
     description: "HPE EDS NIC 1"
   - switches:
@@ -314,8 +314,8 @@ network_ports:
     switch_ports:
       - Ethernet2/1
       - Ethernet2/3
-      - Ethernet2/5
-      - Ethernet2/7
+      - Ethernet1/5
+      - Ethernet1/7
     profile: codeword-c2m2-svi-lacp
     description: "HPE EDS NIC 2"
   - switches:
