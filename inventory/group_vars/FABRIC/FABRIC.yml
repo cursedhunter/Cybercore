@@ -272,7 +272,7 @@ custom_structured_configuration_ip_access_lists:
         source: "10.65.0.0/16"
         destination: "any"
 
-class_maps:
+custom_structured_configuration_class_maps:
   qos:
     - name: CM_MATCH_CP
       ip:
@@ -286,7 +286,6 @@ class_maps:
     # - name: CM_MATCH_COPP
     #   ip:
     #     access_group: ACL_COPP_MGMT
-
 policy_maps:
   qos:
     - name: PM_CLASSIFY
