@@ -208,7 +208,7 @@ port_profiles:
     validate_state: false
     validate_lldp: false
 
-  - profile: codeword-svi-lacp
+  - profile: codeword-data-svi-lacp
     speed: "100g-2"
     enabled: true
     mode: access
@@ -226,8 +226,31 @@ port_profiles:
       lacp_fallback:
         mode: "individual"
         individual:
-          profile: codeword-svi-lacp
-    qos_profile: PF_PM_CLASSIFY
+          profile: codeword-data-svi-lacp
+    # qos_profile: PF_PM_CLASSIFY
+    validate_state: false
+    validate_lldp: false
+
+  - profile: codeword-c2m2-svi-lacp
+    speed: "100g-2"
+    enabled: true
+    mode: access
+    mtu: 9100
+    vlans: 67
+    spanning_tree_portfast: edge
+    spanning_tree_bpdufilter: enabled
+    spanning_tree_bpduguard: enabled
+    raw_eos_cli: |
+      phy link training
+    flowcontrol:
+      received: "on"
+    port_channel:
+      mode: active
+      lacp_fallback:
+        mode: "individual"
+        individual:
+          profile: codeword-c2m2-svi-lacp
+    # qos_profile: PF_PM_CLASSIFY
     validate_state: false
     validate_lldp: false
 
@@ -263,7 +286,7 @@ network_ports:
       - Ethernet4/3
       - Ethernet4/5
       - Ethernet4/7
-    profile: codeword-svi-lacp
+    profile: codeword-data-svi-lacp
     description: "DELL EDS NIC 1"
   - switches:
       - p01l01a
@@ -273,7 +296,7 @@ network_ports:
       - Ethernet5/3
       - Ethernet5/5
       - Ethernet5/7
-    profile: codeword-svi-lacp
+    profile: codeword-c2m2-svi-lacp
     description: "DELL EDS NIC 2"
   - switches:
       - p01l01a
@@ -283,7 +306,7 @@ network_ports:
       - Ethernet1/3
       - Ethernet1/5
       - Ethernet1/7
-    profile: codeword-svi-lacp
+    profile: codeword-data-svi-lacp
     description: "HPE EDS NIC 1"
   - switches:
       - p01l01a
@@ -293,7 +316,7 @@ network_ports:
       - Ethernet2/3
       - Ethernet2/5
       - Ethernet2/7
-    profile: codeword-svi-lacp
+    profile: codeword-c2m2-svi-lacp
     description: "HPE EDS NIC 2"
   - switches:
       - p01l01a
