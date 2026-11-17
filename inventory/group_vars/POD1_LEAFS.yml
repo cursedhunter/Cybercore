@@ -13,9 +13,9 @@ l3leaf: # dynamic_key: node_type
     spanning_tree_mode: mstp
     spanning_tree_priority: 16384
     uplink_ipv4_pool: "{{ hsn_pod1_leaf_uplink_ipv4_pool }}" # 10.0.101.0/23
-    uplink_switches:
-      - p01s01
-      - p01s02
+    # uplink_switches:
+    #  - p01s01
+    #  - p01s02
     virtual_router_mac_address: 00:1c:73:00:dc:01
     vtep_loopback_ipv4_pool: "{{ hsn_pod1_leaf_vtep_loopback_ipv4_pool }}" # 10.0.102.0/24
   node_groups:
@@ -34,9 +34,18 @@ l3leaf: # dynamic_key: node_type
         - id: 1
           name: p01l01a
           # add default route to firewall redistribute in vrf..
+          uplink_switches:
+            - p01s01
+            - p01s01
+            - p01s02
           uplink_switch_interfaces:
+            - Ethernet5/1
             - Ethernet1/1
             - Ethernet1/1
+          uplink_interfaces:
+            - Ethernet27/1
+            - Ethernet31/1
+            - Ethernet32/1
           structured_config:
             static_routes:
               - vrf: IP_FABRIC
@@ -108,11 +117,22 @@ l3leaf: # dynamic_key: node_type
               - name: Ethernet5/7
                 error_correction_encoding:
                   reed_solomon: true
+              - name: Ethernet27/1
+                speed: 100g-4
         - id: 2
           name: p01l01b
+          uplink_switches:
+            - p01s01
+            - p01s02
+            - p01s02
           uplink_switch_interfaces:
+            - Ethernet6/1
             - Ethernet2/1
-            - Ethernet2/1
+            - Ethernet7/1
+          uplink_interfaces:
+            - Ethernet27/1
+            - Ethernet31/1
+            - Ethernet32/1
           structured_config:
             ethernet_interfaces:
               - name: Ethernet1/1
@@ -175,6 +195,8 @@ l3leaf: # dynamic_key: node_type
               - name: Ethernet5/7
                 error_correction_encoding:
                   reed_solomon: true
+              - name: Ethernet27/1
+                speed: 100g-4
     - filter:
         tags:
           - OVERLAY_POD1_RACK3
