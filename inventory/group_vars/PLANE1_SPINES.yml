@@ -14,5 +14,11 @@ spine: # dynamic_key: node_type
   nodes:
     - id: 1
       name: p01s01
+      structured_config:
+        ethernet_interfaces:
+          - name: Ethernet5/1
+            speed: 100g-4
+          - name: Ethernet6/1
+            speed: 100g-4
     - id: 2
       name: p01s02
