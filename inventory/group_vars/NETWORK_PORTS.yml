@@ -362,7 +362,7 @@ network_ports:
       - Ethernet22/1
       - Ethernet23/1
       - Ethernet24/1
-    profile: proxmox-node-trunk-100g-4
+    profile: proxmox-node-trunk-100g
     description: "proxmox"
   - switches:
       - p01l01b
