@@ -383,4 +383,3 @@ custom_structured_configuration_qos_profiles:
         comment: "85 percent of 250G for #5 traffic, production"
   - name: PF_FABRIC_QUEUES_7010
     trust: "dscp"
-
