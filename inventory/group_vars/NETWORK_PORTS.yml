@@ -250,7 +250,6 @@ port_profiles:
         mode: "individual"
         individual:
           profile: codeword-c2m2-svi-lacp
-    # qos_profile: PF_PM_CLASSIFY
     validate_state: false
     validate_lldp: false
 
@@ -288,6 +287,7 @@ network_ports:
       - Ethernet4/7
     profile: codeword-data-svi-lacp
     description: "DELL EDS NIC 1"
+    qos_profile: "PF_PM_CLASSIFY_TD4"
   - switches:
       - p01l01a
       - p01l01b
@@ -298,6 +298,7 @@ network_ports:
       - Ethernet5/7
     profile: codeword-c2m2-svi-lacp
     description: "DELL EDS NIC 2"
+    qos_profile: "PF_PM_CLASSIFY_TD4"
   - switches:
       - p01l01a
       - p01l01b
@@ -310,6 +311,7 @@ network_ports:
       - Ethernet2/5
     profile: codeword-data-svi-lacp
     description: "HPE EDS NIC 1"
+    qos_profile: "PF_PM_CLASSIFY_TD4"
   - switches:
       - p01l01a
       - p01l01b
@@ -318,6 +320,7 @@ network_ports:
       - Ethernet2/7
     profile: codeword-c2m2-svi-lacp
     description: "HPE EDS NIC 2"
+    qos_profile: "PF_PM_CLASSIFY_TD4"
   - switches:
       - p01l01a
       - p01l01b
@@ -328,6 +331,7 @@ network_ports:
       - Ethernet3/7
     profile: pve-svi-lacp
     description: PVE's
+    qos_profile: "PF_PM_CLASSIFY_TD4"
   - switches:
       - p01l01a
     switch_ports:
@@ -341,6 +345,7 @@ network_ports:
       - Ethernet7/1-4
     profile: vsan-node-trunk
     description: "VSAN"
+    qos_profile: "PF_PM_CLASSIFY_TD4"
   - switches:
       - p01l01a
       - p01l01b
@@ -351,6 +356,7 @@ network_ports:
       - Ethernet8/7
     profile: esxi-node-trunk
     description: "esxi"
+    qos_profile: "PF_PM_CLASSIFY_TD4"
   - switches:
       - p01l01a
     switch_ports:
@@ -364,6 +370,7 @@ network_ports:
       - Ethernet24/1
     profile: proxmox-node-trunk-100g
     description: "proxmox"
+    qos_profile: "PF_PM_CLASSIFY_TD4"
   - switches:
       - p01l01b
     switch_ports:
@@ -377,6 +384,7 @@ network_ports:
       - Ethernet24/1
     profile: proxmox-node-trunk-100g
     description: "proxmox"
+    qos_profile: "PF_PM_CLASSIFY_TD4"
   - switches:
       - mp01l01
     switch_ports:
@@ -384,18 +392,21 @@ network_ports:
       - Ethernet11-48
     profile: mgmt-vxlan
     description: "Ilos"
+    qos_profile: "PF_PM_CLASSIFY_7010"
   - switches:
       - mp01l01
     switch_ports:
       - Ethernet10
     profile: c2m2-vxlan-7010
     description: "KVM"
+    qos_profile: "PF_PM_CLASSIFY_7010"
   - switches:
       - p01l03
     switch_ports:
       - Ethernet27/1
     profile: dell-mgmt-leaf
     description: "Dell mleaf"
+    qos_profile: "PF_PM_CLASSIFY_TD2"
   - switches:
       - p01l03
     switch_ports:
@@ -411,6 +422,7 @@ network_ports:
       - Ethernet4/1
     profile: zfs-access
     description: "ZFS 100G"
+    qos_profile: "PF_PM_CLASSIFY_TD2"
   - switches:
       - p01l03
     switch_ports:
@@ -420,6 +432,7 @@ network_ports:
       - Ethernet8/1-4
     profile: zfs-access
     description: "ZFS 10G"
+    qos_profile: "PF_PM_CLASSIFY_TD2"
   - switches:
       - p01l04
     switch_ports:
@@ -431,12 +444,14 @@ network_ports:
       - Ethernet6/1-4
     profile: c2m2-vxlan-single
     description: Splunk
+    qos_profile: "PF_PM_CLASSIFY_TD2"
   - switches:
       - p01l04
     switch_ports:
       - Ethernet28/1
     profile: dell-mgmt-leaf-rack5
     description: "Dell mleaf rack5"
+    qos_profile: "PF_PM_CLASSIFY_TD2"
   - switches:
       - p01l04
     switch_ports:

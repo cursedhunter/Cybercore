@@ -1,6 +1,8 @@
 ---
 l3leaf: # dynamic_key: node_type
   defaults:
+    uplink_ethernet_structured_config:
+      service_profile: "PF_FABRIC_QUEUES_TD4"
     mgmt_ip: "{{ mgmt_ip }}"
     bgp_as: "{{ asn_hsn_pod1_leafs }}" # 651101-651105
     evpn_role: client
@@ -30,6 +32,32 @@ l3leaf: # dynamic_key: node_type
       group: RACK1
       evpn_role: server
       platform: "7050DX4"
+      structured_config:
+        qos_profiles:
+          - name: PF_PM_CLASSIFY_TD4
+            service_policy:
+              type:
+                qos_input: "PM_CLASSIFY"
+            uc_tx_queues:
+              - id: 6
+                priority: "priority strict"
+                shape:
+                  rate: "5 percent"
+              - id: 5
+                bandwidth_percent: 95
+              - id: 0
+                bandwidth_percent: 5
+          - name: PF_FABRIC_QUEUES_TD4
+            trust: "dscp"
+            uc_tx_queues:
+              - id: 6
+                priority: "priority strict"
+                shape:
+                  rate: "5 percent"
+              - id: 5
+                bandwidth_percent: 95
+              - id: 0
+                bandwidth_percent: 5
       nodes:
         - id: 1
           name: p01l01a
@@ -203,9 +231,29 @@ l3leaf: # dynamic_key: node_type
           - OVERLAY_C2M2_VXLAN
       group: RACK3
       platform: "7060CX2"
+      uplink_ethernet_structured_config:
+        service_profile: "PF_FABRIC_QUEUES_TD2"
       evpn_route_servers:
         - p01l01a
         - p01l01b
+      structured_config:
+        qos_profiles:
+          - name: PF_PM_CLASSIFY_TD2
+            service_policy:
+              type:
+                qos_input: "PM_CLASSIFY"
+            tx_queues:
+              - id: 6
+                bandwidth_guaranteed_percent: 5
+              - id: 5
+                bandwidth_guaranteed_percent: 95
+          - name: PF_FABRIC_QUEUES_TD2
+            trust: "dscp"
+            tx_queues:
+              - id: 6
+                bandwidth_guaranteed_percent: 5
+              - id: 5
+                bandwidth_guaranteed_percent: 95
       nodes:
         - id: 3
           name: p01l03
@@ -233,9 +281,29 @@ l3leaf: # dynamic_key: node_type
           - OVERLAY_MGMT_VXLAN
       group: RACK4
       platform: "7060CX2"
+      uplink_ethernet_structured_config:
+        service_profile: "PF_FABRIC_QUEUES_TD2"
       evpn_route_servers:
         - p01l01a
         - p01l01b
+      structured_config:
+        qos_profiles:
+          - name: PF_PM_CLASSIFY_TD2
+            service_policy:
+              type:
+                qos_input: "PM_CLASSIFY"
+            tx_queues:
+              - id: 6
+                bandwidth_guaranteed_percent: 5
+              - id: 5
+                bandwidth_guaranteed_percent: 95
+          - name: PF_FABRIC_QUEUES_TD2
+            trust: "dscp"
+            tx_queues:
+              - id: 6
+                bandwidth_guaranteed_percent: 5
+              - id: 5
+                bandwidth_guaranteed_percent: 95
       nodes:
         - id: 4
           name: p01l04

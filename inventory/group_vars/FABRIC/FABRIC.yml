@@ -149,6 +149,8 @@ bfd_multihop:
 shutdown_bgp_towards_undeployed_peers: true
 shutdown_interfaces_towards_undeployed_peers: true
 
+p2p_uplinks_qos_profile: "PF_FABRIC_QUEUES"
+
 platform_settings:
   - platforms: ["7050DX4"]
     reload_delay:
@@ -315,9 +317,3 @@ custom_structured_configuration_policy_maps:
         - name: class-default
           set:
             traffic_class: 0
-
-# copp_system_policy:
-#   classes:
-#      - name: MATCH_COPP
-#        shape: 10000
-#        bandwidth: 5000

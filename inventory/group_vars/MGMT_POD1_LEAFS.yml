@@ -2,6 +2,27 @@
 
 l3leaf: # dynamic_key: node_type
   defaults:
+    uplink_ethernet_structured_config:
+      service_profile: "PF_FABRIC_QUEUES_7010"
+    structured_config:
+      qos_profiles:
+        - name: PF_PM_CLASSIFY_7010 # 7010s
+          service_policy:
+            type:
+              qos_input: "PM_CLASSIFY"
+          tx_queues: # tx_queue on 7280's
+            - id: 5
+              # bandwidth_guaranteed_percent: 95
+              shape:
+                rate: "25000000 kbps"
+              comment: "5 percent of 250G for #7 traffic, mgmt"
+            - id: 7
+              # bandwidth_guaranteed_percent: 5
+              shape:
+                rate: "5 percent"
+              comment: "85 percent of 250G for #5 traffic, production"
+        - name: PF_FABRIC_QUEUES_7010
+          trust: "dscp"
     mgmt_ip: "{{ mgmt_ip }}"
     evpn_route_servers:
       - p01l01a
