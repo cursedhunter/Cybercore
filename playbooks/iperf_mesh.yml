@@ -89,7 +89,6 @@
     - name: Display total cluster mesh throughput
       ansible.builtin.debug:
         msg: >
-          CLUSTER AGGREGATE THROUGHPUT: 
+          CLUSTER AGGREGATE THROUGHPUT:
           {{ ansible_play_hosts | map('extract', hostvars, ['node_bw', 'stdout']) | map('float') | sum | round(2) }} GBytes/sec
       run_once: true
-
