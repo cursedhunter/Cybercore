@@ -2,6 +2,7 @@
 
 l3leaf: # dynamic_key: node_type
   defaults:
+    p2p_uplinks_qos_profile: "PF_FABRIC_QUEUES_7010"
     mgmt_ip: "{{ mgmt_ip }}"
     evpn_route_servers:
       - p01l01a

@@ -318,8 +318,69 @@ custom_structured_configuration_policy_maps:
           set:
             traffic_class: 0
 
-# copp_system_policy:
-#   classes:
-#      - name: MATCH_COPP
-#        shape: 10000
-#        bandwidth: 5000
+custom_structured_configuration_qos_profiles:
+  # 1. Trident 4 (7050DX4) Access Edge Profile
+  - name: PF_PM_CLASSIFY_TD4
+    service_policy:
+      type:
+        qos_input: "PM_CLASSIFY"
+    uc_tx_queues:
+      - id: 6
+        priority: "priority strict"
+        shape:
+          rate: "5 percent"
+      - id: 5
+        bandwidth_percent: 95
+      - id: 0
+        bandwidth_percent: 5
+
+  # 2. Trident 2 (7050SX / 7050QX) Access Edge Profile
+  - name: PF_PM_CLASSIFY_TD2
+    service_policy:
+      type:
+        qos_input: "PM_CLASSIFY"
+    tx_queues:
+      - id: 6
+        bandwidth_guaranteed_percent: 5
+      - id: 5
+        bandwidth_guaranteed_percent: 95
+
+  # 3. Fabric P2P Uplink Profiles (Trust DSCP + Egress Queues)
+  - name: PF_FABRIC_QUEUES_TD4
+    trust: "dscp"
+    uc_tx_queues:
+      - id: 6
+        priority: "priority strict"
+        shape:
+          rate: "5 percent"
+      - id: 5
+        bandwidth_percent: 95
+      - id: 0
+        bandwidth_percent: 5
+
+  - name: PF_FABRIC_QUEUES_TD2
+    trust: "dscp"
+    uc_tx_queues:
+      - id: 6
+        bandwidth_guaranteed_percent: 5
+      - id: 5
+        bandwidth_guaranteed_percent: 95
+
+  - name: PF_PM_CLASSIFY_7010 # 7010s
+    service_policy:
+      type:
+        qos_input: "PM_CLASSIFY"
+    tx_queues: # tx_queue on 7280's
+      - id: 5
+        # bandwidth_guaranteed_percent: 95
+        shape:
+          rate: "250000000 kbps"
+        comment: "5 percent of 250G for #7 traffic, mgmt"
+      - id: 7
+        # bandwidth_guaranteed_percent: 5
+        shape:
+          rate: "5 percent"
+        comment: "85 percent of 250G for #5 traffic, production"
+  - name: PF_FABRIC_QUEUES_7010
+    trust: "dscp"
+

@@ -5,6 +5,7 @@ pod_name: PLANE-1
 
 spine: # dynamic_key: node_type
   defaults:
+    p2p_uplinks_qos_profile: "PF_FABRIC_QUEUES_TD4"
     mgmt_ip: "{{ mgmt_ip }}"
     bgp_as: "{{ asn_hsn_plane1_spines }}" # 651116-651117
     loopback_ipv4_pool: "{{ hsn_plane1_spine_loopback_ipv4_pool }}" # 172.17.1.0/24

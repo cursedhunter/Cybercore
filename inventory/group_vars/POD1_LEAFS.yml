@@ -1,6 +1,7 @@
 ---
 l3leaf: # dynamic_key: node_type
   defaults:
+    p2p_uplinks_qos_profile: "PF_FABRIC_QUEUES_TD4"
     mgmt_ip: "{{ mgmt_ip }}"
     bgp_as: "{{ asn_hsn_pod1_leafs }}" # 651101-651105
     evpn_role: client
@@ -203,6 +204,7 @@ l3leaf: # dynamic_key: node_type
           - OVERLAY_C2M2_VXLAN
       group: RACK3
       platform: "7060CX2"
+      p2p_uplinks_qos_profile: "PF_FABRIC_QUEUES_TD2"
       evpn_route_servers:
         - p01l01a
         - p01l01b
@@ -233,6 +235,7 @@ l3leaf: # dynamic_key: node_type
           - OVERLAY_MGMT_VXLAN
       group: RACK4
       platform: "7060CX2"
+      p2p_uplinks_qos_profile: "PF_FABRIC_QUEUES_TD2"
       evpn_route_servers:
         - p01l01a
         - p01l01b
