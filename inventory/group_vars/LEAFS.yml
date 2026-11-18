@@ -13,7 +13,7 @@ qos_profiles:
         # bandwidth_guaranteed_percent: 95
         shape:
           rate: "5 percent"
-        # comment: "5 percent of 250G for #6 traffic, mgmt"
+      # comment: "5 percent of 250G for #6 traffic, mgmt"
       - id: 5
         bandwidth_guaranteed_percent: 95 # production traffic up to 95% when c2m2 is active
       - id: 0
@@ -25,7 +25,7 @@ qos_profiles:
         # bandwidth_guaranteed_percent: 95
         shape:
           rate: "5 percent"
-        # comment: "5 percent of 250G for #6 traffic, mgmt"
+      # comment: "5 percent of 250G for #6 traffic, mgmt"
       - id: 5
         bandwidth_guaranteed_percent: 95 # production traffic up to 95% when c2m2 is active
       - id: 0
