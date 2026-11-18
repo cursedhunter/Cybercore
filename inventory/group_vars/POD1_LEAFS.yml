@@ -249,7 +249,7 @@ l3leaf: # dynamic_key: node_type
                 bandwidth_guaranteed_percent: 95
           - name: PF_FABRIC_QUEUES_TD2
             trust: "dscp"
-            uc_tx_queues:
+            tx_queues:
               - id: 6
                 bandwidth_guaranteed_percent: 5
               - id: 5
@@ -286,6 +286,24 @@ l3leaf: # dynamic_key: node_type
       evpn_route_servers:
         - p01l01a
         - p01l01b
+      structured_config:
+        qos_profiles:
+          - name: PF_PM_CLASSIFY_TD2
+            service_policy:
+              type:
+                qos_input: "PM_CLASSIFY"
+            tx_queues:
+              - id: 6
+                bandwidth_guaranteed_percent: 5
+              - id: 5
+                bandwidth_guaranteed_percent: 95
+          - name: PF_FABRIC_QUEUES_TD2
+            trust: "dscp"
+            tx_queues:
+              - id: 6
+                bandwidth_guaranteed_percent: 5
+              - id: 5
+                bandwidth_guaranteed_percent: 95
       nodes:
         - id: 4
           name: p01l04
