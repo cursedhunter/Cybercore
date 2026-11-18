@@ -1,0 +1,95 @@
+---
+- name: 200G Full Mesh iperf3 Benchmark (16-Node Mixed Topology)
+  hosts: mesh_nodes
+  become: true
+  gather_facts: false
+
+  vars:
+    test_duration: 1200
+    # Set to 1 for 16-node mesh (15 peers * 1 instance = 15 processes/node)
+    instances_per_peer: 1
+    streams_per_instance: 4
+    base_port: 5200
+    # Populate with your actual NUMA node 3 cores (e.g., [48, 50, 52, 54, 56, 58, 60, 62])
+    numa3_cores: [48, 50, 52, 54, 56, 58, 60, 62]
+    pin_cores: false
+
+  tasks:
+    - name: Clean up lingering iperf3 processes and old logs
+      ansible.builtin.shell: |
+        pkill -9 iperf3 || true
+        rm -f /tmp/iperf_{{ inventory_hostname }}_*.log
+      changed_when: false
+
+    - name: Start iperf3 server daemons for all incoming peers
+      ansible.builtin.shell: |
+        {% set ns = namespace(core_idx=0) %}
+        {% for peer in groups['mesh_nodes'] %}
+        {% if peer != inventory_hostname %}
+        {% set peer_id = hostvars[peer]['node_id'] | int %}
+        {% for i in range(instances_per_peer) %}
+        {% set port = base_port + (peer_id * 10) + i %}
+        {% if pin_cores | bool %}
+        {% set core = numa3_cores[ns.core_idx % (numa3_cores | length)] %}
+        taskset -c {{ core }} iperf3 -s -D -p {{ port }}
+        {% set ns.core_idx = ns.core_idx + 1 %}
+        {% else %}
+        iperf3 -s -D -p {{ port }}
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+      args:
+        executable: /bin/bash
+
+    - name: Pause briefly to ensure all server sockets are listening
+      ansible.builtin.pause:
+        seconds: 3
+
+    - name: Run full mesh client traffic concurrently across all nodes
+      ansible.builtin.shell: |
+        {% set my_id = node_id | int %}
+        {% set ns = namespace(core_idx=0) %}
+        {% for peer in groups['mesh_nodes'] %}
+        {% if peer != inventory_hostname %}
+        {% set target_ip = hostvars[peer]['test_ip'] %}
+        {% for i in range(instances_per_peer) %}
+        {% set port = base_port + (my_id * 10) + i %}
+        {% if pin_cores | bool %}
+        {% set core = numa3_cores[ns.core_idx % (numa3_cores | length)] %}
+        iperf3 -c {{ target_ip }} -p {{ port }} -P {{ streams_per_instance }} -A {{ core }} -t {{ test_duration }} -f G > /tmp/iperf_{{ inventory_hostname }}_to_{{ peer }}_{{ i }}.log &
+        {% set ns.core_idx = ns.core_idx + 1 %}
+        {% else %}
+        iperf3 -c {{ target_ip }} -p {{ port }} -P {{ streams_per_instance }} -t {{ test_duration }} -f G > /tmp/iperf_{{ inventory_hostname }}_to_{{ peer }}_{{ i }}.log &
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+        wait
+      args:
+        executable: /bin/bash
+      async: "{{ test_duration | int + 30 }}"
+      poll: 5
+
+    - name: Stop iperf3 server daemons after benchmark completion
+      ansible.builtin.command: pkill -9 iperf3
+      failed_when: false
+      changed_when: false
+
+    - name: Parse and sum GBytes/sec throughput per node
+      ansible.builtin.shell: |
+        grep -h "\[SUM\].*receiver" /tmp/iperf_{{ inventory_hostname }}_*.log | awk '{sum += $6} END {printf "%.2f", sum}'
+      register: node_bw
+      changed_when: false
+
+    - name: Display per-node aggregate transmit throughput
+      ansible.builtin.debug:
+        msg: "{{ inventory_hostname }} Total Transmit: {{ node_bw.stdout }} GBytes/sec ({{ (node_bw.stdout | float * 8) | round(2) }} Gbits/sec)"
+
+    - name: Display total cluster mesh throughput
+      ansible.builtin.debug:
+        msg: >
+          CLUSTER AGGREGATE THROUGHPUT: 
+          {{ ansible_play_hosts | map('extract', hostvars, ['node_bw', 'stdout']) | map('float') | sum | round(2) }} GBytes/sec
+      run_once: true
+
