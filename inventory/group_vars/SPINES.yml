@@ -3,12 +3,12 @@
 type: spine
 
 # For spines/supers
-qos_profiles:
+custom_structured_configuration_qos_profiles:
   - name: PF_FABRIC_QUEUES
     trust: "dscp"
     uc_tx_queues:
       - id: 6
-        priority: "strict"
+        priority: "priority strict"
         shape:
           rate: "5 percent"
       - id: 5
