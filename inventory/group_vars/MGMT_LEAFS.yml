@@ -8,12 +8,12 @@ qos_profiles:
       type:
         qos_input: "PM_CLASSIFY"
     tx_queues: # tx_queue on 7280's
-      - id: 7
+      - id: 5
         # bandwidth_guaranteed_percent: 95
         shape:
           rate: "250000000 kbps"
         comment: "5 percent of 250G for #7 traffic, mgmt"
-      - id: 5
+      - id: 7
         # bandwidth_guaranteed_percent: 5
         shape:
           rate: "5 percent"
