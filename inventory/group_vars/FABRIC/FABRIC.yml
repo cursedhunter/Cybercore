@@ -149,7 +149,7 @@ bfd_multihop:
 shutdown_bgp_towards_undeployed_peers: true
 shutdown_interfaces_towards_undeployed_peers: true
 
-p2p_uplinks_qos_profile: "PF_PM_CLASSIFY"
+p2p_uplinks_qos_profile: "PF_FABRIC_QUEUES"
 
 platform_settings:
   - platforms: ["7050DX4"]
