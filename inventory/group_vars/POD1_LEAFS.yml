@@ -1,6 +1,9 @@
 ---
 l3leaf: # dynamic_key: node_type
   defaults:
+    uplink_qos_profile: "PF_PM_CLASSIFY"
+    mlag_peer_l3_qos_profile: "PF_PM_CLASSIFY"
+    mlag_peer_qos_profile: "PF_PM_CLASSIFY"
     mgmt_ip: "{{ mgmt_ip }}"
     bgp_as: "{{ asn_hsn_pod1_leafs }}" # 651101-651105
     evpn_role: client

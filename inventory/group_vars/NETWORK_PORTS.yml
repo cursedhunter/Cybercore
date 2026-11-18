@@ -53,6 +53,7 @@ port_profiles:
       received: "on"
     validate_state: false
     validate_lldp: false
+    qos_profile: "PF_PM_CLASSIFY"
 
   - profile: c2m2-vxlan-single
     speed: "auto 25gfull"
@@ -67,6 +68,7 @@ port_profiles:
       received: "on"
     validate_state: false
     validate_lldp: false
+    qos_profile: "PF_PM_CLASSIFY"
 
   - profile: c2m2-vxlan-lacp
     speed: "auto 25gfull"
@@ -87,6 +89,7 @@ port_profiles:
           profile: c2m2-vxlan-lacp
     validate_state: false
     validate_lldp: false
+    qos_profile: "PF_PM_CLASSIFY"
 
   - profile: esxi-node-trunk
     speed: "50g-2"
@@ -102,6 +105,7 @@ port_profiles:
       received: "on"
     validate_state: false
     validate_lldp: false
+    qos_profile: "PF_PM_CLASSIFY"
 
   - profile: vsan-node-trunk
     speed: "25g"
@@ -117,6 +121,7 @@ port_profiles:
       received: "on"
     validate_state: false
     validate_lldp: false
+    qos_profile: "PF_PM_CLASSIFY"
 
   - profile: proxmox-node-trunk-100g-4
     speed: "auto 100g-4"
@@ -132,6 +137,7 @@ port_profiles:
       received: "on"
     validate_state: false
     validate_lldp: false
+    qos_profile: "PF_PM_CLASSIFY"
 
   - profile: proxmox-node-trunk-100g
     speed: "100g"
@@ -147,6 +153,7 @@ port_profiles:
       received: "on"
     validate_state: false
     validate_lldp: false
+    qos_profile: "PF_PM_CLASSIFY"
 
   - profile: general-infrastruture-node-trunk
     speed: "auto 100g-4"
@@ -168,6 +175,7 @@ port_profiles:
           profile: general-infrastruture-node-trunk
     validate_state: false
     validate_lldp: false
+    qos_profile: "PF_PM_CLASSIFY"
 
   - profile: dell-mgmt-leaf
     speed: "forced 10000full"
@@ -183,6 +191,7 @@ port_profiles:
           profile: dell-mgmt-leaf
     validate_state: false
     validate_lldp: false
+    qos_profile: "PF_PM_CLASSIFY"
 
   - profile: dell-mgmt-leaf-rack5
     speed: "forced 10000full"
@@ -198,6 +207,7 @@ port_profiles:
           profile: dell-mgmt-leaf-rack5
     validate_state: false
     validate_lldp: false
+    qos_profile: "PF_PM_CLASSIFY"
 
   - profile: zfs-access
     # speed: "forced 10000full"
@@ -207,6 +217,7 @@ port_profiles:
     vlans: 100
     validate_state: false
     validate_lldp: false
+    qos_profile: "PF_PM_CLASSIFY"
 
   - profile: codeword-data-svi-lacp
     speed: "100g-2"
@@ -230,6 +241,7 @@ port_profiles:
     # qos_profile: PF_PM_CLASSIFY
     validate_state: false
     validate_lldp: false
+    qos_profile: "PF_PM_CLASSIFY"
 
   - profile: codeword-c2m2-svi-lacp
     speed: "100g-2"
@@ -253,6 +265,7 @@ port_profiles:
     # qos_profile: PF_PM_CLASSIFY
     validate_state: false
     validate_lldp: false
+    qos_profile: "PF_PM_CLASSIFY"
 
   - profile: pve-svi-lacp
     speed: "100g-2"
@@ -276,6 +289,7 @@ port_profiles:
           profile: pve-svi-lacp
     validate_state: false
     validate_lldp: false
+    qos_profile: "PF_PM_CLASSIFY"
 
 network_ports:
   - switches:
