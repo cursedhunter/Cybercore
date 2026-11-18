@@ -2,7 +2,7 @@
 
 l3leaf: # dynamic_key: node_type
   defaults:
-    uplink_structured_config:
+    uplink_ethernet_structured_config:
       service_profile: "PF_FABRIC_QUEUES_7010"
     mgmt_ip: "{{ mgmt_ip }}"
     evpn_route_servers:

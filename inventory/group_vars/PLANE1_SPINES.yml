@@ -5,7 +5,7 @@ pod_name: PLANE-1
 
 spine: # dynamic_key: node_type
   defaults:
-    uplink_structured_config:
+    uplink_ethernet_structured_config:
       service_profile: "PF_FABRIC_QUEUES_TD4"
     mgmt_ip: "{{ mgmt_ip }}"
     bgp_as: "{{ asn_hsn_plane1_spines }}" # 651116-651117
