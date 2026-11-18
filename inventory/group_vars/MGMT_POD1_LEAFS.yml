@@ -14,7 +14,7 @@ l3leaf: # dynamic_key: node_type
             - id: 5
               # bandwidth_guaranteed_percent: 95
               shape:
-                rate: "250000000 kbps"
+                rate: "25000000 kbps"
               comment: "5 percent of 250G for #7 traffic, mgmt"
             - id: 7
               # bandwidth_guaranteed_percent: 5
