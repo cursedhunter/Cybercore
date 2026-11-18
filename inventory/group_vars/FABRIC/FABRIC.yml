@@ -260,46 +260,59 @@ custom_structured_configuration_ip_access_lists:
         # remark "Data Traffic"
         action: "permit"
         protocol: "ip"
-        source: "10.64.0.0/16"
-        destination: "10.64.0.0/16"
-  - name: ACL_METRICS_TRAFFIC
+        source: "10.64.1.0/24"
+        destination: "10.64.1.0/24"
+      - sequence: 20
+        # remark "Data Traffic"
+        action: "permit"
+        protocol: "ip"
+        source: "10.64.1.0/24"
+        destination: "10.65.4.0/24"
+      - sequence: 30
+        # remark "Data Traffic"
+        action: "permit"
+        protocol: "ip"
+        source: "10.65.4.0/24"
+        destination: "10.64.1.0/24"
+
+  - name: ACL_C2M2_TRAFFIC
     counters_per_entry: false
     entries:
       - sequence: 10
         # remark "C2M2 Traffic"
         action: "permit"
         protocol: "ip"
-        source: "10.65.0.0/16"
+        source: "10.65.0.0/22"
+        destination: "any"
+      - sequence: 20
+        # remark "storage Traffic"
+        action: "permit"
+        protocol: "ip"
+        source: "10.64.3.0/24"
         destination: "any"
 
 custom_structured_configuration_class_maps:
   qos:
-    - name: CM_MATCH_CP
-      ip:
-        access_group: ACL_CONTROL_PLANE
     - name: CM_MATCH_PRODUCTION
       ip:
         access_group: ACL_PRODUCTION_TRAFFIC
-    - name: CM_MATCH_CP
+    - name: CM_MATCH_C2M2
       ip:
-        access_group: ACL_METRICS_TRAFFIC
-    # - name: CM_MATCH_COPP
-    #   ip:
-    #     access_group: ACL_COPP_MGMT
+        access_group: ACL_C2M2_TRAFFIC
 
 custom_structured_configuration_policy_maps:
   qos:
     - name: PM_CLASSIFY
       classes:
-        - name: CM_MATCH_CP
+        - name: CM_MATCH_C2M2
           set:
-            traffic_class: 7
+            traffic_class: 6
             dscp: cs6
         - name: CM_MATCH_PRODUCTION
           set:
             traffic_class: 5
             dscp: af41
-        - name: CM_MATCH_METRICS
+        - name: class-default
           set:
             traffic_class: 0
 
