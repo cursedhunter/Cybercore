@@ -2,7 +2,7 @@
 
 type: l3leaf
 
-qos_profiles:
+custom_structured_configuration_qos_profiles:
   - name: PF_PM_CLASSIFY # for leafs, errors on 7010s and mspines
     service_policy:
       type:
