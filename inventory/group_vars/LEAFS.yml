@@ -31,3 +31,14 @@ qos_profiles:
       - id: 0
         bandwidth_percent: 5
         # comment: best effort
+  - name: PF_FABRIC_QUEUES
+    trust: "dscp"
+    uc_tx_queues:
+      - id: 6
+        priority: "strict"
+        shape:
+          rate: "5 percent"
+      - id: 5
+        bandwidth_percent: 95
+      - id: 0
+        bandwidth_percent: 5
